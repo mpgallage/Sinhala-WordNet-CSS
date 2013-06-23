@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="Sinhala-WordNet-CSS-Web">
+        <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
+        <dependent-module archiveName="Sinhala-WordNet-CSS-Model.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Sinhala-WordNet-CSS-Model/Sinhala-WordNet-CSS-Model">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Sinhala-WordNet-CSS-Util.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Sinhala-WordNet-CSS-Util/Sinhala-WordNet-CSS-Util">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Sinhala-WordNet-CSS-Common.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Sinhala-WordNet-CSS-Common/Sinhala-WordNet-CSS-Common">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="Sinhala-WordNet-CSS-JWNL.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Sinhala-WordNet-CSS-JWNL/Sinhala-WordNet-CSS-JWNL">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <property name="context-root" value="Sinhala-WordNet-CSS-Web"/>
+        <property name="java-output-path" value="/Sinhala-WordNet-CSS-Web/build/classes"/>
+    </wb-module>
+</project-modules>

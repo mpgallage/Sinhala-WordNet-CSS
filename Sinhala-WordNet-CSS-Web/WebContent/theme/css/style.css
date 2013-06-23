@@ -1,0 +1,163 @@
+body{
+	background-color: #eee;
+	background-image: url('../images/scribble_transparent.png');
+	background-repeat: repeat;
+	background-position: top right;
+}
+
+ul, li {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#breadcrumbs {
+	border-bottom: 1px solid #ccc;
+	background-color: #fff;
+	line-height: 40px;
+	overflow: auto;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#breadcrumbs li {
+	float: left;
+	padding-left: 8px;
+}
+
+#breadcrumbs li a {
+	padding: 0 24px 2px 0;
+	background: transparent url("../images/blue-arrow.png") no-repeat right center;
+}
+
+#breadcrumbs li a:link, #breadcrumbs li a:visited {
+	text-decoration: none;
+	color: #3DB8B8;
+}
+
+#breadcrumbs li a:hover, #breadcrumbs li a:focus {
+	text-decoration: underline;
+	color: #0099CC;
+}
+
+#breadcrumbs li {
+	color: #FF9900;
+}
+
+.tab {
+	margin-left: 40px;
+}
+
+.tab {
+	text-indent: 40px
+}
+
+.add_new {
+	background-color: #8892B2;
+	width: 46%;
+	margin: 1%;
+	border-radius: 5px;
+	min-height: 850px;
+	padding: 1%;
+}
+
+#add_words {
+	float: left;
+}
+
+#synset_relation {
+	float: right;
+}
+
+.word_table td {
+	min-width: 150px;
+	padding-top: 3%;
+}
+
+.word_set {
+	background-color: #CFD3E0;
+	margin: 1%;
+	border-radius: 5px;
+	padding: 1%;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.show_span {
+	background-color: #6D758E;
+	border-radius: 3px 3px 3px 3px;
+	float: right;
+	min-width: 92%;
+	padding-left: 10px;
+	color: #FFFF66;
+}
+
+.ex_span {
+	background-color: #1A1A80;
+	border-radius: 3px 3px 3px 3px;
+	color: #33CC33;
+	cursor: default;
+	padding-left: 2px;
+	padding-right: 2px;
+}
+
+.button_div {
+	margin: 1%;
+}
+
+.button {
+	background-color: #51545B;
+	border: medium ridge;
+	border-radius: 5px 5px 5px 5px;
+	color: #E9EAEA;
+	font-weight: bold;
+	height: 35px;
+	margin-top: 1%;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.sub_div {
+	background-color: #A6A9B3;
+	margin: 1%;
+	border-radius: 5px;
+	padding: 1%;
+}
+
+.sub_div_header {
+	background-color: #85878F;
+	border-radius: 5px 5px 5px 5px;
+	padding: 1px 3%;
+}
+
+.section_header {
+	background-color: #CFD3E0;
+	border-radius: 5px 5px 5px 5px;
+	margin: 1%;
+	text-align: center;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+#wrap {
+	background-color: #ececec;
+	background-repeat: repeat;
+	width: 960px;
+	box-shadow: 0px 0px 17px rgba(0, 0, 0, 0.45);
+	border: 1px solid #fff;
+	overflow: hidden;
+	margin: 10px auto;
+	height: auto;
+	border-radius: 6px;
+}
+
+.footer {
+	width: inherit;
+	float: left;
+	height: 50px;
+	background-color: #255C90;
+	background-color: rgba(37, 92, 144, 0.6);
+	text-align: center;
+}
+.links {
+	margin: 10px;
+	font-family: Verdana, Geneva, sans-serif;
+	font-size: 12px;
+}
