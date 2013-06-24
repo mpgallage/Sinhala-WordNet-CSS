@@ -26,7 +26,7 @@
 									</h3>
 								</td>
 								<td><input type="button" class="button"
-									value="Show Children"
+									value="View"
 									onclick="window.location.href='ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
 								</td>
 								<td><input type="button" class="button" value="Edit"
