@@ -1,5 +1,6 @@
 package org.sinhala.wordnet.css.model.wordnet;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.didion.jwnl.data.Synset;
@@ -92,13 +93,21 @@ public class SinhalaWordNetSynset {
 	
 	public String getWordsAsString(){
 		String out = "";
-		for(SinhalaWordNetWord w : this.words){
+		for(SinhalaWordNetWord w : this.getWords()){
 			out += w.getLemma() + ", ";
 		}
 		
 		out = out.trim();
 		out = out.substring(0, out.length()-1);
 		
+		return out;
+	}
+	
+	public List<String> getWordArrayList(){
+		List<String> out = new ArrayList<String>();
+		for(SinhalaWordNetWord w : this.getWords()){
+			out.add(w.getLemma());
+		}
 		return out;
 	}
 }

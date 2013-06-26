@@ -1,10 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>    
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>සිංහල Wordnet: Edit Synset</title>
+<title>Edit Synset</title>
 <link rel="stylesheet" type="text/css" href="theme/css/editstyles.css">
 <link rel="shortcut icon" href="images/wordnet1.jpg" />
 <script type="text/javascript" src="theme/js/jscode.js"></script>
@@ -25,35 +26,34 @@
   <div style="float:left">
     <div class="margin20" style="float:left">
       <div class="whitebox">
-        <h1> country, state, land </h1>
+        <h1>${synset.getWordsAsString()}</h1>
       </div>
       <div class="whitebox">
         <table>
           <tr>
             <td valign="top">ඉංග්‍රීසි අර්ථය:</td>
-            <td valign="top">the territory occupied by a nation</td>
+            <td valign="top">${synset.getDefinition()}</td>
           </tr>
           <tr>
             <td valign="top">ඉංග්‍රීසි උදාහරණ:</td>
-            <td valign="top">he returned to the land of his birth<br/>
-              he visited several European countries</td>
+            <td valign="top">${synset.getExample()}</td>
           </tr>
         </table>
       </div>
     </div>
     <div class="margin20" style="float:right">
       <div class="whitebox">
-        <h1> රට,දේශය </h1>
+        <h1></h1>
       </div>
       <div class="whitebox">
         <table>
           <tr>
             <td valign="top">සිංහල අර්ථය:</td>
-            <td valign="top"><input type="text" style="width:250px" value="යම් ජාතියකට අයත් ප්‍රදේශය"></td>
+            <td valign="top"><input type="text" style="width:250px" value=""></td>
           </tr>
           <tr>
             <td valign="top">සිංහල උදාහරණ:</td>
-            <td valign="top"><input type="text" style="width:250px" value="ඔහු ඔහුගේ උපන් රට වෙත ගමන් කළේය. , මම මගේ දේශයට ආදරය කරමි."></td>
+            <td valign="top"><input type="text" style="width:250px" value=""></td>
           </tr>
         </table>
       </div>
@@ -71,8 +71,6 @@
           <tr>
             <td>&nbsp;</td>
             <td class="n"><select id="synsetlist" size="10" class="box190" multiple="multiple" onclick="updateattributes('synsetlist');">
-                <option>රට</option>
-                <option>දේශය</option>
               </select></td>
             <td valign="bottom"><button onclick="takefromlist('synsetlist');">-ඉවත්කරන්න</button></td>
           </tr>
@@ -118,11 +116,11 @@
           <p>වචනවල පොදු අරුත්</p>
           <table width="238">
             <tr>
-              <td width="125" valign="top"><p>country, state, land:</p></td>
+              <td width="125" valign="top"><p>${synset.getWordsAsString()} :</p></td>
               <td width="101" valign="top"><select id="list1" size="4" style="width: 100px"  multiple="multiple" ondblclick="add2list(&#39;list1&#39;,&#39;synsetlist&#39;);">
-                  <option>ජනපදය</option>
-                  <option>රට</option>
-                  <option>දේශය</option>
+                  <c:forEach var="meaning" items="${intersection}">
+                    <option>${meaning}</option>
+                  </c:forEach>
                 </select></td>
             </tr>
           </table>
@@ -135,81 +133,16 @@
         <center>
           <table width="502">
             <tr>
-              <td width="48" valign="top"><p>country:</p></td>
-              <td width="120" valign="top"><select id="list2" size="30" style="width: 120px"  multiple="multiple" ondblclick="add2list(&#39;list2&#39;,&#39;synsetlist&#39;);">
-                  <option>ගම්බද</option>
-                  <option>ග්‍රාම්‍ය</option>
-                  <option>ජනපදය</option>
-                  <option>දෙස</option>
-                  <option>දේශය</option>
-                  <option>දේශ්‍රීය</option>
-                  <option>පසල්</option>
-                  <option>පළාත</option>
-                  <option>පිටිසර</option>
-                  <option>රට</option>
-                  <option>රට්ඨ</option>
-                  <option>රාෂ්ට්‍ර</option>
-                  <option>විතය</option>
+            <c:forEach begin="0" end="${wordList.size()-1}" varStatus="loop">
+              <td width="48" valign="top"><p>${wordList.get(loop.index)} :</p></td>
+              <td width="120" valign="top"><select id="list2" size="10" style="width: 120px"  multiple="multiple" ondblclick="add2list(&#39;list2&#39;,&#39;synsetlist&#39;);">
+                  <c:forEach var="meaning" items="${meaningsList.get(loop.index)}">
+                    <option>${meaning}</option>
+                  </c:forEach>
                 </select></td>
-              <td width="37" valign="top"><p> state:</p></td>
-              <td width="120" valign="top"><select id="list3" size="30" style="width: 120px"  multiple="multiple" ondblclick="add2list(&#39;list3&#39;,&#39;synsetlist&#39;);">
-                  <option>අනුභාවය</option>
-                  <option>අලංකාරය</option>
-                  <option>අවස්ථාව</option>
-                  <option>ආණ්ඩුව සහිත වැසියා</option>
-                  <option>ඉතා උසස්</option>
-                  <option>කරුණු ගෙනහැර දක්වනවා</option>
-                  <option>කියා පානවා</option>
-                  <option>කියා සිටිනවා</option>
-                  <option>ගතිය</option>
-                  <option>ජනපදය</option>
-                  <option>තත්ත්වය</option>
-                  <option>තත්වය අවස්ථාව</option>
-                  <option>දනවුව</option>
-                  <option>දනවුව</option>
-                  <option>පවතුව</option>
-                  <option>පවසනවා</option>
-                  <option>ප්‍රකාශ කරනවා</option>
-                  <option>බව</option>
-                  <option>බැව්</option>
-                  <option>මංගල</option>
-                  <option>රජය</option>
-                  <option>රජයට අයත්</option>
-                  <option>රාජකීය</option>
-                  <option>රාජපාක්ෂික</option>
-                  <option>රාජ්‍ය</option>
-                  <option>රාජ්‍යය</option>
-                  <option>විතය</option>
-                  <option>ස්වභාවය</option>
-                  <option>හව්</option>
-                </select></td>
-              <td width="33" valign="top"><p>land:</p></td>
-              <td width="116" valign="top"><select id="list4" size="30" style="width: 120px"  multiple="multiple" ondblclick="add2list(&#39;list4&#39;,&#39;synsetlist&#39;);">
-                  <option>ඉඩකඩම්</option>
-                  <option>ඉඩම</option>
-                  <option>ඉඩම්</option>
-                  <option>ගොඩ</option>
-                  <option>ගොඩ බසිනවා</option>
-                  <option>ගොඩ බහිනවා</option>
-                  <option>ගොඩ බානවා</option>
-                  <option>ගොඩට ගන්නවා</option>
-                  <option>ගොඩබිම</option>
-                  <option>ගොඩලනවා</option>
-                  <option>දිනාගන්නවා</option>
-                  <option>දේශය</option>
-                  <option>පස</option>
-                  <option>පැමිණෙනවා</option>
-                  <option>පොළොව</option>
-                  <option>බිමට බසිනවා</option>
-                  <option>භූමිය</option>
-                  <option>රට</option>
-                  <option>වතුපිටි</option>
-                  <option>ස්ථල</option>
-                  <option>ස්ථාන</option>
-                </select></td>
+            </c:forEach>
             </tr>
-          </table>
-          
+          </table>        
         </center>
       </div>
     </div>
