@@ -1,0 +1,133 @@
+@charset "utf-8";
+/* CSS Document */
+#warp{
+       background-color:#ececec;
+       background-repeat:repeat;
+       width:1080px;
+       box-shadow: 0px 0px 17px rgba(0, 0, 0, 0.45);
+       border: 1px solid #fff;
+       overflow: hidden;
+       margin:10px auto;
+       height:auto;
+       border-radius:6px;
+}
+
+body{
+    background-color: #eee;
+    background-image: url('images/scribble_transparent.png');
+    background-repeat: repeat;
+    background-position: top right;
+}
+
+
+#suggestions {
+	position: relative;
+	float:right;
+	width: 606px;
+	margin-right:20px;
+	border-radius:5px;
+	background-color:#8892B2;
+}
+
+.whitebox{
+	width:410px;
+	margin:15px;
+	border-radius:5px;
+	padding:10px;
+	background-color:#FFF;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
+}
+
+.margin20{
+	margin:15px;
+	border-radius:5px;
+	padding:10px;
+	background-color:#CFD3E0;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
+}
+
+.box190 {
+	width: 190px;
+}
+
+#head {
+	margin:20px;
+}
+
+#left {
+	float:left;
+	width: 420px;
+	margin-left:20px;
+	border-radius:5px;
+	background-color:#8892B2;
+}
+
+
+
+ul,li {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+#breadcrumbs {
+	border-bottom: 1px solid #ccc;
+	background-color: #fff;
+	line-height: 40px;
+	overflow: auto;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+#breadcrumbs li {
+	float: left;
+	padding-left: 8px;
+}
+
+#breadcrumbs li a {
+	padding: 0 24px 2px 0;
+	background: transparent url(images/blue-arrow.png) no-repeat right center;
+}
+
+#breadcrumbs li a:link,#breadcrumbs li a:visited {
+	text-decoration: none;
+	color: #3DB8B8;
+}
+
+#breadcrumbs li a:hover,#breadcrumbs li a:focus {
+	text-decoration: underline;
+	color: #0099CC;
+}
+
+#breadcrumbs li {
+	color: #FF9900;
+}
+
+.footer {
+    width: inherit;
+    float: left;
+    height: 50px;
+    background-color: #255C90;
+    background-color: rgba(37, 92, 144, 0.6);
+    text-align: center;
+}
+.links {
+    margin: 10px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 12px;
+}
+.button_div {
+	
+	padding:1%;
+	margin-left:70%;
+}
+.button {
+	background-color: #51545B;
+	border: medium ridge;
+	border-radius: 5px 5px 5px 5px;
+	color: #E9EAEA;
+	font-weight: bold;
+	height: 35px;
+	margin-top: 1%;
+	box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+}
