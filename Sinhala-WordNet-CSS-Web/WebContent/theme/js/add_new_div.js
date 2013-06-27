@@ -12,7 +12,7 @@ function copyDiv() {
 	var div1 = copyDiv.querySelector("#ex_div_1");
 	div1.setAttribute("id", "ex_div_" + counter);
 	var img = span1.getElementsByTagName("img");
-	img[0].setAttribute("src", "images/expand.png");
+	img[0].setAttribute("src", "theme/images/expand.png");
 	var texts = copyDiv.getElementsByTagName("input");
 	for(i=0; i<texts.length; i++){
 		if(texts[i].getAttribute("type")=="text"){
@@ -22,12 +22,6 @@ function copyDiv() {
 	addWordsDiv.appendChild(copyDiv);
 	ExpandCollapse("ex_span_" + counter);
 	counter++;
-	
-	$(function() {
-		$( ".ui-autocomplete-input" ).autocomplete({
-			source: availableTags
-		});
-	});
 	
 	return true;
 }
