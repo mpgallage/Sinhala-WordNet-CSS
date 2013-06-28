@@ -4,14 +4,14 @@ function ExpandCollapse(ElementId) {
 	var GroupElement = SectionElement.parentNode;
 	var SpanSiblings = SectionElement.getElementsByTagName("span");
 	var DivSiblings = SectionElement.getElementsByTagName("div");
-	if (ClickedElement.innerHTML == "<img src=\"images/collapse.png\">") {
+	if (ClickedElement.innerHTML == "<img src=\"theme/images/collapse.png\">") {
 		// this code turns this section off
-		ClickedElement.innerHTML = "<img src=\"images/expand.png\"/>";
+		ClickedElement.innerHTML = "<img src=\"theme/images/expand.png\"/>";
 		SpanSiblings[1].innerHTML = "පෙන්වන්න";
 		DivSiblings[0].style.display = "none";
 	} else {
 		// this code turns this section on and all other sections off
-		ClickedElement.innerHTML = "<img src=\"images/collapse.png\"/>";
+		ClickedElement.innerHTML = "<img src=\"theme/images/collapse.png\"/>";
 		SpanSiblings[1].innerHTML = "සඟවන්න";
 		DivSiblings[0].style.display = "block";
 		var otherSections = GroupElement.getElementsByTagName("div");
@@ -25,7 +25,7 @@ function ExpandCollapse(ElementId) {
 					var x = document.getElementById(otherSections[i].id);
 					var SpanSiblings = x.getElementsByTagName("span");
 					var DivSiblings = x.getElementsByTagName("div");
-					SpanSiblings[0].innerHTML = "<img src=\"images/expand.png\"/>";
+					SpanSiblings[0].innerHTML = "<img src=\"theme/images/expand.png\"/>";
 					SpanSiblings[1].innerHTML = "පෙන්වන්න";
 					DivSiblings[0].style.display = "none";
 				}

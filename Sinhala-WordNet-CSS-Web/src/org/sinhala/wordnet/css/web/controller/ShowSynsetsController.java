@@ -14,8 +14,8 @@ import net.didion.jwnl.data.list.PointerTargetNodeList;
 import net.didion.jwnl.dictionary.Dictionary;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
-import org.sinhala.wordnet.css.model.wordnet.SinhalaSynset;
-import org.sinhala.wordnet.css.model.wordnet.SynsetElement;
+import org.sinhala.wordnet.css.model.wordnet.NounSynset;
+import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +32,8 @@ public class ShowSynsetsController{
     }
 	
 	@RequestMapping(method = RequestMethod.GET, params = {"action=ShowHyponyms", "type=noun"})
-	public String showHypernyms(@RequestParam(value = "id", required = false) String id ,ModelMap model, @RequestParam(value = "type", required = false) String type){
-		if(id != null){
+	public String showHyponyms(@RequestParam(value = "id", required = false) String id ,ModelMap model, @RequestParam(value = "type", required = false) String type){
+		if(id != null && !"".equalsIgnoreCase(id)){
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
 			try {
@@ -56,15 +56,16 @@ public class ShowSynsetsController{
 			}
 			if(nodeList.size()>0){
 				
-				List<SynsetElement> elementList = new ArrayList<SynsetElement>();
+				//List<SynsetElement> elementList = new ArrayList<SynsetElement>();
+				List<NounSynset> list = new ArrayList<NounSynset>();
 				
 				for(int i=0; i<nodeList.size(); i++){
 				    PointerTargetNode node= (PointerTargetNode)nodeList.get(i);
 				    PointerTarget target = node.getPointerTarget();
 				    Synset s = (Synset)target;
-				    elementList.add(new SinhalaSynset().getSynsetElement(s));
+				    list.add(new NounSynset(s));
 				}
-				model.addAttribute("synsetList", elementList);
+				model.addAttribute("synsetList", list);
 				model.addAttribute("type", type);
 			}
 			else{
@@ -82,7 +83,7 @@ public class ShowSynsetsController{
 						.getPointerTarget();
 				long parentOffset = tempSynset.getOffset();
 				
-				model.addAttribute("synsetList", new ArrayList<SynsetElement>());
+				model.addAttribute("synsetList", new ArrayList<SinhalaWordNetSynset>());
 				model.addAttribute("type", type);
 				model.addAttribute("parent", String.valueOf(parentOffset));
 			}
@@ -116,10 +117,10 @@ public class ShowSynsetsController{
 				}
 			}
 			
-			List<SynsetElement> elementList = new ArrayList<SynsetElement>();
+			List<SinhalaWordNetSynset> elementList = new ArrayList<SinhalaWordNetSynset>();
 			
 			for(Synset s : synsetList){
-				elementList.add(new SinhalaSynset().getSynsetElement(s));
+				elementList.add(new NounSynset(s));
 			}
 			
 			model.addAttribute("synsetList", elementList);

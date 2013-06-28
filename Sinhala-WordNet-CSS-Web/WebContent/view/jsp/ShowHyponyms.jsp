@@ -22,12 +22,12 @@
 							<tr>
 								<td>
 									<h3>
-										<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>>${synset.getWordList()}</a>
+										<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>>${synset.getWordsAsString()}</a>
 									</h3>
 								</td>
 								<td><input type="button" class="button"
-									value="Show Children"
-									onclick="window.location.href='ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
+									value="View"
+									onclick="window.location.href='ShowSynsets?action=ViewSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
 								</td>
 								<td><input type="button" class="button" value="Edit"
 									onclick="window.location.href='EditSynsets?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
