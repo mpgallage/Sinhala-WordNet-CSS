@@ -1,4 +1,4 @@
-package com.wordnetDB.config;
+package org.sinhala.wordnet.wordnetDB.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

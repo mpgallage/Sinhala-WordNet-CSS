@@ -1,4 +1,4 @@
-package com.wordnetDB.model;
+package org.sinhala.wordnet.wordnetDB.model;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

@@ -1,8 +1,8 @@
-package com.wordnetDB.model;
+package org.sinhala.wordnet.wordnetDB.model;
 
-public class SinhalaWordPointer {
+public class MongoSinhalaWordPointer {
 	
-	SinhalaPointerTyps pointerType;
+	MongoSinhalaPointerTyps pointerType;
 	String synsetId;
 	String wordId;
 	
@@ -12,7 +12,7 @@ public class SinhalaWordPointer {
 	public String WordId() {
 		return wordId;
 	}
-	public SinhalaPointerTyps PointerType() {
+	public MongoSinhalaPointerTyps PointerType() {
 		return pointerType;
 	}
 	
@@ -22,11 +22,11 @@ public class SinhalaWordPointer {
 	public void setWordId(String wordId) {
 		this.wordId = wordId;
 	}
-	public void setPointerType(SinhalaPointerTyps pointerType) {
+	public void setPointerType(MongoSinhalaPointerTyps pointerType) {
 		this.pointerType = pointerType;
 	}
 	
-	public SinhalaWordPointer(String synsetId, String wordId, SinhalaPointerTyps pointerType) {
+	public MongoSinhalaWordPointer(String synsetId, String wordId, MongoSinhalaPointerTyps pointerType) {
 		super();
 		this.synsetId = synsetId;
 		this.wordId = wordId;

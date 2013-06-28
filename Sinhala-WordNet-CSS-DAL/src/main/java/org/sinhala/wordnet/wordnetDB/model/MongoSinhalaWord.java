@@ -1,4 +1,4 @@
-package com.wordnetDB.model;
+package org.sinhala.wordnet.wordnetDB.model;
 
 import java.util.List;
 
@@ -7,14 +7,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 @Document(collection = "word")
-public class SinhalaWord {
+public class MongoSinhalaWord {
 
 	@Id
 	private String id;
 	String lemma;
 	String wordId;
-	SinhalaWordPointer wordPointer;
-	List<SinhalaWordPointer> wordPointerList;
+	MongoSinhalaWordPointer wordPointer;
+	List<MongoSinhalaWordPointer> wordPointerList;
 	
 	
 	
@@ -27,7 +27,7 @@ public class SinhalaWord {
 	public String getWordId() {
 		return wordId;
 	}
-	public List<SinhalaWordPointer> getWordPointerList() {
+	public List<MongoSinhalaWordPointer> getWordPointerList() {
 		return wordPointerList;
 	}
 	
@@ -40,12 +40,12 @@ public class SinhalaWord {
 	public void SetWordId(String wordId) {
 		this.wordId = wordId;
 	}
-	public void SetWordPointerList(List<SinhalaWordPointer> wordPointerList) {
+	public void SetWordPointerList(List<MongoSinhalaWordPointer> wordPointerList) {
 		this.wordPointerList = wordPointerList;
 	}
 	
 	
-	public SinhalaWord(String lemma, String wordId,List<SinhalaWordPointer> wordPointerList) {
+	public MongoSinhalaWord(String lemma, String wordId,List<MongoSinhalaWordPointer> wordPointerList) {
 		super();
 		this.lemma = lemma;
 		this.wordId = wordId;

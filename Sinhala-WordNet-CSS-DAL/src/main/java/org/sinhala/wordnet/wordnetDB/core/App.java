@@ -1,6 +1,6 @@
-package com.wordnetDB.core;
+package org.sinhala.wordnet.wordnetDB.core;
 
-
+import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 
 
 
@@ -13,7 +13,8 @@ public class App {
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		//SinhalaSynset sinhalasynset = synsetdb.findBylemma("ත�?ත්ත�?123456");
 		//sinhalasynset.getRelatedSynsets("hypernym");
-		synsetdb.add();
+		NounSynset nounSynset= null;
+		synsetdb.addNounSynset(nounSynset);
 		//synsetdb.findAll();
 		//synsetdb.findRelatedSynsetById("51c942fefd1dcb1c0b37469d", "hypernym");
 		/*

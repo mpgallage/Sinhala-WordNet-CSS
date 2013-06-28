@@ -1,25 +1,26 @@
-package com.wordnetDB.model;
+package org.sinhala.wordnet.wordnetDB.model;
 
 import java.util.List;
 
+import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.wordnetDB.core.SynsetMongoDbHandler;
+
 
 @Document(collection = "noun")
-public class SinhalaNoun implements SinhalaSynset {
-	
+public class MongoSinhalaVerb implements MongoSinhalaSynset{
+
 	@Id
 	private String id;
 	String eWNId;
 	String SMDBId;
-	List<SinhalaWord> words;
-	List<SinhalaSencePointer> sencePointers;
+	List<MongoSinhalaWord> words;
+	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
 	
 	
-	public SinhalaNoun(String eWNId,List<SinhalaWord> words,List<SinhalaSencePointer> sencePointers,String gloss) {
+	public MongoSinhalaVerb(String eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss) {
 		super();
 		this.eWNId = eWNId;
 		this.words = words;
@@ -52,13 +53,13 @@ public class SinhalaNoun implements SinhalaSynset {
 	}
 
 	@Override
-	public List<SinhalaWord> getWords() {
+	public List<MongoSinhalaWord> getWords() {
 		// TODO Auto-generated method stub
 		return words;
 	}
 
 	@Override
-	public List<SinhalaSencePointer> getSencePointers() {
+	public List<MongoSinhalaSencePointer> getSencePointers() {
 		// TODO Auto-generated method stub
 		return sencePointers;
 	}
@@ -88,14 +89,14 @@ public class SinhalaNoun implements SinhalaSynset {
 	}
 
 	@Override
-	public void SetWords(List<SinhalaWord> words) {
+	public void SetWords(List<MongoSinhalaWord> words) {
 		// TODO Auto-generated method stub
 		this.words = words;
 		
 	}
 
 	@Override
-	public void SetSencePointers(List<SinhalaSencePointer> sencePointers) {
+	public void SetSencePointers(List<MongoSinhalaSencePointer> sencePointers) {
 		// TODO Auto-generated method stub
 		this.sencePointers = sencePointers;
 	}
@@ -107,10 +108,9 @@ public class SinhalaNoun implements SinhalaSynset {
 	}
 
 	@Override
-	public void getRelatedSynsets(SinhalaPointerTyps relation) {
+	public void getRelatedSynsets(MongoSinhalaPointerTyps relation) {
 		// TODO Auto-generated method stub
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		synsetdb.findRelatedSynsetById(this.id, relation);
 	}
-
 }
