@@ -13,5 +13,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libs/jwnl.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-JWNL"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

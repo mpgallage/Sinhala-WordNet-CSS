@@ -1,4 +1,4 @@
-var counter = 2;
+//var counter = 2;
 
 function copyDiv() {
 	var addWordsDiv = document.getElementById("words_div");
