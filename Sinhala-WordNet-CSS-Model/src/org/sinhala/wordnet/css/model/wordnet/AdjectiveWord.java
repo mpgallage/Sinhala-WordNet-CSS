@@ -24,7 +24,10 @@ public class AdjectiveWord extends SinhalaWordNetWord {
 
 	public AdjectiveWord(Word word) {
 		super(word);
-		
+	}
+
+	public List<SinhalaWordNetWord> getRelational() {
+
 		// ////////set relational
 		/* relational pointer type not defined
 		Pointer[] pointers = word.getPointers(PointerType.XXXX);
@@ -49,13 +52,7 @@ public class AdjectiveWord extends SinhalaWordNetWord {
 		
 		this.relational = list;
 		// /////*/
-	}
 
-	public AdjectiveWord() {
-		super();
-	}
-
-	public List<SinhalaWordNetWord> getRelational() {
 		return relational;
 	}
 

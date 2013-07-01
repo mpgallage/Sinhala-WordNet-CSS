@@ -23,14 +23,17 @@ public class VerbWord extends SinhalaWordNetWord {
 
 	public VerbWord(Word word) {
 		super(word);
-		// ////////set derived
+
+	}
+
+	public List<SinhalaWordNetWord> getSeealso() {
 		Pointer[] pointers = word.getPointers(PointerType.SEE_ALSO);
 		List<SinhalaWordNetWord> list = new ArrayList<SinhalaWordNetWord>();
 
 		for (Pointer p : pointers) {
-			PointerTarget seeAlso = null;
+			PointerTarget target = null;
 			try {
-				seeAlso = p.getTarget();
+				target = p.getTarget();
 			} catch (JWNLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -38,22 +41,11 @@ public class VerbWord extends SinhalaWordNetWord {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			Word temp = (Word) seeAlso;
-			SinhalaWordNetWord tempWord = new AdjectiveWord("",
-					temp.getLemma(), null, null, null, null, null, null);
-			list.add(tempWord);
+			Word seeAlso = (Word) target;
+			list.add(new VerbWord(seeAlso));
 		}
 
-		this.seeAlso = list;
-		// /////
-	}
-
-	public VerbWord() {
-		super();
-	}
-
-	public List<SinhalaWordNetWord> getSeealso() {
-		return seeAlso;
+		return list;
 	}
 
 	public void setSeeAlso(List<SinhalaWordNetWord> alsoSee) {

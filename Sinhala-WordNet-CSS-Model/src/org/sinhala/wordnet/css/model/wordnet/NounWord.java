@@ -16,9 +16,5 @@ public class NounWord extends SinhalaWordNetWord{
 		super(word);
 		//do extra variable initialization
 	}
-	
-	public NounWord(){
-		super();
-	}
 
 }

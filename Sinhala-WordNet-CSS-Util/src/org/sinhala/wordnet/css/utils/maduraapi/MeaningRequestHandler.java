@@ -18,7 +18,7 @@ public class MeaningRequestHandler {
 
 	public MeaningRequestHandler() {
 		// enable this line if necessary
-		// this.setProxy("cache.mrt.ac.lk", "3128");
+		this.setProxy("cache.mrt.ac.lk", "3128");
 	}
 
 	private void setProxy(String host, String port) {

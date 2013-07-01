@@ -8,7 +8,10 @@ import net.didion.jwnl.data.Word;
 
 public class SinhalaWordNetWord {
 	
+	protected Word word;
+	
 	protected String id;
+	protected long synsetOffset;
 	protected String lemma;
 	protected SinhalaWordNetWord antonym;
 	protected SinhalaWordNetWord root;
@@ -17,33 +20,8 @@ public class SinhalaWordNetWord {
 	protected SinhalaWordNetWord derivationType;
 	
 	public SinhalaWordNetWord(Word word){
-		this.lemma = word.getLemma();
-		
-		//////////set antonym
-		Pointer[] p = word.getPointers(PointerType.ANTONYM);
-		PointerTarget antonym = null;
-		try {
-			antonym = p[0].getTarget();
-			Word temp = (Word)antonym;
-			SinhalaWordNetWord tempWord = new SinhalaWordNetWord("", temp.getLemma(), null, null, null, null, null);
-			this.antonym = tempWord;
-		} catch (JWNLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ArrayIndexOutOfBoundsException e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		} catch (NullPointerException e){
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		///////
-		
-		//set other fields from db
-	}
-	
-	public SinhalaWordNetWord(){
-		
+		this.word = word;
+
 	}
 
 	public SinhalaWordNetWord(String id, String lemma,
@@ -61,7 +39,7 @@ public class SinhalaWordNetWord {
 	}
 
 	public String getId() {
-		return id;
+		return String.valueOf(this.word.getIndex());
 	}
 
 	public void setId(String id) {
@@ -69,7 +47,7 @@ public class SinhalaWordNetWord {
 	}
 
 	public String getLemma() {
-		return lemma;
+		return this.word.getLemma();
 	}
 
 	public void setLemma(String lemma) {
@@ -77,7 +55,23 @@ public class SinhalaWordNetWord {
 	}
 
 	public SinhalaWordNetWord getAntonym() {
-		return antonym;
+		Pointer[] p = this.word.getPointers(PointerType.ANTONYM);
+		PointerTarget target = null;
+		Word antonym = null;
+		try {
+			target = p[0].getTarget();
+			antonym = (Word)target;
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// TODO: handle exception
+			//e.printStackTrace();
+		} catch (NullPointerException e){
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return new SinhalaWordNetWord(antonym);
 	}
 
 	public void setAntonym(SinhalaWordNetWord antonym) {
@@ -115,5 +109,14 @@ public class SinhalaWordNetWord {
 	public void setDerivationType(SinhalaWordNetWord derivationType) {
 		this.derivationType = derivationType;
 	}
+
+	public long getSynsetOffset() {
+		return this.word.getSynset().getOffset();
+	}
+
+	public void setSynsetOffset(long synsetOffset) {
+		this.synsetOffset = synsetOffset;
+	}
+	
 	
 }

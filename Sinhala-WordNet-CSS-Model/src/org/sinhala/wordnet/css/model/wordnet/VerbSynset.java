@@ -3,8 +3,13 @@ package org.sinhala.wordnet.css.model.wordnet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
+
+import net.didion.jwnl.JWNLException;
+import net.didion.jwnl.data.POS;
 import net.didion.jwnl.data.Synset;
 import net.didion.jwnl.data.Word;
+import net.didion.jwnl.dictionary.Dictionary;
 
 public class VerbSynset extends SinhalaWordNetSynset {
 
@@ -14,7 +19,7 @@ public class VerbSynset extends SinhalaWordNetSynset {
 	List<SinhalaWordNetSynset> cause;
 
 	public VerbSynset(String id, long offset, String definition,
-			String example, String gender, List<SinhalaWordNetWord> words,
+			String example, SinhalaWordNetWord gender, List<SinhalaWordNetWord> words,
 			List<SinhalaWordNetSynset> hypernyms,
 			List<SinhalaWordNetSynset> troponyms,
 			List<SinhalaWordNetSynset> entailments,
@@ -29,17 +34,6 @@ public class VerbSynset extends SinhalaWordNetSynset {
 	
 	public VerbSynset(Synset synset){
 		super(synset);
-		
-		// assign words
-		this.words = new ArrayList<SinhalaWordNetWord>();
-		Word[] originalWords = synset.getWords();
-		for(Word w : originalWords){
-			this.words.add(new VerbWord(w));
-		}
-	}
-	
-	public VerbSynset(){
-		super();
 	}
 
 	public List<SinhalaWordNetSynset> getHypernyms() {
@@ -74,4 +68,24 @@ public class VerbSynset extends SinhalaWordNetSynset {
 		this.cause = cause;
 	}
 
+	public List<SinhalaWordNetWord> getWords() {
+		
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset = null;
+		try {
+			synset = dict.getSynsetAt(POS.NOUN, Long.parseLong(id));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<SinhalaWordNetWord> words = new ArrayList<SinhalaWordNetWord>();
+		Word[] originalWords = synset.getWords();
+		for(Word w : originalWords){
+			words.add(new VerbWord(w));
+		}
+		return words;
+	}
 }

@@ -24,14 +24,17 @@ public class AdverbWord extends SinhalaWordNetWord {
 
 	public AdverbWord(Word word) {
 		super(word);
-		// ////////set derived
-		Pointer[] pointers = word.getPointers(PointerType.DERIVED);
+	}
+
+	public List<SinhalaWordNetWord> getDerived() {
+
+		Pointer[] pointers = this.word.getPointers(PointerType.DERIVED);
 		List<SinhalaWordNetWord> list = new ArrayList<SinhalaWordNetWord>();
 
 		for (Pointer p : pointers) {
-			PointerTarget derived = null;
+			PointerTarget target = null;
 			try {
-				derived = p.getTarget();
+				target = p.getTarget();
 			} catch (JWNLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -39,22 +42,11 @@ public class AdverbWord extends SinhalaWordNetWord {
 				// TODO: handle exception
 				e.printStackTrace();
 			}
-			Word temp = (Word) derived;
-			SinhalaWordNetWord tempWord = new AdjectiveWord("",
-					temp.getLemma(), null, null, null, null, null, null);
-			list.add(tempWord);
+			Word derived = (Word) target;
+			list.add(new AdverbWord(derived));
 		}
 
-		this.derived = list;
-		// /////
-	}
-
-	public AdverbWord() {
-		super();
-	}
-
-	public List<SinhalaWordNetWord> getDerived() {
-		return derived;
+		return list;
 	}
 
 	public void setDerived(List<SinhalaWordNetWord> derived) {

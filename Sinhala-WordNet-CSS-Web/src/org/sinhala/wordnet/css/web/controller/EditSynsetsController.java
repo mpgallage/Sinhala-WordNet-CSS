@@ -39,6 +39,8 @@ public class EditSynsetsController {
 			
 			SinhalaWordNetSynset castSynset = new NounSynset(synset);
 			
+			// override cast synset with database values here
+			
 			MeaningRequestHandler meaningRequestHandler = new MeaningRequestHandler();
 			List<String> wordList = castSynset.getWordArrayList();
 			List<List<String>> meaningsList = meaningRequestHandler.getMeaningLists(wordList);
@@ -48,12 +50,13 @@ public class EditSynsetsController {
 			model.addAttribute("meaningsList", meaningsList);
 			model.addAttribute("intersection", intersection);
 			model.addAttribute("wordList", wordList);
+			model.addAttribute("type", type);
 			
 			return "EditSynset";
 		}
 		
 		else{
-			return "EditSynset";
+			return "error";
 		}
 	}
 }
