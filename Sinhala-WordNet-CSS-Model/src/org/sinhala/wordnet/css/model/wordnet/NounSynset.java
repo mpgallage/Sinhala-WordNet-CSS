@@ -78,7 +78,7 @@ public class NounSynset extends SinhalaWordNetSynset{
 		Dictionary dict = WordNetDictionary.getInstance();
 		Synset synset = null;
 		try {
-			synset = dict.getSynsetAt(POS.NOUN, Long.parseLong(id));
+			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
