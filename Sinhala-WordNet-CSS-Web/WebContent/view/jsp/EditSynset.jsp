@@ -58,25 +58,25 @@
 										<tr>
 											<td><label>මූල භාෂාව</label></td>
 											<td><form:select path="words[${loop.index}].origin.lemma">
-													<form:option value="neglect">නොදනී</form:option>
-													<form:option value="hindi">හින්දි</form:option>
-													<form:option value="tamil">දෙමළ</form:option>
-													<form:option value="english">ඉංග්‍රීසි</form:option>
-													<form:option value="portuguese">පෘතුග්‍රීසි</form:option>
-													<form:option value="dutch">ලංදේසි</form:option>
+													<form:option value="නොදනී">නොදනී</form:option>
+													<form:option value="හින්දි">හින්දි</form:option>
+													<form:option value="දෙමළ">දෙමළ</form:option>
+													<form:option value="ඉංග්‍රීසි">ඉංග්‍රීසි</form:option>
+													<form:option value="පෘතුග්‍රීසි">පෘතුග්‍රීසි</form:option>
+													<form:option value="ලංදේසි">ලංදේසි</form:option>
 											</form:select></td>
 										</tr>
 										<tr>
 											<td><label>මූල භාෂා වර්ගය</label></td>
 											<td>
-											<form:radiobutton path="words[${loop.index}].derivationType.lemma" value="thathsama"/>තත්සම<br>
-											<form:radiobutton path="words[${loop.index}].derivationType.lemma" value="thathbawa"/>තත්භව<br>
+											<form:radiobutton path="words[${loop.index}].derivationType.lemma" value="තත්සම"/>තත්සම<br>
+											<form:radiobutton path="words[${loop.index}].derivationType.lemma" value="තත්භව"/>තත්භව<br>
 										</tr>
 										<tr>
 											<td><label>භාවිතය</label></td>
 											<td>
-											<form:radiobutton path="words[${loop.index}].usage.lemma" value="spoken"/>වාචික<br>
-                                            <form:radiobutton path="words[${loop.index}].usage.lemma" value="written"/>ලිඛිත<br>
+											<form:radiobutton path="words[${loop.index}].usage.lemma" value="වාචික"/>වාචික<br>
+                                            <form:radiobutton path="words[${loop.index}].usage.lemma" value="ලිඛිත"/>ලිඛිත<br>
 										</tr>
 										<tr>
 											<td><label>විරුද්ධ පදය</label></td>
@@ -109,10 +109,10 @@
 							</tr>
 							<tr>
 								<td><label>ලිංග භේදය</label></td>
-								<td><form:radiobutton path="gender" value="male" />පුරුෂ<br>
-									<form:radiobutton path="gender" value="female" />ස්ත්‍රී<br>
-									<form:radiobutton path="gender" value="neglect" />නොසලකා
-									හරින්න</td>
+								<td><form:radiobutton path="gender" value="පුරුෂ" />පුරුෂ<br>
+									<form:radiobutton path="gender" value="ස්ත්‍රී" />ස්ත්‍රී<br>
+									<form:radiobutton path="gender" value="නොසලකා හරින්න" />නොසලකා හරින්න
+								</td>
 							</tr>
 							<tr>
 								<td><label>Hypernyms</label></td>

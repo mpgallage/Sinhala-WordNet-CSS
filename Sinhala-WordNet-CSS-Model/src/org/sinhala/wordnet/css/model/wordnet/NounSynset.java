@@ -33,6 +33,10 @@ public class NounSynset extends SinhalaWordNetSynset{
 		super(synset);
 	}
 	
+	public NounSynset(){
+		super();
+	}
+	
 	public List<SinhalaWordNetSynset> getHypernyms() {
 		return hypernyms;
 	}

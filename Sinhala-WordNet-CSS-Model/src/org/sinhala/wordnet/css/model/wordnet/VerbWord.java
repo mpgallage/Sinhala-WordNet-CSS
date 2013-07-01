@@ -25,6 +25,10 @@ public class VerbWord extends SinhalaWordNetWord {
 		super(word);
 
 	}
+	
+	public VerbWord(){
+		super();
+	}
 
 	public List<SinhalaWordNetWord> getSeealso() {
 		Pointer[] pointers = word.getPointers(PointerType.SEE_ALSO);

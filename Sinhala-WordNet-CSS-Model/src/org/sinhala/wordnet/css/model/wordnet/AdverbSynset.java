@@ -21,7 +21,10 @@ public class AdverbSynset extends SinhalaWordNetSynset{
 	public AdverbSynset(Synset synset){
 		super(synset);
 	}
-	
+
+	public AdverbSynset(){
+		super();
+	}
 
 	public List<SinhalaWordNetWord> getWords() {
 		

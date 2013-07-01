@@ -7,9 +7,9 @@ import net.didion.jwnl.data.PointerType;
 import net.didion.jwnl.data.Word;
 
 public class SinhalaWordNetWord {
-	
+
 	protected Word word;
-	
+
 	protected String id;
 	protected long synsetOffset;
 	protected String lemma;
@@ -18,8 +18,8 @@ public class SinhalaWordNetWord {
 	protected SinhalaWordNetWord origin;
 	protected SinhalaWordNetWord usage;
 	protected SinhalaWordNetWord derivationType;
-	
-	public SinhalaWordNetWord(Word word){
+
+	public SinhalaWordNetWord(Word word) {
 		this.word = word;
 
 	}
@@ -38,8 +38,16 @@ public class SinhalaWordNetWord {
 		this.derivationType = derivationType;
 	}
 
+	public SinhalaWordNetWord() {
+
+	}
+
 	public String getId() {
-		return String.valueOf(this.word.getIndex());
+		try {
+			return String.valueOf(this.word.getIndex());
+		} catch (NullPointerException e) {
+			return "0";
+		}
 	}
 
 	public void setId(String id) {
@@ -47,7 +55,11 @@ public class SinhalaWordNetWord {
 	}
 
 	public String getLemma() {
-		return this.word.getLemma();
+		try {
+			return this.word.getLemma();
+		} catch (NullPointerException e) {
+			return "";
+		}
 	}
 
 	public void setLemma(String lemma) {
@@ -60,14 +72,14 @@ public class SinhalaWordNetWord {
 		Word antonym = null;
 		try {
 			target = p[0].getTarget();
-			antonym = (Word)target;
+			antonym = (Word) target;
 		} catch (JWNLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ArrayIndexOutOfBoundsException e) {
 			// TODO: handle exception
-			//e.printStackTrace();
-		} catch (NullPointerException e){
+			// e.printStackTrace();
+		} catch (NullPointerException e) {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
@@ -117,6 +129,5 @@ public class SinhalaWordNetWord {
 	public void setSynsetOffset(long synsetOffset) {
 		this.synsetOffset = synsetOffset;
 	}
-	
-	
+
 }
