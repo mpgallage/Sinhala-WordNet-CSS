@@ -8,19 +8,19 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 
 
-@Document(collection = "noun")
+@Document(collection = "verb")
 public class MongoSinhalaVerb implements MongoSinhalaSynset{
 
 	@Id
 	private String id;
-	String eWNId;
+	Long eWNId;
 	String SMDBId;
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
 	
 	
-	public MongoSinhalaVerb(String eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss) {
+	public MongoSinhalaVerb(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss) {
 		super();
 		this.eWNId = eWNId;
 		this.words = words;
@@ -41,7 +41,7 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	}
 
 	@Override
-	public String getEWNId() {
+	public Long getEWNId() {
 		// TODO Auto-generated method stub
 		return eWNId;
 	}
@@ -77,7 +77,7 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	}
 
 	@Override
-	public void SetEWNId(String eWNId) {
+	public void SetEWNId(Long eWNId) {
 		// TODO Auto-generated method stub
 		this.eWNId = eWNId;
 	}
@@ -113,4 +113,6 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		synsetdb.findRelatedSynsetById(this.id, relation);
 	}
+
+	
 }
