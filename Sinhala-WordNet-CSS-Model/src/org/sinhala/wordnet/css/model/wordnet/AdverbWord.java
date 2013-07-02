@@ -26,6 +26,10 @@ public class AdverbWord extends SinhalaWordNetWord {
 		super(word);
 	}
 
+	public AdverbWord(){
+		super();
+	}
+	
 	public List<SinhalaWordNetWord> getDerived() {
 
 		Pointer[] pointers = this.word.getPointers(PointerType.DERIVED);

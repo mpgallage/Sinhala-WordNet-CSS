@@ -35,6 +35,10 @@ public class VerbSynset extends SinhalaWordNetSynset {
 	public VerbSynset(Synset synset){
 		super(synset);
 	}
+	
+	public VerbSynset(){
+		super();
+	}
 
 	public List<SinhalaWordNetSynset> getHypernyms() {
 		return hypernyms;

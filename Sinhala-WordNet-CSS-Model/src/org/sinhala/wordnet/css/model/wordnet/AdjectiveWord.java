@@ -26,6 +26,10 @@ public class AdjectiveWord extends SinhalaWordNetWord {
 		super(word);
 	}
 
+	public AdjectiveWord(){
+		super();
+	}
+	
 	public List<SinhalaWordNetWord> getRelational() {
 
 		// ////////set relational
