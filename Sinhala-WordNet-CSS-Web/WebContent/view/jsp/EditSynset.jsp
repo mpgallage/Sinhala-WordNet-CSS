@@ -20,7 +20,7 @@
 <body>
 	<div id="wrap">
 		<div id="new_sysnset">
-			<form:form method="POST" modelAttribute="synset">
+			<form:form method="POST" modelAttribute="synset" action="EditSynsets">
 				<div id="add_words" class="add_new">
 					<div class="section_header">
 						<h2>පද සම්බන්ධතා</h2>
@@ -99,6 +99,9 @@
 				<div class="word_set">
 					<table class="word_table">
 						<tbody>
+							<tr>
+                                <td><form:hidden path="offset"/></td>
+                            </tr>
 							<tr>
 								<td><label>සිංහල අර්ථය :</label></td>
 								<td><form:textarea path="definition" rows="5" cols="30" /></td>
