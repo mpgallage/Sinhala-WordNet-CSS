@@ -57,5 +57,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jwnl.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-JWNL"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-DAL"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

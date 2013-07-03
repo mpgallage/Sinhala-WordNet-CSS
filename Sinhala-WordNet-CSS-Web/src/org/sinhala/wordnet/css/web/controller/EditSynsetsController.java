@@ -11,6 +11,7 @@ import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.utils.maduraapi.MeaningRequestHandler;
+import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -67,11 +68,15 @@ public class EditSynsetsController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = "synset",method = RequestMethod.POST)
 	public String editSynset(@ModelAttribute SinhalaWordNetSynset synset,
 			ModelMap model) {
 		//System.out.println(synset.getOffset());
+		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
+		synsetdb.addNounSynset((NounSynset)synset);
+		
 		model.addAttribute("synset", synset);
+		
 		
 		return showEditSynset(String.valueOf(synset.getOffset()) , model, "noun");
 	}
