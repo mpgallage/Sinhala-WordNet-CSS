@@ -13,6 +13,7 @@ import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.utils.maduraapi.MeaningRequestHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequestMapping("/EditSynsets")
 public class EditSynsetsController {
 
-	@RequestMapping(method = RequestMethod.GET, params = {"action=ShowEditSynset", "type=noun"})
-	public String showEditSynset(@RequestParam(value = "id", required = false) String id ,ModelMap model, @RequestParam(value = "type", required = false) String type){
-		
-		if(id != null && !"".equals(id)){
+	@RequestMapping(method = RequestMethod.GET, params = {
+			"action=ShowEditSynset", "type=noun" })
+	public String showEditSynset(
+			@RequestParam(value = "id", required = false) String id,
+			ModelMap model,
+			@RequestParam(value = "type", required = false) String type) {
+
+		if (id != null && !"".equals(id)) {
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
 			try {
@@ -35,28 +40,39 @@ public class EditSynsetsController {
 			} catch (JWNLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}		
-			
+			}
+
 			SinhalaWordNetSynset castSynset = new NounSynset(synset);
-			
+
 			// override cast synset with database values here
-			
+
 			MeaningRequestHandler meaningRequestHandler = new MeaningRequestHandler();
 			List<String> wordList = castSynset.getWordArrayList();
-			List<List<String>> meaningsList = meaningRequestHandler.getMeaningLists(wordList);
-			List<String> intersection = meaningRequestHandler.getIntersection(meaningsList);
-			
+			List<List<String>> meaningsList = meaningRequestHandler
+					.getMeaningLists(wordList);
+			List<String> intersection = meaningRequestHandler
+					.getIntersection(meaningsList);
+
 			model.addAttribute("synset", castSynset);
 			model.addAttribute("meaningsList", meaningsList);
 			model.addAttribute("intersection", intersection);
 			model.addAttribute("wordList", wordList);
 			model.addAttribute("type", type);
-			
+
 			return "EditSynset";
 		}
-		
-		else{
+
+		else {
 			return "error";
 		}
+	}
+
+	@RequestMapping(method = RequestMethod.POST)
+	public String editSynset(@ModelAttribute SinhalaWordNetSynset synset,
+			ModelMap model) {
+		//System.out.println(synset.getOffset());
+		model.addAttribute("synset", synset);
+		
+		return showEditSynset(String.valueOf(synset.getOffset()) , model, "noun");
 	}
 }

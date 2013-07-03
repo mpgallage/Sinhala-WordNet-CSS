@@ -67,11 +67,10 @@ public class SinhalaWordNetWord {
 	}
 
 	public SinhalaWordNetWord getAntonym() {
-		Pointer[] p = this.word.getPointers(PointerType.ANTONYM);
-		PointerTarget target = null;
 		Word antonym = null;
 		try {
-			target = p[0].getTarget();
+			Pointer[] p = this.word.getPointers(PointerType.ANTONYM);
+			PointerTarget target = p[0].getTarget();
 			antonym = (Word) target;
 		} catch (JWNLException e) {
 			// TODO Auto-generated catch block
