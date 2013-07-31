@@ -11,32 +11,44 @@ import net.didion.jwnl.data.Synset;
 import net.didion.jwnl.data.Word;
 import net.didion.jwnl.dictionary.Dictionary;
 
-public class NounSynset extends SinhalaWordNetSynset{
+public class NounSynset extends SinhalaWordNetSynset {
 
 	List<SinhalaWordNetSynset> hypernyms;
 	List<SinhalaWordNetSynset> hyponyms;
 	List<SinhalaWordNetSynset> meronyms;
 	List<SinhalaWordNetSynset> holonyms;
 	List<SinhalaWordNetSynset> attributes;
-	
+	String test;
+
 	public NounSynset(String id, long offset, String definition,
-			String example, SinhalaWordNetWord gender, List<SinhalaWordNetWord> words, List<SinhalaWordNetSynset> hypernyms, List<SinhalaWordNetSynset> hyponyms, List<SinhalaWordNetSynset> meronyms, List<SinhalaWordNetSynset> holonyms, List<SinhalaWordNetSynset> attributes){
+			String example, SinhalaWordNetWord gender,
+			List<SinhalaWordNetWord> words,
+			List<SinhalaWordNetSynset> hypernyms,
+			List<SinhalaWordNetSynset> hyponyms,
+			List<SinhalaWordNetSynset> meronyms,
+			List<SinhalaWordNetSynset> holonyms,
+			List<SinhalaWordNetSynset> attributes) {
 		super(id, offset, definition, example, gender, words);
+		this.type = "noun";
 		this.hypernyms = hypernyms;
 		this.hyponyms = hyponyms;
 		this.meronyms = meronyms;
 		this.holonyms = holonyms;
 		this.attributes = attributes;
 	}
-	
-	public NounSynset(Synset synset){
+
+	public NounSynset(Synset synset) {
 		super(synset);
+		this.test = "test";
+		this.type = "noun";
 	}
-	
-	public NounSynset(){
+
+	public NounSynset() {
 		super();
+		this.test = "test";
+		this.type = "noun";
 	}
-	
+
 	public List<SinhalaWordNetSynset> getHypernyms() {
 		return hypernyms;
 	}
@@ -76,9 +88,9 @@ public class NounSynset extends SinhalaWordNetSynset{
 	public void setAttributes(List<SinhalaWordNetSynset> attributes) {
 		this.attributes = attributes;
 	}
-	
+
 	public List<SinhalaWordNetWord> getWords() {
-		
+
 		Dictionary dict = WordNetDictionary.getInstance();
 		Synset synset = null;
 		try {
@@ -91,11 +103,24 @@ public class NounSynset extends SinhalaWordNetSynset{
 			e.printStackTrace();
 		}
 		List<SinhalaWordNetWord> words = new ArrayList<SinhalaWordNetWord>();
-		Word[] originalWords = synset.getWords();
-		for(Word w : originalWords){
-			words.add(new NounWord(w));
+		try {
+			Word[] originalWords = synset.getWords();
+			for (Word w : originalWords) {
+				words.add(new NounWord(w));
+			}
+		} catch (NullPointerException e) {
+
 		}
+
 		return words;
 	}
 
+	public String getTest() {
+		return test;
+	}
+
+	public void setTest(String test) {
+		this.test = test;
+	}
+	
 }

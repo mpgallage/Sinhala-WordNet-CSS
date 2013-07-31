@@ -68,11 +68,12 @@ public class EditSynsetsController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST)
-	public String editSynset(@ModelAttribute SinhalaWordNetSynset synset,
-			ModelMap model) {
-		//System.out.println(synset.getOffset());
-		model.addAttribute("synset", synset);
-		
-		return showEditSynset(String.valueOf(synset.getOffset()) , model, "noun");
+	public String editSynset(@ModelAttribute("synset") SinhalaWordNetSynset synset, ModelMap model) {
+		if ("noun".equals(synset.getType())) {
+			model.addAttribute("synset", synset);
+			return showEditSynset(String.valueOf(synset.getOffset()), model, "noun");
+		}
+		return "error";
 	}
+
 }

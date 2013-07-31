@@ -100,7 +100,9 @@
 					<table class="word_table">
 						<tbody>
 							<tr>
+                                <td><form:hidden path="type"/></td>
                                 <td><form:hidden path="offset"/></td>
+                                <td><form:hidden path="test"/></td>
                             </tr>
 							<tr>
 								<td><label>සිංහල අර්ථය :</label></td>
@@ -119,8 +121,10 @@
 							</tr>
 							<tr>
 								<td><label>Hypernyms</label></td>
-								<td><input type="text" maxlength="255" size="20"
-									name="hypernyms" /></td>
+								<td>
+								<c:forEach items="${synset.hypernyms}" varStatus="loop">
+								<form:input path="hypernyms[${loop.index}].getWordsAsString()" type="text" maxlength="255" size="20"/>
+									</c:forEach></td>
 							</tr>
 							<tr>
 								<td><label>Hyponyms</label></td>

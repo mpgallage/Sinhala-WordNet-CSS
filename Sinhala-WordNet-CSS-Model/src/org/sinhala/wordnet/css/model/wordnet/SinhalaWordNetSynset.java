@@ -12,6 +12,7 @@ import net.didion.jwnl.dictionary.Dictionary;
 
 public class SinhalaWordNetSynset {
 
+	protected String type;
 	protected String id;
 	protected long offset;
 	protected String definition;
@@ -35,6 +36,7 @@ public class SinhalaWordNetSynset {
 	}
 	
 	public SinhalaWordNetSynset(){
+	
 	}
 
 	public String getId() {
@@ -60,10 +62,10 @@ public class SinhalaWordNetSynset {
 			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (JWNLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		String out = "";
@@ -88,10 +90,10 @@ public class SinhalaWordNetSynset {
 			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (JWNLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 		String out = "";
@@ -116,6 +118,14 @@ public class SinhalaWordNetSynset {
 
 	public void setGender(SinhalaWordNetWord gender) {
 		this.gender = gender;
+	}
+	
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public List<SinhalaWordNetWord> getWords() {

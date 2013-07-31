@@ -37,7 +37,6 @@ public class VerbSynset extends SinhalaWordNetSynset {
 	}
 	
 	public VerbSynset(){
-		super();
 	}
 
 	public List<SinhalaWordNetSynset> getHypernyms() {
