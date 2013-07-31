@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<?xml version="1.0" encoding="UTF-8"?>
+<project-modules id="moduleCoreId" project-version="1.5.0">
     <wb-module deploy-name="Sinhala-WordNet-CSS-Web">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
@@ -12,6 +13,9 @@
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <dependent-module archiveName="Sinhala-WordNet-CSS-JWNL.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Sinhala-WordNet-CSS-JWNL/Sinhala-WordNet-CSS-JWNL">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
+        <dependent-module archiveName="SpringMongoDBExample.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/Sinhala-WordNet-CSS-DAL/Sinhala-WordNet-CSS-DAL">
             <dependency-type>uses</dependency-type>
         </dependent-module>
         <property name="context-root" value="Sinhala-WordNet-CSS-Web"/>

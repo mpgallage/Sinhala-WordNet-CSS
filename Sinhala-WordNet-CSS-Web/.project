@@ -7,6 +7,7 @@
 		<project>Sinhala-WordNet-CSS-Util</project>
 		<project>Sinhala-WordNet-CSS-Common</project>
 		<project>Sinhala-WordNet-CSS-JWNL</project>
+		<project>Sinhala-WordNet-CSS-DAL</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

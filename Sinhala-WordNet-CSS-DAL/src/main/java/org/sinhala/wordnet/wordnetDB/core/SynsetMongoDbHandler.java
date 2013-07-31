@@ -86,7 +86,7 @@ public class SynsetMongoDbHandler {
          }
 	}
 	
-public void findById(String findId){
+public void findById(Long findId){
 		
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
