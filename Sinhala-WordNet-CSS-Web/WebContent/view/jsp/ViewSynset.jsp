@@ -96,7 +96,7 @@
 							},
 							dog : {
 								'color' : '#0066FF',
-								'label' : 'dog'
+								'label' : 'සිංහල'
 							},
 							cat : {
 								'color' : '#008000',

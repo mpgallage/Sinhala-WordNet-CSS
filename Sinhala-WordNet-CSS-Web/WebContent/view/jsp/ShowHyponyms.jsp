@@ -27,7 +27,7 @@
 								</td>
 								<td><input type="button" class="button"
 									value="View"
-									onclick="window.location.href='ShowSynsets?action=ViewSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
+									onclick="window.location.href='ViewSynset?action=ViewSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
 								</td>
 								<td><input type="button" class="button" value="Edit"
 									onclick="window.location.href='EditSynsets?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
