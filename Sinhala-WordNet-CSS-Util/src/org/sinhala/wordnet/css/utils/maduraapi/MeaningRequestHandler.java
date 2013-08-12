@@ -44,32 +44,48 @@ public class MeaningRequestHandler {
 
 		if (wordList.size() > 0) {
 			for (String word : wordList) {
-				try {
-					outList.add(this.getMeanings(word));
-				} catch (ParserConfigurationException e) {
-					continue;
-				} catch (SAXException e) {
-					continue;
-				} catch (IOException e) {
-					continue;
-				}
+				outList.add(this.getMeanings(word));
 			}
 		}
 
 		return outList;
 	}
 
-	private List<String> getMeanings(String word)
-			throws ParserConfigurationException, SAXException, IOException {
+	private List<String> getMeanings(String word) {
 		String url = "http://maduradic.appspot.com/?find=" + word;
-
+		ArrayList<String> meaningList = new ArrayList<String>();
+		//meaningList.add("-");
+		int check = 0;
 		DocumentBuilderFactory docFactory = DocumentBuilderFactory
 				.newInstance();
-		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
-		Document doc = docBuilder.parse(url);
+		DocumentBuilder docBuilder = null;
+		try {
+			docBuilder = docFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			check=1;
+		}
+		Document doc=null;
+		try {
+			doc = docBuilder.parse(url);
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			check = 1;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			check = 1;
+		}
+		catch (NullPointerException e){
+			check = 1;
+		}
+		
+		if(check == 0){
 		doc.getDocumentElement().normalize();
 
-		ArrayList<String> meaningList = new ArrayList<String>();
+		//ArrayList<String> meaningList = new ArrayList<String>();
 
 		NodeList nList = doc.getElementsByTagName("definition");
 		for (int j = 0; j < nList.getLength(); j++) {
@@ -79,7 +95,10 @@ public class MeaningRequestHandler {
 				meaningList.add(meaning);
 			}
 		}
-
+		}
+		else{
+			
+		}
 		return meaningList;
 	}
 

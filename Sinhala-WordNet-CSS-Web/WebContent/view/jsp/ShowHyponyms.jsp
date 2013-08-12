@@ -22,15 +22,24 @@
 							<tr>
 								<td>
 									<h3>
-										<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>>${synset.getWordsAsString()}</a>
+									<c:choose>
+									<c:when test="${synset[0].getWordsAsString() == synset[1].getWordsAsString()}">
+									<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()} (No sinhala words)</a>
+									
+										</c:when>
+									<c:otherwise>
+									<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()} (${synset[1].getWordsAsString()})</a>
+									
+									</c:otherwise>
+									</c:choose>
 									</h3>
 								</td>
 								<td><input type="button" class="button"
 									value="View"
-									onclick="window.location.href='ShowSynsets?action=ViewSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
+									onclick="window.location.href='ShowSynsets?action=ViewSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
 								</td>
 								<td><input type="button" class="button" value="Edit"
-									onclick="window.location.href='EditSynsets?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
+									onclick="window.location.href='EditSynsets?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
 								</td>
 							</tr>
 						</c:forEach>

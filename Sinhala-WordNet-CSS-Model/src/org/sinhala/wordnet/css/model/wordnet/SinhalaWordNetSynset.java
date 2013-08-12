@@ -1,5 +1,6 @@
 package org.sinhala.wordnet.css.model.wordnet;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,7 +13,6 @@ import net.didion.jwnl.dictionary.Dictionary;
 
 public class SinhalaWordNetSynset {
 
-	protected String type;
 	protected String id;
 	protected long offset;
 	protected String definition;
@@ -31,12 +31,24 @@ public class SinhalaWordNetSynset {
 		this.words = words;
 	}
 	
+	public SinhalaWordNetSynset(String id, long offset, String definition,
+			String example, List<SinhalaWordNetWord> words){
+		super();
+		this.id = id;
+		this.offset = offset;
+		this.definition = definition;
+		this.example = example;
+		this.words = words;
+	}
+	
 	public SinhalaWordNetSynset(Synset synset){
+		this.offset = synset.getOffset();
+	}
+	public SinhalaWordNetSynset(SinhalaWordNetSynset synset){
 		this.offset = synset.getOffset();
 	}
 	
 	public SinhalaWordNetSynset(){
-	
 	}
 
 	public String getId() {
@@ -56,11 +68,17 @@ public class SinhalaWordNetSynset {
 	}
 
 	public String getDefinition() {
+		if(this.definition != null){
+			return this.definition;
+		}
+		else{
 		Dictionary dict = WordNetDictionary.getInstance();
 		Synset synset = null;
 		try {
+			//synset = dict.getSynsetAt(arg0, arg1)
 			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
 		} catch (NumberFormatException e) {
+			System.out.println("tadadddddddddddddddddddddddddddd"+e);
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		} catch (JWNLException e) {
@@ -77,15 +95,45 @@ public class SinhalaWordNetSynset {
 		}
 		
 		return out;
+		}
 	}
 
 	public void setDefinition(String definition) {
-		this.definition = definition;
+		byte ptext[] =null;
+		//byte ptext1[] =null;
+		String value=null;
+		//lemma.getBytes()
+		try {
+			//ptext = lemma.getBytes();
+			ptext = definition.getBytes("ISO8859_1");
+			value = new String(ptext, Charset.forName("UTF-8"));
+			//value = new String(ptext, "UTF-8");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println("word lema ff - "+lemma+"-word-"+this.toString());
+		if(value != null){
+		this.definition = value;
+		}
+		else{
+			this.definition =definition;
+		}
+		
+	}
+	public void setDefinitionFromMongo(String definition){
+		this.definition =definition;
 	}
 
 	public String getExample() {
+		if(this.example != null){
+			return this.example;
+		}
+		
+		else{
 		Dictionary dict = WordNetDictionary.getInstance();
 		Synset synset = null;
+		//String off = (String)this.getOffset();
 		try {
 			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
 		} catch (NumberFormatException e) {
@@ -105,10 +153,30 @@ public class SinhalaWordNetSynset {
 		}
 		
 		return out;
+		}
 	}
 
 	public void setExample(String example) {
-		this.example = example;
+		byte ptext[] =null;
+		//byte ptext1[] =null;
+		String value=null;
+		//lemma.getBytes()
+		try {
+			//ptext = lemma.getBytes();
+			ptext = example.getBytes("ISO8859_1");
+			value = new String(ptext, Charset.forName("UTF-8"));
+			//value = new String(ptext, "UTF-8");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		//System.out.println("word lema ff - "+lemma+"-word-"+this.toString());
+		if(value != null){
+		this.example = value;
+		}
+		else{
+			this.example =example;
+		}
 	}
 
 	public SinhalaWordNetWord getGender() {
@@ -119,20 +187,14 @@ public class SinhalaWordNetSynset {
 	public void setGender(SinhalaWordNetWord gender) {
 		this.gender = gender;
 	}
-	
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
 
 	public List<SinhalaWordNetWord> getWords() {
+		//System.out.println("calling this");
 		return words;
 	}
 
 	public void setWords(List<SinhalaWordNetWord> words) {
+		//System.out.println("wordsqqqq-"+words.size());
 		this.words = words;
 	}
 	
@@ -148,8 +210,8 @@ public class SinhalaWordNetSynset {
 		return out;
 	}
 	
-	public List<String> getWordArrayList(){
-		List<String> out = new ArrayList<String>();
+	public ArrayList<String> getWordArrayList(){
+		ArrayList<String> out = new ArrayList<String>();
 		for(SinhalaWordNetWord w : this.getWords()){
 			out.add(w.getLemma());
 		}

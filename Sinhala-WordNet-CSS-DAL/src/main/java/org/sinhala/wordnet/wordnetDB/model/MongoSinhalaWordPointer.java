@@ -3,10 +3,10 @@ package org.sinhala.wordnet.wordnetDB.model;
 public class MongoSinhalaWordPointer {
 	
 	MongoSinhalaPointerTyps pointerType;
-	String synsetId;
+	Long synsetId;
 	String wordId;
 	
-	public String SynsetId() {
+	public Long SynsetId() {
 		return synsetId;
 	}
 	public String WordId() {
@@ -16,7 +16,7 @@ public class MongoSinhalaWordPointer {
 		return pointerType;
 	}
 	
-	public void setSynsetId(String synsetId) {
+	public void setSynsetId(Long synsetId) {
 		this.synsetId = synsetId;
 	}
 	public void setWordId(String wordId) {
@@ -26,7 +26,7 @@ public class MongoSinhalaWordPointer {
 		this.pointerType = pointerType;
 	}
 	
-	public MongoSinhalaWordPointer(String synsetId, String wordId, MongoSinhalaPointerTyps pointerType) {
+	public MongoSinhalaWordPointer(Long synsetId, String wordId, MongoSinhalaPointerTyps pointerType) {
 		super();
 		this.synsetId = synsetId;
 		this.wordId = wordId;

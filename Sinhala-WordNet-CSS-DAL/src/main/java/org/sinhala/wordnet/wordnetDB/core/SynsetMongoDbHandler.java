@@ -3,6 +3,11 @@ package org.sinhala.wordnet.wordnetDB.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.didion.jwnl.JWNLException;
+import net.didion.jwnl.data.POS;
+import net.didion.jwnl.data.Synset;
+import net.didion.jwnl.dictionary.Dictionary;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -11,6 +16,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 
 
+import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
@@ -30,7 +36,7 @@ public class SynsetMongoDbHandler {
 	public void addNounSynset(NounSynset nounSynset){
 		
 		
-		@SuppressWarnings("resource")
+		//@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
@@ -86,17 +92,32 @@ public class SynsetMongoDbHandler {
          }
 	}
 	
-public void findById(Long findId){
+public MongoSinhalaNoun findBySynsetId(Long findId){
 		
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 		
 		
-		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));
-		MongoSinhalaSynset foundSynset = mongoOperation.findOne(searchSynsetQuery1, MongoSinhalaSynset.class);
-    	System.out.println(foundSynset);
+		Query searchSynsetQuery1 = new Query(Criteria.where("eWNId").is(findId));
+		MongoSinhalaNoun foundSynset = null;
+		List<MongoSinhalaNoun>  collection = mongoOperation.find(searchSynsetQuery1, MongoSinhalaNoun.class);
+		if(collection.size()>0){
+		foundSynset = collection.get(collection.size()-1);
+		}
+    	return foundSynset;
 	}
+public MongoSinhalaNoun findById(Long findId){
+	
+	@SuppressWarnings("resource")
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+	MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+	
+	
+	Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));
+	MongoSinhalaNoun foundSynset = mongoOperation.findOne(searchSynsetQuery1, MongoSinhalaNoun.class);
+	return foundSynset;
+}
 
 public MongoSinhalaSynset findBylemma(String lemma){
 	
@@ -130,5 +151,45 @@ public void findRelatedSynsetById(String findId,MongoSinhalaPointerTyps relation
 	System.out.println(foundSynset);
 }
 	
+
+
+public void test(){
+	
+	Dictionary dict = WordNetDictionary.getInstance();
+	Synset synset = null;
+	String id="7127";
+	try {
+		synset = dict.getSynsetAt(POS.NOUN, Long.parseLong(id));
+	} catch (NumberFormatException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} catch (JWNLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
+	NounSynset castSynset = new NounSynset(synset);
+	synsetdb.addNounSynset(castSynset);
+	
+	
+}
+
+public void update(Long offset){
+	@SuppressWarnings("resource")
+	ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
+	MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
+	
+	
+	Query searchSynsetQuery1 = new Query(Criteria.where("eWNId").is(offset));
+	MongoSinhalaNoun foundSynset = mongoOperation.findOne(searchSynsetQuery1, MongoSinhalaNoun.class);
+	for(int i=0;i<foundSynset.getWords().size();i++){
+	foundSynset.getWords().get(i).SetLemma("සිංහල පද"+i);
+	System.out.println("lemmaaa  -- "+foundSynset.getWords().get(i).getLemma());
+	
+	}
+	mongoOperation.save(foundSynset);
+	
+}
 	
 }

@@ -11,207 +11,215 @@
 <script type="text/javascript" src="theme/js/add_new_div.js"></script>
 <script type="text/javascript" src="theme/js/expand_collapse.js"></script>
 <script type="text/javascript">
-	var counter = $
-	{
-		synset.getWords().size() + 1
-	};
+	var counter = ${synset.getWords().size()};
 </script>
 </head>
 <body>
 	<div id="wrap">
 		<div id="new_sysnset">
-			<form:form method="POST" modelAttribute="synset" action="EditSynsets">
+			<form:form method="POST" modelAttribute="synset"
+				action="EditSynsets">
 				<div id="add_words" class="add_new">
 					<div class="section_header">
 						<h2>පද සම්බන්ධතා</h2>
 					</div>
 					<div id="words_div">
 						<c:forEach items="${synset.words}" varStatus="loop">
-							<div id="word_${loop.index+1}" class="word_set">
-								<span id="ex_span_${loop.index+1}"
-									onclick="ExpandCollapse(this.id);">
-								<c:choose>
-									<c:when test="${synset.getWords().size()-1 == loop.index}">
-									<img
-                                    src="theme/images/collapse.png" /></span> <span
-                                    id="show_span_${loop.index+1}" class="show_span">සඟවන්න</span>
-										<div id="ex_div_${loop.index+1}" style="display: block;">
+							<div id="word_${loop.index}" class="word_set">
+								<span id="ex_span_${loop.index}"
+									onclick="ExpandCollapse(this.id);"> <c:choose>
+										<c:when test="${synset.getWords().size() == loop.index}">
+											<img src="theme/images/collapse.png" /></span> <span
+									id="show_span_${loop.index}" class="show_span">සඟවන්න</span>
+								<span id="close_${loop.index}" class="close" onclick="closeDiv(this.id);"> <img src="theme/images/close.png" />
+								</span>
+								<div id="ex_div_${loop.index}" style="display: block;">
 									</c:when>
 									<c:otherwise>
-									<img
-                                    src="theme/images/expand.png" /></span> <span
-                                    id="show_span_${loop.index+1}" class="show_span">පෙන්වන්න</span>
-										<div id="ex_div_${loop.index+1}" style="display: none;">
+										<img src="theme/images/expand.png" />
+										</span>
+										<span id="show_span_${loop.index}" class="show_span">පෙන්වන්න</span>
+										<span id="close_${loop.index}" class="close" onclick="closeDiv(this.id);"> <img src="theme/images/close.png" />
+										</span>
+										<div id="ex_div_${loop.index}" style="display: none;">
 									</c:otherwise>
-								</c:choose>
-								<table class="word_table">
-									<tbody>
-										<tr>
-											<td><label>සිංහල පදය</label></td>
-											<td><form:input path="words[${loop.index}].lemma" type="text" maxlength="255"
-													size="22" /></td>
-										</tr>
-										<tr>
-											<td><label>ප්‍රකෘතිය</label></td>
-											<td><form:input path="words[${loop.index}].root.lemma" type="text" maxlength="255" size="22"/></td>
-										</tr>
-										<tr>
-											<td><label>මූල භාෂාව</label></td>
-											<td><form:select path="words[${loop.index}].origin.lemma">
-													<form:option value="නොදනී">නොදනී</form:option>
-													<form:option value="හින්දි">හින්දි</form:option>
-													<form:option value="දෙමළ">දෙමළ</form:option>
-													<form:option value="ඉංග්‍රීසි">ඉංග්‍රීසි</form:option>
-													<form:option value="පෘතුග්‍රීසි">පෘතුග්‍රීසි</form:option>
-													<form:option value="ලංදේසි">ලංදේසි</form:option>
-											</form:select></td>
-										</tr>
-										<tr>
-											<td><label>මූල භාෂා වර්ගය</label></td>
-											<td>
-											<form:radiobutton path="words[${loop.index}].derivationType.lemma" value="තත්සම"/>තත්සම<br>
-											<form:radiobutton path="words[${loop.index}].derivationType.lemma" value="තත්භව"/>තත්භව<br>
-										</tr>
-										<tr>
-											<td><label>භාවිතය</label></td>
-											<td>
-											<form:radiobutton path="words[${loop.index}].usage.lemma" value="වාචික"/>වාචික<br>
-                                            <form:radiobutton path="words[${loop.index}].usage.lemma" value="ලිඛිත"/>ලිඛිත<br>
-										</tr>
-										<tr>
-											<td><label>විරුද්ධ පදය</label></td>
-											<td><form:input path="words[${loop.index}].antonym.lemma" type="text" maxlength="255" size="22"/></td>
-										</tr>
-									</tbody>
-								</table>
+									</c:choose>
+									<table class="word_table">
+										<tbody>
+
+											<tr>
+												<td><label>සිංහල පදය</label></td>
+												<td><form:input class="lemmaval"
+														path="words[${loop.index}].lemma"
+														type="text/html; charset=UTF-8" maxlength="255" size="22" /></td>
+											</tr>
+
+											<tr>
+												<td><label>ප්‍රකෘතිය</label></td>
+												<td><form:input path="words[${loop.index}].root.lemma"
+														type="text" maxlength="255" size="22" /></td>
+											</tr>
+											<tr>
+												<td><label>මූල භාෂාව</label></td>
+												<td><form:select
+														path="words[${loop.index}].origin.lemma">
+														<form:option value="නොදනී">නොදනී</form:option>
+														<form:option value="හින්දි">හින්දි</form:option>
+														<form:option value="දෙමළ">දෙමළ</form:option>
+														<form:option value="ඉංග්‍රීසි">ඉංග්‍රීසි</form:option>
+														<form:option value="පෘතුග්‍රීසි">පෘතුග්‍රීසි</form:option>
+														<form:option value="ලංදේසි">ලංදේසි</form:option>
+													</form:select></td>
+											</tr>
+											<tr>
+												<td><label>මූල භාෂා වර්ගය</label></td>
+												<td><form:radiobutton
+														path="words[${loop.index}].derivationType.lemma"
+														value="තත්සම" />තත්සම<br> <form:radiobutton
+														path="words[${loop.index}].derivationType.lemma"
+														value="තත්භව" />තත්භව<br>
+											</tr>
+											<tr>
+												<td><label>භාවිතය</label></td>
+												<td><form:radiobutton
+														path="words[${loop.index}].usage.lemma" value="වාචික" />වාචික<br>
+													<form:radiobutton path="words[${loop.index}].usage.lemma"
+														value="ලිඛිත" />ලිඛිත<br>
+											</tr>
+											<tr>
+												<td><label>විරුද්ධ පදය</label></td>
+												<td><form:input
+														path="words[${loop.index}].antonym.lemma" type="text"
+														maxlength="255" size="22" /></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
 							</div>
+						</c:forEach>
 					</div>
-					</c:forEach>
-				</div>
-				<div class="button_div">
-					<input type="button" value="නව පදයක් යෙදීම" id="btn_add_word"
-						class="button" onclick="copyDiv()" />
-				</div>
+					<div class="button_div">
+						<input type="button" value="නව පදයක් යෙදීම" id="btn_add_word"
+							class="button" onclick="copyDiv()" />
+					</div>
 
-				<div class="section_header">
-					<h2>පද කුලකයේ සම්බන්ධතා</h2>
-				</div>
-				<div class="word_set">
-					<table class="word_table">
-						<tbody>
-							<tr>
-                                <td><form:hidden path="type"/></td>
-                                <td><form:hidden path="offset"/></td>
-                                <td><form:hidden path="test"/></td>
-                            </tr>
-							<tr>
-								<td><label>සිංහල අර්ථය :</label></td>
-								<td><form:textarea path="definition" rows="5" cols="30" /></td>
-							</tr>
-							<tr>
-								<td><label>සිංහල උදාහරණ :</label></td>
-								<td><form:textarea path="example" rows="5" cols="30" /></td>
-							</tr>
-							<tr>
-								<td><label>ලිංග භේදය</label></td>
-								<td><form:radiobutton path="gender" value="පුරුෂ" />පුරුෂ<br>
-									<form:radiobutton path="gender" value="ස්ත්‍රී" />ස්ත්‍රී<br>
-									<form:radiobutton path="gender" value="නොසලකා හරින්න" />නොසලකා හරින්න
-								</td>
-							</tr>
-							<tr>
-								<td><label>Hypernyms</label></td>
-								<td>
-								<c:forEach items="${synset.hypernyms}" varStatus="loop">
-								<form:input path="hypernyms[${loop.index}].getWordsAsString()" type="text" maxlength="255" size="20"/>
-									</c:forEach></td>
-							</tr>
-							<tr>
-								<td><label>Hyponyms</label></td>
-								<td><input type="text" maxlength="255" size="20"
-									name="hyponyms" /></td>
-							</tr>
-							<tr>
-								<td colspan="2">
-									<div class="sub_div">
-										<div class="sub_div_header">
-											<label>Meronyms</label>
+					<div class="section_header">
+						<h2>පද කුලකයේ සම්බන්ධතා</h2>
+					</div>
+					<div class="word_set">
+						<table class="word_table">
+							<tbody>
+								<tr>
+									<td><form:hidden path="offset" /></td>
+								</tr>
+								<tr>
+									<td><label>සිංහල අර්ථය :</label></td>
+									<td><form:textarea path="definition" rows="5" cols="30" /></td>
+								</tr>
+								<tr>
+									<td><label>සිංහල උදාහරණ :</label></td>
+									<td><form:textarea path="example" rows="5" cols="30" /></td>
+								</tr>
+								<tr>
+									<td><label>ලිංග භේදය</label></td>
+									<td><form:radiobutton path="gender" value="පුරුෂ" />පුරුෂ<br>
+										<form:radiobutton path="gender" value="ස්ත්‍රී" />ස්ත්‍රී<br>
+										<form:radiobutton path="gender" value="නොසලකා හරින්න" />නොසලකා
+										හරින්න</td>
+								</tr>
+								<tr>
+									<td><label>Hypernyms</label></td>
+									<td><form:input path="hypernyms[0].words[0].lemma"
+											type="text" maxlength="255" size="20"
+											name="hypernyms[0].words[0].lemma" /></td>
+								</tr>
+								<tr>
+									<td><label>Hyponyms</label></td>
+									<td><input type="text" maxlength="255" size="20"
+										name="hyponyms[0].words[0].lemma" /></td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="sub_div">
+											<div class="sub_div_header">
+												<label>Meronyms</label>
+											</div>
+											<table>
+												<tbody>
+													<tr>
+														<td><label>Made of</label></td>
+														<!-- <td><input type="text" maxlength="255" size="21"
+														name="mero_made" /></td> -->
+													</tr>
+													<tr>
+														<td><label>Component of</label></td>
+														<!-- <td><input type="text" maxlength="255" size="21"
+														name="mero_comp" /></td> -->
+													</tr>
+													<tr>
+														<td><label>Member of</label></td>
+														<!-- <td><input type="text" maxlength="255" size="21"
+														name="mero_memb" /></td> -->
+													</tr>
+												</tbody>
+											</table>
 										</div>
-										<table>
-											<tbody>
-												<tr>
-													<td><label>Made of</label></td>
-													<td><input type="text" maxlength="255" size="21"
-														name="mero_made" /></td>
-												</tr>
-												<tr>
-													<td><label>Component of</label></td>
-													<td><input type="text" maxlength="255" size="21"
-														name="mero_comp" /></td>
-												</tr>
-												<tr>
-													<td><label>Member of</label></td>
-													<td><input type="text" maxlength="255" size="21"
-														name="mero_memb" /></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</td>
+									</td>
 
-							</tr>
-							<tr>
-								<td colspan="2">
-									<div class="sub_div">
-										<div class="sub_div_header">
-											<label>Holonyms</label>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<div class="sub_div">
+											<div class="sub_div_header">
+												<label>Holonyms</label>
+											</div>
+											<table>
+												<tbody>
+													<tr>
+														<td><label>Made of</label></td>
+														<!-- <td><input type="text" maxlength="255" size="21"
+														name="holo_made" /></td> -->
+													</tr>
+													<tr>
+														<td><label>Component of</label></td>
+														<!-- <td><input type="text" maxlength="255" size="21"
+														name="holo_comp" /></td> -->
+													</tr>
+													<tr>
+														<td><label>Member of</label></td>
+														<!-- <td><input type="text" maxlength="255" size="21"
+														name="holo_memb" /></td> -->
+													</tr>
+												</tbody>
+											</table>
 										</div>
-										<table>
-											<tbody>
-												<tr>
-													<td><label>Made of</label></td>
-													<td><input type="text" maxlength="255" size="21"
-														name="holo_made" /></td>
-												</tr>
-												<tr>
-													<td><label>Component of</label></td>
-													<td><input type="text" maxlength="255" size="21"
-														name="holo_comp" /></td>
-												</tr>
-												<tr>
-													<td><label>Member of</label></td>
-													<td><input type="text" maxlength="255" size="21"
-														name="holo_memb" /></td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="button_div">
+						<input type="submit" value="යොමන්න" id="btn_add_synset"
+							class="button" style="float: right" />
+					</div>
 				</div>
-				<div class="button_div">
-					<input type="submit" value="යොමන්න" id="btn_add_synset"
-						class="button" style="float: right" />
-				</div>
+			</form:form>
 		</div>
-		</form:form>
 		<div id="synset_relation" class="add_new">
 			<div>
 				<div class="word_set">
 					<div class="whitebox">
-						<h1>${synset.getWordsAsString()}</h1>
+						<h1>${enSynset.getWordsAsString()}</h1>
 					</div>
 					<div class="whitebox">
 						<table>
 							<tr>
 								<td valign="top">ඉංග්‍රීසි අර්ථය:</td>
-								<td valign="top">${synset.getDefinition()}</td>
+								<td valign="top">${enSynset.getDefinition()}</td>
 							</tr>
 							<tr>
 								<td valign="top">ඉංග්‍රීසි උදාහරණ:</td>
-								<td valign="top">${synset.getExample()}</td>
+								<td valign="top">${enSynset.getExample()}</td>
 							</tr>
 						</table>
 					</div>
@@ -222,7 +230,7 @@
 					<p>වචනවල පොදු අරුත්</p>
 					<table width="238">
 						<tr>
-							<td width="125" valign="top"><p>${synset.getWordsAsString()}
+							<td width="125" valign="top"><p>${enSynset.getWordsAsString()}
 									:</p></td>
 							<td width="101" valign="top"><select id="list1" size="4"
 								style="width: 100px" multiple="multiple"
@@ -241,13 +249,13 @@
 				</center>
 				<table>
 					<tr>
-						<c:forEach begin="0" end="${wordList.size()-1}" varStatus="loop">
-							<td width="" valign="top"><p>${wordList.get(loop.index)}
+						<c:forEach begin="0" end="${enWordList.size()-1}" varStatus="loop">
+							<td width="" valign="top"><p>${enWordList.get(loop.index)}
 									:</p></td>
 						</c:forEach>
 					</tr>
 					<tr>
-						<c:forEach begin="0" end="${wordList.size()-1}" varStatus="loop">
+						<c:forEach begin="0" end="${enWordList.size()-1}" varStatus="loop">
 							<td width="" valign="top"><select id="list2" size="10"
 								style="width: 120px" multiple="multiple">
 									<c:forEach var="meaning"

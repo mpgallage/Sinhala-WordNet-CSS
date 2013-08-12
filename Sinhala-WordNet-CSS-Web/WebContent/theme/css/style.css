@@ -86,7 +86,7 @@ ul, li {
 	background-color: #6D758E;
 	border-radius: 3px 3px 3px 3px;
 	float: right;
-	min-width: 92%;
+	min-width: 86%;
 	padding-left: 10px;
 	color: #FFFF66;
 }
@@ -160,4 +160,9 @@ ul, li {
 	margin: 10px;
 	font-family: Verdana, Geneva, sans-serif;
 	font-size: 12px;
+}
+
+.close {
+    float: right;
+    margin-right: 5px;
 }

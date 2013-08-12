@@ -7,48 +7,96 @@ import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.POS;
+import net.didion.jwnl.data.Pointer;
+import net.didion.jwnl.data.PointerTarget;
+import net.didion.jwnl.data.PointerType;
 import net.didion.jwnl.data.Synset;
 import net.didion.jwnl.data.Word;
 import net.didion.jwnl.dictionary.Dictionary;
 
-public class NounSynset extends SinhalaWordNetSynset {
+public class NounSynset extends SinhalaWordNetSynset{
 
 	List<SinhalaWordNetSynset> hypernyms;
 	List<SinhalaWordNetSynset> hyponyms;
 	List<SinhalaWordNetSynset> meronyms;
 	List<SinhalaWordNetSynset> holonyms;
 	List<SinhalaWordNetSynset> attributes;
-	String test;
-
+	
+	
 	public NounSynset(String id, long offset, String definition,
-			String example, SinhalaWordNetWord gender,
-			List<SinhalaWordNetWord> words,
-			List<SinhalaWordNetSynset> hypernyms,
-			List<SinhalaWordNetSynset> hyponyms,
-			List<SinhalaWordNetSynset> meronyms,
-			List<SinhalaWordNetSynset> holonyms,
-			List<SinhalaWordNetSynset> attributes) {
+			String example, SinhalaWordNetWord gender, List<SinhalaWordNetWord> words, List<SinhalaWordNetSynset> hypernyms, List<SinhalaWordNetSynset> hyponyms, List<SinhalaWordNetSynset> meronyms, List<SinhalaWordNetSynset> holonyms, List<SinhalaWordNetSynset> attributes){
 		super(id, offset, definition, example, gender, words);
-		this.type = "noun";
 		this.hypernyms = hypernyms;
 		this.hyponyms = hyponyms;
 		this.meronyms = meronyms;
 		this.holonyms = holonyms;
 		this.attributes = attributes;
 	}
-
-	public NounSynset(Synset synset) {
+	
+	public NounSynset(String id, long offset, String definition,
+			String example, List<SinhalaWordNetWord> words){
+		super(id, offset, definition, example, words);
+	}
+	
+	public NounSynset(Synset synset){
 		super(synset);
-		this.test = "test";
-		this.type = "noun";
+		this.offset =synset.getOffset();
 	}
-
-	public NounSynset() {
+	/*public NounSynset(SinhalaWordNetSynset synset){
+		super(synset);
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset1 = null;
+		try {
+			synset1 = dict.getSynsetAt(POS.NOUN, this.getOffset());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		List<SinhalaWordNetSynset> hyp = new ArrayList<SinhalaWordNetSynset>();
+		Pointer[] p = synset1.getPointers(PointerType.HYPERNYM);
+		try {
+			for(int i=0;i<p.length;i++){
+			PointerTarget target = p[i].getTarget();
+			Synset synset2 = (Synset)target;
+			SinhalaWordNetSynset hypsyn = new SinhalaWordNetSynset(synset2);
+			hyp.add(hypsyn);
+			}
+			this.hypernyms = hyp;
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		List<SinhalaWordNetSynset> hypo = new ArrayList<SinhalaWordNetSynset>();
+		Pointer[] p1 = synset1.getPointers(PointerType.HYPONYM);
+		try {
+			for(int i=0;i<p.length;i++){
+				System.out.println("pointr size"+p1.length);
+			PointerTarget target = p1[i].getTarget();
+			Synset synset2 = (Synset)target;
+			SinhalaWordNetSynset hyposyn = new SinhalaWordNetSynset(synset2);
+			hypo.add(hyposyn);
+			}
+			this.hyponyms = hypo;
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		
+	}
+	*/
+	public NounSynset(){
 		super();
-		this.test = "test";
-		this.type = "noun";
+		System.out.println("huuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
 	}
-
+	
 	public List<SinhalaWordNetSynset> getHypernyms() {
 		return hypernyms;
 	}
@@ -88,39 +136,43 @@ public class NounSynset extends SinhalaWordNetSynset {
 	public void setAttributes(List<SinhalaWordNetSynset> attributes) {
 		this.attributes = attributes;
 	}
-
+	
+	
+	
 	public List<SinhalaWordNetWord> getWords() {
-
-		Dictionary dict = WordNetDictionary.getInstance();
-		Synset synset = null;
-		try {
-			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JWNLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		if(this.words!=null){
+			//System.out.println("return this");
+			return this.words;
+		
 		}
-		List<SinhalaWordNetWord> words = new ArrayList<SinhalaWordNetWord>();
-		try {
+		else{
+			Dictionary dict = WordNetDictionary.getInstance();
+			Synset synset = null;
+			try {
+				synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			List<SinhalaWordNetWord> words = new ArrayList<SinhalaWordNetWord>();
 			Word[] originalWords = synset.getWords();
-			for (Word w : originalWords) {
+			for(Word w : originalWords){
 				words.add(new NounWord(w));
 			}
-		} catch (NullPointerException e) {
-
+			//System.out.println("return new words");
+			this.words = words;
+			return words;
 		}
-
-		return words;
+	}
+	public void setWords(List<SinhalaWordNetWord> words) {
+		//System.out.println("wordsqqqq-"+words.size());
+		this.words= words;
+	}
+	public List<SinhalaWordNetWord> getMyWords() {
+		return super.getWords();
 	}
 
-	public String getTest() {
-		return test;
-	}
-
-	public void setTest(String test) {
-		this.test = test;
-	}
-	
 }

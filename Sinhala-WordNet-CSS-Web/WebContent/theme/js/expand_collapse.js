@@ -33,3 +33,23 @@ function ExpandCollapse(ElementId) {
 		}
 	}
 }
+
+function closeDiv(ElementId) {
+	var ClickedElement = document.getElementById(ElementId);
+	var SectionElement = ClickedElement.parentNode;
+	var parentElement = SectionElement.parentNode;
+	var nodes = parentElement.getElementsByTagName("div");
+	var children = new Array();
+
+	for (i = 0; i < nodes.length; i++) {
+		if (nodes[i].parentNode === parentElement) {
+			children.push(nodes[i]);
+		}
+	}
+
+	if (children.length > 1) {
+		parentElement.removeChild(SectionElement);
+	} else {
+		alert("This synset should consist atlest one word.");
+	}
+}

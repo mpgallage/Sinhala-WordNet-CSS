@@ -31,6 +31,7 @@ public class AdjectiveSynset extends SinhalaWordNetSynset{
 	}
 	
 	public AdjectiveSynset(){
+		super();
 	}
 
 	public List<SinhalaWordNetSynset> getSimilar() {

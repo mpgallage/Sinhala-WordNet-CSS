@@ -16,6 +16,7 @@ import net.didion.jwnl.dictionary.Dictionary;
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
+import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,13 +58,24 @@ public class ShowSynsetsController{
 			if(nodeList.size()>0){
 				
 				//List<SynsetElement> elementList = new ArrayList<SynsetElement>();
-				List<NounSynset> list = new ArrayList<NounSynset>();
+				
+				//List<NounSynset> list = new ArrayList<NounSynset>();
+				List<NounSynset[]> list = new ArrayList<NounSynset[]>();
 				
 				for(int i=0; i<nodeList.size(); i++){
+					NounSynset[] nounsynsetArr = new NounSynset[2];
 				    PointerTargetNode node= (PointerTargetNode)nodeList.get(i);
 				    PointerTarget target = node.getPointerTarget();
 				    Synset s = (Synset)target;
-				    list.add(new NounSynset(s));
+				    NounSynset tempNoun = new NounSynset(s);
+				    SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					NounSynset castSynset1 = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
+					//NounSynset castSynset1 = new NounSynset();
+					nounsynsetArr[0]=tempNoun;
+					nounsynsetArr[1]=castSynset1;
+					
+				    list.add(nounsynsetArr);
+				   
 				}
 				model.addAttribute("synsetList", list);
 				model.addAttribute("type", type);
@@ -120,7 +132,11 @@ public class ShowSynsetsController{
 			List<SinhalaWordNetSynset> elementList = new ArrayList<SinhalaWordNetSynset>();
 			
 			for(Synset s : synsetList){
-				elementList.add(new NounSynset(s));
+				NounSynset tempNoun = new NounSynset(s);
+			    SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+				NounSynset castSynset1 = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
+			    
+				elementList.add(castSynset1);
 			}
 			
 			model.addAttribute("synsetList", elementList);

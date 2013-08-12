@@ -1,5 +1,11 @@
 package org.sinhala.wordnet.wordnetDB.core;
 
+import net.didion.jwnl.JWNLException;
+import net.didion.jwnl.data.POS;
+import net.didion.jwnl.data.Synset;
+import net.didion.jwnl.dictionary.Dictionary;
+
+import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 
 
@@ -7,14 +13,28 @@ import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 public class App {
 
 	public static void main(String[] args) {
+		/*
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset = null;
+		String id="7127";
 		
-		
-		
+		try {
+			synset = dict.getSynsetAt(POS.NOUN, Long.parseLong(id));
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		*/
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
+		Long offset = (long) 29714;
+		synsetdb.update(offset);
 		//SinhalaSynset sinhalasynset = synsetdb.findBylemma("ත�?ත්ත�?123456");
 		//sinhalasynset.getRelatedSynsets("hypernym");
-		NounSynset nounSynset= null;
-		synsetdb.addNounSynset(nounSynset);
+		//NounSynset castSynset = new NounSynset(synset);
+		//synsetdb.addNounSynset(castSynset);
 		//synsetdb.findAll();
 		//synsetdb.findRelatedSynsetById("51c942fefd1dcb1c0b37469d", "hypernym");
 		/*

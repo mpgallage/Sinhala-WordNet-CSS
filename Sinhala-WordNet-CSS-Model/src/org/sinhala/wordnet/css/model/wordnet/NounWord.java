@@ -20,4 +20,5 @@ public class NounWord extends SinhalaWordNetWord{
 	public NounWord(){
 		super();
 	}
+	
 }

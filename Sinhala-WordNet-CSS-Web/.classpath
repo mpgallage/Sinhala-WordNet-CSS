@@ -48,7 +48,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-tx-3.2.3.RELEASE-javadoc.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-tx-3.2.3.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-3.2.3.RELEASE-javadoc.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-3.2.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-3.2.3.RELEASE.jar" sourcepath="D:/wordnet/resource/spring-framework-4.0.0.M1-dist/spring-framework-4.0.0.M1/libs/spring-web-4.0.0.M1-javadoc.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-3.2.3.RELEASE-javadoc.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-3.2.3.RELEASE.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-Common"/>

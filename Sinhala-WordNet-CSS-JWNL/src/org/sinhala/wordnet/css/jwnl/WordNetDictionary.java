@@ -20,7 +20,7 @@ public class WordNetDictionary {
 		} else {
 			try {
 				JWNL.initialize(new FileInputStream(
-						"C:\\Users\\Buddhika\\git\\Sinhala-WordNet-CSS\\Resources\\config\\file_properties.xml"));
+						"/home/maal/Sinhala-WordNet-CSS/Resources/config/file_properties.xml"));
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

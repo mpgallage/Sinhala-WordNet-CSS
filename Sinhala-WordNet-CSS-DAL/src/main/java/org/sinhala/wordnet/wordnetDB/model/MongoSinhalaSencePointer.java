@@ -27,6 +27,9 @@ public class MongoSinhalaSencePointer {
 		
 		this.pointerType = pointerType;
 	}
+	public MongoSinhalaSencePointer(){
+		super();
+	}
 	
 	@Override
 	public String toString() {
