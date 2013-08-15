@@ -25,16 +25,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/ShowSynsets")
-public class ShowSynsetsController{
+public class ShowSynsetsController {
 
 	@RequestMapping(method = RequestMethod.GET, params = "action=ShowRoot")
-    public String showRoot(ModelMap model) {
-        return "root";
-    }
-	
-	@RequestMapping(method = RequestMethod.GET, params = {"action=ShowHyponyms", "type=noun"})
-	public String showHyponyms(@RequestParam(value = "id", required = false) String id ,ModelMap model, @RequestParam(value = "type", required = false) String type){
-		if(id != null && !"".equalsIgnoreCase(id)){
+	public String showRoot(ModelMap model) {
+		return "root";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowHyponyms", "type=noun" })
+	public String showHyponyms(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
+		if (id != null && !"".equalsIgnoreCase(id)) {
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
 			try {
@@ -46,7 +46,7 @@ public class ShowSynsetsController{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+
 			PointerUtils pointerUtils = PointerUtils.getInstance();
 			PointerTargetNodeList nodeList = null;
 			try {
@@ -55,55 +55,51 @@ public class ShowSynsetsController{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(nodeList.size()>0){
-				
-				//List<SynsetElement> elementList = new ArrayList<SynsetElement>();
-				
-				//List<NounSynset> list = new ArrayList<NounSynset>();
+			if (nodeList.size() > 0) {
+
+				// List<SynsetElement> elementList = new
+				// ArrayList<SynsetElement>();
+
+				// List<NounSynset> list = new ArrayList<NounSynset>();
 				List<NounSynset[]> list = new ArrayList<NounSynset[]>();
-				
-				for(int i=0; i<nodeList.size(); i++){
+
+				for (int i = 0; i < nodeList.size(); i++) {
 					NounSynset[] nounsynsetArr = new NounSynset[2];
-				    PointerTargetNode node= (PointerTargetNode)nodeList.get(i);
-				    PointerTarget target = node.getPointerTarget();
-				    Synset s = (Synset)target;
-				    NounSynset tempNoun = new NounSynset(s);
-				    SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					PointerTargetNode node = (PointerTargetNode) nodeList.get(i);
+					PointerTarget target = node.getPointerTarget();
+					Synset s = (Synset) target;
+					NounSynset tempNoun = new NounSynset(s);
+					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 					NounSynset castSynset1 = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
-					//NounSynset castSynset1 = new NounSynset();
-					nounsynsetArr[0]=tempNoun;
-					nounsynsetArr[1]=castSynset1;
-					
-				    list.add(nounsynsetArr);
-				   
+					// NounSynset castSynset1 = new NounSynset();
+					nounsynsetArr[0] = tempNoun;
+					nounsynsetArr[1] = castSynset1;
+
+					list.add(nounsynsetArr);
+
 				}
 				model.addAttribute("synsetList", list);
 				model.addAttribute("type", type);
-			}
-			else{
+			} else {
 				PointerTargetNodeList list = null;
 				try {
-					list = pointerUtils
-							.getDirectHypernyms(synset);
+					list = pointerUtils.getDirectHypernyms(synset);
 				} catch (JWNLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				PointerTargetNode node = (PointerTargetNode) list
-						.get(0);
-				Synset tempSynset = (Synset) node
-						.getPointerTarget();
+				PointerTargetNode node = (PointerTargetNode) list.get(0);
+				Synset tempSynset = (Synset) node.getPointerTarget();
 				long parentOffset = tempSynset.getOffset();
-				
+
 				model.addAttribute("synsetList", new ArrayList<SinhalaWordNetSynset>());
 				model.addAttribute("type", type);
 				model.addAttribute("parent", String.valueOf(parentOffset));
 			}
 			return "ShowHyponyms";
-		}
-		else{
+		} else {
 			Dictionary dict = WordNetDictionary.getInstance();
-			
+
 			Iterator<Synset> itr = null;
 			try {
 				itr = dict.getSynsetIterator(POS.NOUN);
@@ -112,14 +108,13 @@ public class ShowSynsetsController{
 				e.printStackTrace();
 			}
 			List<Synset> synsetList = new ArrayList<Synset>();
-			
-			while(itr.hasNext()){
+
+			while (itr.hasNext()) {
 				Synset tempSynset = itr.next();
 				PointerUtils pointerUtils = PointerUtils.getInstance();
 				PointerTargetNodeList list = null;
 				try {
-					list = pointerUtils
-							.getDirectHypernyms(tempSynset);
+					list = pointerUtils.getDirectHypernyms(tempSynset);
 				} catch (JWNLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -128,21 +123,26 @@ public class ShowSynsetsController{
 					synsetList.add(tempSynset);
 				}
 			}
-			
-			List<SinhalaWordNetSynset> elementList = new ArrayList<SinhalaWordNetSynset>();
-			
-			for(Synset s : synsetList){
+
+			// List<SinhalaWordNetSynset> elementList = new
+			// ArrayList<SinhalaWordNetSynset>();
+			List<NounSynset[]> list = new ArrayList<NounSynset[]>();
+
+			for (Synset s : synsetList) {
+				NounSynset[] nounsynsetArr = new NounSynset[2];
 				NounSynset tempNoun = new NounSynset(s);
-			    SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 				NounSynset castSynset1 = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
-			    
-				elementList.add(castSynset1);
+				nounsynsetArr[0] = tempNoun;
+				nounsynsetArr[1] = castSynset1;
+
+				list.add(nounsynsetArr);
 			}
-			
-			model.addAttribute("synsetList", elementList);
+
+			model.addAttribute("synsetList", list);
 			model.addAttribute("type", type);
-			
+
 			return "ShowHyponyms";
 		}
-    }
+	}
 }
