@@ -14,6 +14,7 @@ import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
 import org.sinhala.wordnet.css.utils.maduraapi.MeaningRequestHandler;
+import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.wordnetDB.core.App;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
@@ -33,6 +34,7 @@ public class EditSynsetsController {
 	public String showEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
 
 		if (id != null && !"".equals(id)) {
+			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.NOUN);
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
 			try {
@@ -82,6 +84,7 @@ public class EditSynsetsController {
 			model.addAttribute("wordList", mongoWordList);
 			model.addAttribute("enWordList", wordList);
 			model.addAttribute("type", type);
+			model.addAttribute("breadCrumb", breadCrumb);
 
 			return "EditSynset";
 		}

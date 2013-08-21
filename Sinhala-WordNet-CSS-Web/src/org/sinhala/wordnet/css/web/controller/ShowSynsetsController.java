@@ -16,6 +16,7 @@ import net.didion.jwnl.dictionary.Dictionary;
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
+import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,6 +47,8 @@ public class ShowSynsetsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			BreadCrumb breadCrumb = new BreadCrumb(synset.getOffset(), POS.NOUN);
 
 			PointerUtils pointerUtils = PointerUtils.getInstance();
 			PointerTargetNodeList nodeList = null;
@@ -70,10 +73,10 @@ public class ShowSynsetsController {
 					Synset s = (Synset) target;
 					NounSynset tempNoun = new NounSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					NounSynset castSynset1 = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
-					// NounSynset castSynset1 = new NounSynset();
+					NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
+					// NounSynset castSynset = new NounSynset();
 					nounsynsetArr[0] = tempNoun;
-					nounsynsetArr[1] = castSynset1;
+					nounsynsetArr[1] = castSynset;
 
 					list.add(nounsynsetArr);
 
@@ -96,52 +99,42 @@ public class ShowSynsetsController {
 				model.addAttribute("type", type);
 				model.addAttribute("parent", String.valueOf(parentOffset));
 			}
+			model.addAttribute("breadCrumb", breadCrumb);
 			return "ShowHyponyms";
+			
 		} else {
+			
+			BreadCrumb breadCrumb = new BreadCrumb(POS.NOUN);
 			Dictionary dict = WordNetDictionary.getInstance();
 
-			Iterator<Synset> itr = null;
+			Synset synset = null;
 			try {
-				itr = dict.getSynsetIterator(POS.NOUN);
+				synset = dict.getSynsetAt(POS.NOUN, 1740);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (JWNLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			List<Synset> synsetList = new ArrayList<Synset>();
-
-			while (itr.hasNext()) {
-				Synset tempSynset = itr.next();
-				PointerUtils pointerUtils = PointerUtils.getInstance();
-				PointerTargetNodeList list = null;
-				try {
-					list = pointerUtils.getDirectHypernyms(tempSynset);
-				} catch (JWNLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				if (list.size() < 1) {
-					synsetList.add(tempSynset);
-				}
-			}
-
-			// List<SinhalaWordNetSynset> elementList = new
-			// ArrayList<SinhalaWordNetSynset>();
+			
 			List<NounSynset[]> list = new ArrayList<NounSynset[]>();
+			NounSynset[] nounsynsetArr = new NounSynset[2];
+			NounSynset tempNoun = new NounSynset(synset);
+			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+			NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
+			// NounSynset castSynset = new NounSynset();
+			nounsynsetArr[0] = tempNoun;
+			nounsynsetArr[1] = castSynset;
 
-			for (Synset s : synsetList) {
-				NounSynset[] nounsynsetArr = new NounSynset[2];
-				NounSynset tempNoun = new NounSynset(s);
-				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-				NounSynset castSynset1 = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
-				nounsynsetArr[0] = tempNoun;
-				nounsynsetArr[1] = castSynset1;
-
-				list.add(nounsynsetArr);
-			}
+			list.add(nounsynsetArr);
+			
+			
 
 			model.addAttribute("synsetList", list);
 			model.addAttribute("type", type);
 
+			model.addAttribute("breadCrumb", breadCrumb);
 			return "ShowHyponyms";
 		}
 	}

@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>View Synset</title>
 <link rel="stylesheet" type="text/css" href="theme/css/showSynstyle.css">
-<link rel="shortcut icon" href="images/wordnet1.jpg" />
+<link rel="shortcut icon" href="theme/images/wordnet1.jpg" />
 <script type="text/javascript" src="theme/js/jscode.js"></script>
 
 <script language="javascript" type="text/javascript"
@@ -21,6 +21,18 @@
 </head>
 <body>
 	<div id="warp">
+	<ul id="breadcrumbs">
+       <c:forEach var="bcObject" items="${breadCrumb.breadCrumbList}" varStatus="loop">
+           <c:choose>
+                <c:when test="${breadCrumb.breadCrumbList.size()-1 > loop.index}">
+                    <li title="${bcObject.lemma}"><a href="${bcObject.link}">${bcObject.wordsAsCSV}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li title="${bcObject.lemma}">${bcObject.wordsAsCSV}</li>
+                </c:otherwise>
+          </c:choose>
+       </c:forEach>
+    </ul>
 		<div class="disngraph">
 			<div class="discript">
 				<div class="header">

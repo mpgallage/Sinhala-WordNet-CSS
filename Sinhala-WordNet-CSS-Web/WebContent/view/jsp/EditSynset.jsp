@@ -8,6 +8,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit Synset</title>
 <link rel="stylesheet" type="text/css" href="theme/css/style.css">
+<link rel="shortcut icon" href="theme/images/wordnet1.jpg" />
 <script type="text/javascript" src="theme/js/add_new_div.js"></script>
 <script type="text/javascript" src="theme/js/expand_collapse.js"></script>
 <script type="text/javascript">
@@ -16,6 +17,18 @@
 </head>
 <body>
 	<div id="wrap">
+	<ul id="breadcrumbs">
+       <c:forEach var="bcObject" items="${breadCrumb.breadCrumbList}" varStatus="loop">
+           <c:choose>
+                <c:when test="${breadCrumb.breadCrumbList.size()-1 > loop.index}">
+                    <li title="${bcObject.lemma}"><a href="${bcObject.link}">${bcObject.wordsAsCSV}</a></li>
+                </c:when>
+                <c:otherwise>
+                    <li title="${bcObject.lemma}">${bcObject.wordsAsCSV}</li>
+                </c:otherwise>
+          </c:choose>
+       </c:forEach>
+    </ul>
 		<div id="new_sysnset">
 			<form:form method="POST" modelAttribute="synset"
 				action="EditSynsets">
@@ -268,7 +281,6 @@
 				</table>
 			</div>
 		</div>
-	</div>
 	<div class="footer">
 		<div class="links">
 			<p class="lintitle1">

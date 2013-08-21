@@ -14,6 +14,7 @@ import net.didion.jwnl.dictionary.Dictionary;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
+import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,6 +30,7 @@ public class ViewSynsetController {
 	public String viewSynset(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "type", required = false) String type, ModelMap model) {
 
 		if (id != null && !"".equals(id)) {
+			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.NOUN);
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
 			try {
@@ -98,9 +100,10 @@ public class ViewSynsetController {
 			model.addAttribute("parentsList", parents);
 			model.addAttribute("synset", n);
 			model.addAttribute("type", type);
+			model.addAttribute("breadCrumb", breadCrumb);
 			return "ViewSynset";
 		} else {
-			return "ViewSynset";
+			return "error";
 		}
 
 	}
