@@ -80,35 +80,100 @@
 					</tbody>
 				</table>
 			</div>
+			<div>
+				<%--c:forEach var="synset" items="${hyponymsList}">
+					<tr>
+						<td>
+							<h3>
+								<c:choose>
+									<c:when
+										test="${synset[0].getWordsAsString() == synset[1].getWordsAsString()}">
+										<a href=ShowSynsets?action=ShowHyponyms&type=
+											<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(No
+											sinhala words)</a>
+									</c:when>
+									<c:otherwise>
+										<a href=ShowSynsets?action=ShowHyponyms&type=
+											<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(${synset[1].getWordsAsString()})</a>
+									</c:otherwise>
+								</c:choose>
+							</h3>
+						</td>
+						<td><input type="button" class="button" value="View"
+							onclick="window.location.href='ViewSynset?action=ViewSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
+						</td>
+						<td><input type="button" class="button" value="Edit"
+							onclick="window.location.href='EditSynsets?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
+						</td>
+					</tr>
+				</c:forEach --%>
+
+
+			</div>
 			<div class="graph12">
 				<canvas id="viewport" width="400" height="400"> </canvas>
 				<script language="javascript" type="text/javascript">
-					var sys = arbor.ParticleSystem(100, 100, 1);
+					var sys = arbor.ParticleSystem({repulsion:500, stiffness:1000, friction:10000, gravity:false, fps:55, dt:0.02, precision:0.6});
 					sys.parameters({
 						gravity : true
 					});
 					sys.renderer = Renderer("#viewport");
 					var data = {
 						nodes : {
-							animals : {
+							${synset.getOffset()} : {
 								'color' : '#FF0033',
 								'label' : '${synset.getWordsAsString()}'
-							},
-							dog : {
-								'color' : '#0066FF',
-								'label' : 'සිංහල'
-							},
-							cat : {
-								'color' : '#008000',
-								'label' : 'cat'
 							}
+							
+							<c:choose>
+							<c:when test="${hyponymsList.size() > 0}">
+							<c:forEach var="hyponym" items="${hyponymsList}">
+							,
+							${hyponym[0].getOffset()} : {
+								'color' : '#0066FF',
+								'label' : '${hyponym[0].getWordsAsString()}'
+							}
+							</c:forEach>
+							
+							</c:when>
+							</c:choose>
+							
+							<c:choose>
+							<c:when test="${parentsList.size() > 0}">
+							<c:forEach var="hypernym" items="${parentsList}">
+							,
+							${hypernym[0].getOffset()} : {
+								'color' : '#14BA02',
+								'label' : '${hypernym[0].getWordsAsString()}'
+							}
+							</c:forEach>
+							
+							</c:when>
+							</c:choose>
+							
 						},
+						
+
 						edges : {
-							animals : {
-								dog : {},
-								cat : {}
+			
+							${synset.getOffset()} : {
+								<c:choose>
+								<c:when test="${hyponymsList.size() > 0}">
+								<c:forEach var="hyponym" items="${hyponymsList}">
+								${hyponym[0].getOffset()} : {},
+								</c:forEach>
+								</c:when>
+								</c:choose>
+								<c:choose>
+								<c:when test="${parentsList.size() > 0}">
+								<c:forEach var="parent" items="${parentsList}">
+								${parent[0].getOffset()} : {},
+								</c:forEach>
+								</c:when>
+								</c:choose>
 							}
 						}
+
 					};
 					sys.graft(data);
 				</script>
@@ -131,7 +196,7 @@
 							<c:forEach var="word" items="${synset.getWords()}">
 								<tr>
 									<td>${word.getLemma()}</td>
-									<td>${word.getAntonym()}</td>
+									<td>${word.getAntonym().getLemma()}</td>
 									<td>-</td>
 									<td>-</td>
 									<td>-</td>
