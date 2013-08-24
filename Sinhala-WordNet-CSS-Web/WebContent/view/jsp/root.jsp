@@ -17,28 +17,28 @@
                 <col width="240">
                 <tr>
                     <td><h3>
-                            <a href=ShowSynsets?action=ShowHyponyms&type=noun>නාම පද</a>
+                            <a href=ShowSynsets?action=ShowHyponyms&type=noun>නාම පද (Nouns)</a>
                         </h3></td>
                     <td><input type="button" class="button" value="Show Children"
-                        onclick="window.location.href='SynsetHandler?action=ShowSynsets&type=noun'" /></td>
+                        onclick="window.location.href='ShowSynsets?action=ShowHyponyms&type=noun'" /></td>
                 </tr>
                 <tr>
                     <td><h3>
-                            <a href=ShowSynsets?action=ShowHyponyms&type=verb>ක්‍රියා පද</a>
+                            <a href=ShowSynsets?action=ShowHyponyms&type=verb>ක්‍රියා පද (Verbs)</a>
                         </h3></td>
-                    <td><input type="button" class="button"value="Show Children" onclick="SynsetHandler?action=ShowSynsets&type=verb" /></td>
+                    <td><input type="button" class="button"value="Show Children" onclick="window.location.href='ShowSynsets?action=ShowHyponyms&type=verb'" /></td>
                 </tr>
                 <tr>
                     <td><h3>
-                            <a href=ShowSynsets?action=ShowHyponyms&type=adj>නාම විශේෂණ</a>
+                            <a href=ShowSynsets?action=ShowHyponyms&type=adj>නාම විශේෂණ (Adjectives)</a>
                         </h3></td>
-                    <td><input type="button" class="button"value="Show Children" onclick="SynsetHandler?action=ShowSynsets&type=adj" /></td>
+                    <td><input type="button" class="button"value="Show Children" onclick="window.location.href='ShowSynsets?action=ShowHyponyms&type=adj'" /></td>
                 </tr>
                 <tr>
                     <td><h3>
-                            <a href=ShowSynsets?action=ShowHyponyms&type=adv>ක්‍රියා විශේෂණ</a>
+                            <a href=ShowSynsets?action=ShowHyponyms&type=adv>ක්‍රියා විශේෂණ (Adverbs)</a>
                         </h3></td>
-                    <td><input type="button" class="button"value="Show Children" onclick="SynsetHandler?action=ShowSynsets&type=adv" /></td>
+                    <td><input type="button" class="button"value="Show Children" onclick="window.location.href='ShowSynsets?action=ShowHyponyms&type=adv'" /></td>
                 </tr>
             </table>
         </div>

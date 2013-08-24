@@ -94,11 +94,11 @@ public class BreadCrumb {
 			}
 		}
 
-		BreadCrumbObject root = new BreadCrumbObject("මූලය",  "මූලය",  "ShowSynsets?action=ShowRoot");
+		BreadCrumbObject root = new BreadCrumbObject("මූලය(Root)",  "මූලය(Root)",  "ShowSynsets?action=ShowRoot");
 		BreadCrumbObject posRoot = null;
 
 		if (pos.equals(POS.NOUN)) {
-			posRoot = new BreadCrumbObject("නාමපද මූලය",  "නාමපද මූලය",  "ShowSynsets?action=ShowHyponyms&type=" + type);
+			posRoot = new BreadCrumbObject("නාමපද(Nouns)",  "නාමපද(Nouns)",  "ShowSynsets?action=ShowHyponyms&type=" + type);
 		}
 		breadCrumbList.add(posRoot);
 		breadCrumbList.add(root);
