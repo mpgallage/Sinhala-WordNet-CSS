@@ -44,7 +44,7 @@
         </div>
         <div id="gap"></div>
         <div id="summary">
-            <h3>Summary</h3>
+            <h3>සාරාංශය</h3>
         </div>
         <div class="footer">
 <div class="links">

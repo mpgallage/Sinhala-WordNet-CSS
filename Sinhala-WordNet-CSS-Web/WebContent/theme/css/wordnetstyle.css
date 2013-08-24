@@ -19,7 +19,6 @@ body {
 	margin: 10px auto;
 	height: auto;
 	border-radius: 6px;
-	text-align:center;
 }
 
 ul,li {
@@ -522,7 +521,7 @@ rgba
 #summary {
 	background-color: #EEEEEE;
 	height: 500px;
-	width: 400px;
+	width: 35%;
 	float: left;
 	margin: 10px 10px 10px 10px;
 	border-radius: 6px;
@@ -539,6 +538,11 @@ rgba
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
 	padding: 1%;
 	text-align:left;
+	width : 55%;
+}
+
+#menu col{
+    width : 70%;
 }
 
 .footer {

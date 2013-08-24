@@ -31,7 +31,7 @@ public class BreadCrumb {
 	public BreadCrumb(long offset, POS pos) {
 
 		String type = "";
-		
+
 		if (pos.equals(POS.NOUN)) {
 			type = "noun";
 		} else if (pos.equals(POS.VERB)) {
@@ -41,7 +41,7 @@ public class BreadCrumb {
 		} else if (pos.equals(POS.ADVERB)) {
 			type = "adv";
 		}
-		
+
 		Dictionary dict = WordNetDictionary.getInstance();
 		Synset synset = null;
 		try {
@@ -56,9 +56,19 @@ public class BreadCrumb {
 
 		NounSynset nounSynset = new NounSynset(synset);
 		SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-		NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(nounSynset);
-		BreadCrumbObject bcrumObject = new BreadCrumbObject("", castSynset.getWordsAsString(), "");
 
+		NounSynset castSynset = mongoSynsetConvertor
+				.OverWriteByMongo(nounSynset);
+
+		String wordsAsString = castSynset.getWordsAsString();
+
+		if (!nounSynset.getWordsAsString()
+				.equals(castSynset.getWordsAsString())) {
+			wordsAsString = castSynset.getWordsAsString() + "("
+					+ nounSynset.getWordsAsString() + ")";
+		}
+		BreadCrumbObject bcrumObject = new BreadCrumbObject("", wordsAsString,
+				"");
 		breadCrumbList.add(bcrumObject);
 
 		while (true) {
@@ -78,12 +88,26 @@ public class BreadCrumb {
 				PointerTarget target = node.getPointerTarget();
 				Synset s = (Synset) target;
 				NounSynset nSynset = new NounSynset(s);
-				
+
 				mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 				castSynset = mongoSynsetConvertor.OverWriteByMongo(nSynset);
-				
-				BreadCrumbObject bcObject = new BreadCrumbObject(
-						castSynset.getDefinition(), castSynset.getWordsAsString(), "ShowSynsets?action=ShowHyponyms&type=" + type + "&id=" + s.getOffset());
+
+				String def = castSynset.getDefinition();
+				wordsAsString = castSynset.getWordsAsString();
+
+				if (!nSynset.getDefinition().equals(castSynset.getDefinition())) {
+					def = castSynset.getDefinition() + "("
+							+ nSynset.getDefinition() + ")";
+				}
+				if (!nSynset.getWordsAsString().equals(
+						castSynset.getWordsAsString())) {
+					wordsAsString = castSynset.getWordsAsString() + "("
+							+ nSynset.getWordsAsString() + ")";
+				}
+
+				BreadCrumbObject bcObject = new BreadCrumbObject(def,
+						wordsAsString, "ShowSynsets?action=ShowHyponyms&type="
+								+ type + "&id=" + s.getOffset());
 
 				breadCrumbList.add(bcObject);
 				synset = s;
@@ -94,15 +118,17 @@ public class BreadCrumb {
 			}
 		}
 
-		BreadCrumbObject root = new BreadCrumbObject("මූලය(Root)",  "මූලය(Root)",  "ShowSynsets?action=ShowRoot");
+		BreadCrumbObject root = new BreadCrumbObject("මූලය(Root)",
+				"මූලය(Root)", "ShowSynsets?action=ShowRoot");
 		BreadCrumbObject posRoot = null;
 
 		if (pos.equals(POS.NOUN)) {
-			posRoot = new BreadCrumbObject("නාමපද(Nouns)",  "නාමපද(Nouns)",  "ShowSynsets?action=ShowHyponyms&type=" + type);
+			posRoot = new BreadCrumbObject("නාමපද(Nouns)", "නාමපද(Nouns)",
+					"ShowSynsets?action=ShowHyponyms&type=" + type);
 		}
 		breadCrumbList.add(posRoot);
 		breadCrumbList.add(root);
-		
+
 		Collections.reverse(breadCrumbList);
 
 	}
@@ -110,7 +136,7 @@ public class BreadCrumb {
 	public BreadCrumb(POS pos) {
 
 		String type = "";
-		
+
 		if (pos.equals(POS.NOUN)) {
 			type = "noun";
 		} else if (pos.equals(POS.VERB)) {
@@ -120,20 +146,22 @@ public class BreadCrumb {
 		} else if (pos.equals(POS.ADVERB)) {
 			type = "adv";
 		}
-		
-		BreadCrumbObject root = new BreadCrumbObject("මූලය",  "මූලය",  "ShowSynsets?action=ShowRoot");
+
+		BreadCrumbObject root = new BreadCrumbObject("මූලය(Root)",
+				"මූලය(Root)", "ShowSynsets?action=ShowRoot");
 		BreadCrumbObject posRoot = null;
 
 		if (pos.equals(POS.NOUN)) {
-			posRoot = new BreadCrumbObject("නාමපද මූලය",  "නාමපද මූලය",  "ShowSynsets?action=ShowHyponyms&type=" + type);
+			posRoot = new BreadCrumbObject("නාමපද(Nouns)", "නාමපද(Nouns)",
+					"ShowSynsets?action=ShowHyponyms&type=" + type);
 		}
 		breadCrumbList.add(posRoot);
 		breadCrumbList.add(root);
-		
+
 		Collections.reverse(breadCrumbList);
 
 	}
-	
+
 	public List<BreadCrumbObject> getBreadCrumbList() {
 		return breadCrumbList;
 	}

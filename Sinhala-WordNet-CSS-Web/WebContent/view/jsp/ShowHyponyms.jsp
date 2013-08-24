@@ -26,7 +26,7 @@
     </ul>
 		<div id="menu">
 			<table>
-				<col width="240">
+				<col>
 				<c:choose>
 					<c:when test="${synsetList.size()>0}">
 						<c:forEach var="synset" items="${synsetList}">
@@ -50,6 +50,9 @@
 								<td><input type="button" class="button" value="Edit"
 									onclick="window.location.href='EditSynsets?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
 								</td>
+								<td><input type="button" class="button" value="Relations"
+                                    onclick="window.location.href='EditRelationship?action=ShowEditRelationship&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
+                                </td>
 							</tr>
 						</c:forEach>
 					</c:when>
@@ -68,7 +71,27 @@
 		</div>
 		<div id="gap"></div>
 		<div id="summary">
-			<h3>Summary</h3>
+			<h1>සාරාංශය</h1>
+			<div>
+                <div class="word_set">
+                    <div class="whitebox">
+                        <h3>${enSynset.getWordsAsString()}</h3>
+                    </div>
+                    <div class="whitebox">
+                        <table>
+                            <tr>
+                                <td valign="top">අර්ථය:</td>
+                                <td valign="top">${enSynset.getDefinition()}</td>
+                            </tr>
+                            <tr>
+                                <td valign="top">උදාහරණ:</td>
+                                <td valign="top">${enSynset.getExample()}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
 		</div>
 		<div class="footer">
 			<div class="links">

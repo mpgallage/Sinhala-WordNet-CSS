@@ -48,7 +48,12 @@ public class ShowSynsetsController {
 				e.printStackTrace();
 			}
 			
-			BreadCrumb breadCrumb = new BreadCrumb(synset.getOffset(), POS.NOUN);
+			BreadCrumb breadCrumb = new BreadCrumb();
+			try{
+				breadCrumb = new BreadCrumb(synset.getOffset(), POS.NOUN);
+			} catch (Exception e){
+				return "error";
+			}
 
 			PointerUtils pointerUtils = PointerUtils.getInstance();
 			PointerTargetNodeList nodeList = null;
@@ -98,7 +103,16 @@ public class ShowSynsetsController {
 				model.addAttribute("synsetList", new ArrayList<SinhalaWordNetSynset>());
 				model.addAttribute("type", type);
 				model.addAttribute("parent", String.valueOf(parentOffset));
+				
 			}
+			
+			NounSynset nounSynset = new NounSynset(synset);
+			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+
+			NounSynset enSynset = mongoSynsetConvertor
+					.OverWriteByMongo(nounSynset);
+			model.addAttribute("enSynset", enSynset);
+			
 			model.addAttribute("breadCrumb", breadCrumb);
 			return "ShowHyponyms";
 			
@@ -133,6 +147,13 @@ public class ShowSynsetsController {
 
 			model.addAttribute("synsetList", list);
 			model.addAttribute("type", type);
+			
+			NounSynset nounSynset = new NounSynset(synset);
+			mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+
+			NounSynset enSynset = mongoSynsetConvertor
+					.OverWriteByMongo(nounSynset);
+			model.addAttribute("enSynset", enSynset);
 
 			model.addAttribute("breadCrumb", breadCrumb);
 			return "ShowHyponyms";
