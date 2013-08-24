@@ -29,19 +29,34 @@
 				<col>
 				<c:choose>
 					<c:when test="${synsetList.size()>0}">
-						<c:forEach var="synset" items="${synsetList}">
+						<c:forEach var="synset" items="${synsetList}" varStatus="loop">
 							<tr>
 								<td>
 									<h3>
-										<c:choose>
-											<c:when
-												test="${synset[0].getWordsAsString() == synset[1].getWordsAsString()}">
-												<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(No sinhala words)</a>
-											</c:when>
-											<c:otherwise>
-												<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(${synset[1].getWordsAsString()})</a>
-											</c:otherwise>
-										</c:choose>
+									<c:choose>
+                                            <c:when test="${nextLevelList[loop.index] == true}">
+												<c:choose>
+													<c:when
+														test="${synset[0].getWordsAsString() == synset[1].getWordsAsString()}">
+														<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(No sinhala words)</a>
+													</c:when>
+													<c:otherwise>
+														<a href=ShowSynsets?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(${synset[1].getWordsAsString()})</a>
+													</c:otherwise>
+												</c:choose>
+										    </c:when>
+										    <c:otherwise>
+										        <c:choose>
+                                                    <c:when
+                                                        test="${synset[0].getWordsAsString() == synset[1].getWordsAsString()}">
+                                                        <a>${synset[0].getWordsAsString()}(No sinhala words)</a>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <a>${synset[0].getWordsAsString()}(${synset[1].getWordsAsString()})</a>
+                                                    </c:otherwise>
+                                                </c:choose>
+										    </c:otherwise>
+								    </c:choose>
 									</h3>
 								</td>
 								<td><input type="button" class="button" value="View"

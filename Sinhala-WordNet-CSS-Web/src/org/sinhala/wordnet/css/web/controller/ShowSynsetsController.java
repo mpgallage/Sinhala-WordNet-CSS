@@ -65,11 +65,8 @@ public class ShowSynsetsController {
 			}
 			if (nodeList.size() > 0) {
 
-				// List<SynsetElement> elementList = new
-				// ArrayList<SynsetElement>();
-
-				// List<NounSynset> list = new ArrayList<NounSynset>();
 				List<NounSynset[]> list = new ArrayList<NounSynset[]>();
+				List<Boolean> nextLevelList = new ArrayList<Boolean>();
 
 				for (int i = 0; i < nodeList.size(); i++) {
 					NounSynset[] nounsynsetArr = new NounSynset[2];
@@ -84,10 +81,24 @@ public class ShowSynsetsController {
 					nounsynsetArr[1] = castSynset;
 
 					list.add(nounsynsetArr);
+					
+					PointerTargetNodeList subNodeList = null;
+					try {
+						subNodeList = pointerUtils.getDirectHyponyms(s);
+					} catch (JWNLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (subNodeList.size() > 0) {
+						nextLevelList.add(true);
+					} else {
+						nextLevelList.add(false);
+					}
 
 				}
 				model.addAttribute("synsetList", list);
 				model.addAttribute("type", type);
+				model.addAttribute("nextLevelList", nextLevelList);
 			} else {
 				PointerTargetNodeList list = null;
 				try {
@@ -132,6 +143,9 @@ public class ShowSynsetsController {
 				e.printStackTrace();
 			}
 			
+			List<Boolean> nextLevelList = new ArrayList<Boolean>();
+			nextLevelList.add(true);
+			
 			List<NounSynset[]> list = new ArrayList<NounSynset[]>();
 			NounSynset[] nounsynsetArr = new NounSynset[2];
 			NounSynset tempNoun = new NounSynset(synset);
@@ -147,6 +161,7 @@ public class ShowSynsetsController {
 
 			model.addAttribute("synsetList", list);
 			model.addAttribute("type", type);
+			model.addAttribute("nextLevelList", nextLevelList);
 			
 			NounSynset nounSynset = new NounSynset(synset);
 			mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
