@@ -94,7 +94,7 @@ public class NounSynset extends SinhalaWordNetSynset{
 	*/
 	public NounSynset(){
 		super();
-		System.out.println("huuuuuuuuuuuuuuuuuuuuuuuuuuuuuuu");
+		
 	}
 	
 	public List<SinhalaWordNetSynset> getHypernyms() {
@@ -141,7 +141,7 @@ public class NounSynset extends SinhalaWordNetSynset{
 	
 	public List<SinhalaWordNetWord> getWords() {
 		if(this.words!=null){
-			//System.out.println("return this");
+			
 			return this.words;
 		
 		}
@@ -162,13 +162,13 @@ public class NounSynset extends SinhalaWordNetSynset{
 			for(Word w : originalWords){
 				words.add(new NounWord(w));
 			}
-			//System.out.println("return new words");
+			
 			this.words = words;
 			return words;
 		}
 	}
 	public void setWords(List<SinhalaWordNetWord> words) {
-		//System.out.println("wordsqqqq-"+words.size());
+		
 		this.words= words;
 	}
 	public List<SinhalaWordNetWord> getMyWords() {
