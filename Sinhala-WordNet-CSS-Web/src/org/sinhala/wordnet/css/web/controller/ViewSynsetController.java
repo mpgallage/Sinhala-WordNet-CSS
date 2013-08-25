@@ -94,11 +94,14 @@ public class ViewSynsetController {
 				}
 			}
 
-			NounSynset n = new NounSynset(synset);
+			NounSynset nSynset = new NounSynset(synset);
+			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+			NounSynset castMainSynset = mongoSynsetConvertor.OverWriteByMongo(nSynset);
+			
 			System.out.println("*******"+list.size());
 			model.addAttribute("hyponymsList", list);
 			model.addAttribute("parentsList", parents);
-			model.addAttribute("synset", n);
+			model.addAttribute("synset", castMainSynset);
 			model.addAttribute("type", type);
 			model.addAttribute("breadCrumb", breadCrumb);
 			return "ViewSynset";
