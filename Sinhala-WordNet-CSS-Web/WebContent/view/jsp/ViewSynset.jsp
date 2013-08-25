@@ -10,14 +10,12 @@
 <link rel="shortcut icon" href="theme/images/wordnet1.jpg" />
 <script type="text/javascript" src="theme/js/jscode.js"></script>
 
-<script language="javascript" type="text/javascript"
-	src="theme/js/jquery.min.js"></script>
-<script language="javascript" type="text/javascript"
-	src="theme/js/arbor.js"></script>
-<script language="javascript" type="text/javascript"
-	src="theme/js/graphics.js"></script>
-<script language="javascript" type="text/javascript"
-	src="theme/js/renderer.js"></script>
+<script language="javascript" type="text/javascript">
+function doubleClicked(item){
+	var id = item.options[item.selectedIndex].value;
+	window.location.href= 'ViewSynset?action=ViewSynset&type=<c:out value="${type}"/>&id=' + id;
+}
+</script>
 </head>
 <body>
 	<div id="warp">
@@ -37,6 +35,8 @@
 			<div class="discript">
 				<div class="header">
 					<h1>${synset.getWordsAsString()}</h1>
+					<input type="button" class="button" value="Edit"
+                                    onclick="window.location.href='EditSynsets?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
 				</div>
 				<table>
 					<tbody>
@@ -123,72 +123,36 @@
 
 			</div>
 			<div class="graph12">
-				<canvas id="viewport" width="400" height="400"> </canvas>
-				<script language="javascript" type="text/javascript">
-					var sys = arbor.ParticleSystem({repulsion:500, stiffness:1000, friction:10000, gravity:false, fps:55, dt:0.02, precision:0.6});
-					sys.parameters({
-						gravity : true
-					});
-					sys.renderer = Renderer("#viewport");
-					var data = {
-						nodes : {
-							${synset.getOffset()} : {
-								'color' : '#FF0033',
-								'label' : '${synset.getWordsAsString()}'
-							}
-							
-							<c:choose>
-							<c:when test="${hyponymsList.size() > 0}">
-							<c:forEach var="hyponym" items="${hyponymsList}">
-							,
-							${hyponym[0].getOffset()} : {
-								'color' : '#0066FF',
-								'label' : '${hyponym[0].getWordsAsString()}'
-							}
-							</c:forEach>
-							
-							</c:when>
-							</c:choose>
-							
-							<c:choose>
-							<c:when test="${parentsList.size() > 0}">
-							<c:forEach var="hypernym" items="${parentsList}">
-							,
-							${hypernym[0].getOffset()} : {
-								'color' : '#14BA02',
-								'label' : '${hypernym[0].getWordsAsString()}'
-							}
-							</c:forEach>
-							
-							</c:when>
-							</c:choose>
-							
-						},
-						
-
-						edges : {
-			
-							${synset.getOffset()} : {
-								<c:choose>
-								<c:when test="${hyponymsList.size() > 0}">
-								<c:forEach var="hyponym" items="${hyponymsList}">
-								${hyponym[0].getOffset()} : {},
-								</c:forEach>
-								</c:when>
-								</c:choose>
-								<c:choose>
-								<c:when test="${parentsList.size() > 0}">
-								<c:forEach var="parent" items="${parentsList}">
-								${parent[0].getOffset()} : {},
-								</c:forEach>
-								</c:when>
-								</c:choose>
-							}
-						}
-
-					};
-					sys.graft(data);
-				</script>
+			<h3>Hypernyms</h3>
+			                 <select id="list1" size="4"
+                                style="width: 400px" multiple="multiple"
+                                ondblclick="doubleClicked(this)">
+                                    <c:forEach var="parent" items="${parentsList}">
+                                        <c:choose>
+                                            <c:when test="${parent[1].getWordsAsString() == parent[0].getWordsAsString()}">
+                                                <option value=${parent[0].getOffset() }>${parent[0].getWordsAsString()}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value=${parent[0].getOffset() }>${parent[1].getWordsAsString()}(${parent[0].getWordsAsString()})</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                            </select>
+            <h3>Hyponyms</h3>
+                             <select id="list1" size="10"
+                                style="width: 400px" multiple="multiple"
+                                ondblclick="doubleClicked(this);">
+                                    <c:forEach var="hyponym" items="${hyponymsList}">
+                                        <c:choose>
+                                            <c:when test="${hyponym[1].getWordsAsString() == hyponym[0].getWordsAsString()}">
+                                                <option value=${hyponym[0].getOffset() }>${hyponym[0].getWordsAsString()}</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value=${hyponym[0].getOffset() }>${hyponym[1].getWordsAsString()}(${hyponym[0].getWordsAsString()})</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                            </select>
 			</div>
 		</div>
 		<div class="tblDiv">

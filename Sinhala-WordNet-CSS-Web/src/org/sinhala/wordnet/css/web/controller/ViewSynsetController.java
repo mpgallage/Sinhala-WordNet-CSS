@@ -65,10 +65,10 @@ public class ViewSynsetController {
 					Synset s = (Synset) target;
 					NounSynset tempNoun = new NounSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					NounSynset castSynset1 = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
-					//NounSynset castSynset1 = new NounSynset();
+					NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
+					//NounSynset castSynset = new NounSynset();
 					nounsynsetArr[0] = tempNoun;
-					nounsynsetArr[1] = castSynset1;
+					nounsynsetArr[1] = castSynset;
 
 					list.add(nounsynsetArr);
 				}
@@ -85,10 +85,10 @@ public class ViewSynsetController {
 					Synset s = (Synset) target;
 					NounSynset tempNoun = new NounSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					NounSynset castSynset1 = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
-					//NounSynset castSynset1 = new NounSynset();
+					NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
+					//NounSynset castSynset = new NounSynset();
 					nounsynsetArr[0] = tempNoun;
-					nounsynsetArr[1] = castSynset1;
+					nounsynsetArr[1] = castSynset;
 
 					parents.add(nounsynsetArr);
 				}

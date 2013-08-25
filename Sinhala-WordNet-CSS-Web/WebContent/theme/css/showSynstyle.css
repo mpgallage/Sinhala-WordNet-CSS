@@ -213,3 +213,13 @@ ul,li {
 	border-style:ridge;
 	text-align:center;
 }
+.button {
+    background-color: #51545B;
+    border: medium ridge;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.2);
+    color: #E9EAEA;
+    font-weight: bold;
+    height: 35px;
+    margin-top: 1%;
+}
