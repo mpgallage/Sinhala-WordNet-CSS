@@ -78,7 +78,7 @@ public class SinhalaWordNetSynset {
 			//synset = dict.getSynsetAt(arg0, arg1)
 			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
 		} catch (NumberFormatException e) {
-			System.out.println("tadadddddddddddddddddddddddddddd"+e);
+			
 			// TODO Auto-generated catch block
 			//e.printStackTrace();
 		} catch (JWNLException e) {
@@ -112,7 +112,7 @@ public class SinhalaWordNetSynset {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println("word lema ff - "+lemma+"-word-"+this.toString());
+		
 		if(value != null){
 		this.definition = value;
 		}
@@ -133,7 +133,7 @@ public class SinhalaWordNetSynset {
 		else{
 		Dictionary dict = WordNetDictionary.getInstance();
 		Synset synset = null;
-		//String off = (String)this.getOffset();
+		
 		try {
 			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
 		} catch (NumberFormatException e) {
@@ -160,17 +160,17 @@ public class SinhalaWordNetSynset {
 		byte ptext[] =null;
 		//byte ptext1[] =null;
 		String value=null;
-		//lemma.getBytes()
+		
 		try {
-			//ptext = lemma.getBytes();
+			
 			ptext = example.getBytes("ISO8859_1");
 			value = new String(ptext, Charset.forName("UTF-8"));
-			//value = new String(ptext, "UTF-8");
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		//System.out.println("word lema ff - "+lemma+"-word-"+this.toString());
+		
 		if(value != null){
 		this.example = value;
 		}
@@ -189,12 +189,12 @@ public class SinhalaWordNetSynset {
 	}
 
 	public List<SinhalaWordNetWord> getWords() {
-		//System.out.println("calling this");
+		
 		return words;
 	}
 
 	public void setWords(List<SinhalaWordNetWord> words) {
-		//System.out.println("wordsqqqq-"+words.size());
+		
 		this.words = words;
 	}
 	

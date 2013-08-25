@@ -52,27 +52,11 @@ public class EditSynsetsController {
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset);
 
-			// System.out.println("hyperrrrrrrrrrrrrrrrr"+castSynset.getTest());
-			// System.out.println("castSynset object1"+castSynset.getWords().get(0));
-
-			/*
-			 * String wordLemma1 = words.get(i).getLemma(); byte[] ptext1=null;
-			 * try { ptext = wordLemma1.getBytes("UTF-8"); String value1 = new
-			 * String(ptext1, "UTF-8"); System.out.println("converted"+value1);
-			 * } catch (UnsupportedEncodingException e) { // TODO Auto-generated
-			 * catch block e.printStackTrace(); }
-			 */
-			// words.get(i).getSynsetOffset();
-			// System.out.println(i+"-wordLemma"+wordLemma+"synset offset"+words.get(i).toString());
-
-			// System.out.println("castSynset object2"+castSynset.getWordsAsString());
-			// NounSynset castSynset1 = new NounSynset();
-			// override cast synset with database values here
+			
 
 			MeaningRequestHandler meaningRequestHandler = new MeaningRequestHandler();
 			List<String> wordList = castSynset.getWordArrayList();
 			List<String> mongoWordList = mongoCastSynset.getWordArrayList();
-			System.out.println("22222222220" + wordList);
 
 			List<List<String>> meaningsList = meaningRequestHandler.getMeaningLists(wordList);
 			List<String> intersection = meaningRequestHandler.getIntersection(meaningsList);
@@ -97,21 +81,12 @@ public class EditSynsetsController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String editSynset(@ModelAttribute NounSynset synset, ModelMap model) {
 
-		System.out.println("test" + synset.getOffset());
-		System.out.println("gloss" + synset.getDefinition());
+		
 
 		SinhalaWordNetSynset CommSynset = synset;
-		// System.out.println("off set - "+synset.getOffset());
-		// System.out.println("example - "+synset.getExample());
-		// synset.setExample("ffffffffffffffffffffffffffffff");
-		// System.out.println("exampleff - "+synset.getExample());
-		// System.out.println("words string - "+synset.getWordsAsString());
-		// List<SinhalaWordNetWord> words = synset.getWords();
+		
 		List<SinhalaWordNetWord> words = synset.getWords();
-		// List<SinhalaWordNetWord> words1 = synset.getMyWords();
-		// System.out.println("wordsize"+words.size());
-		// byte ptext[] = myString.getBytes("ISO-8859-1");
-		// String value = new String(ptext, "UTF-8");
+		
 
 		for (int i = 0; i < words.size(); i++) {
 			if (words.get(i).isLemmaNull()) {
@@ -119,39 +94,9 @@ public class EditSynsetsController {
 			}
 		}
 
-		for (int i = 0; i < words.size(); i++) {
-			String wordLemma = words.get(i).getLemma();
-			String anto = words.get(i).getAntonym().getLemma();
-			String origine = words.get(i).getOrigin().getLemma();
-			String root = words.get(i).getRoot().getLemma();
+		
+		
 
-			System.out.println(wordLemma + "Lemmaorigin" + anto);
-			System.out.println(root + "root orgine" + origine);
-
-			// System.out.println(words.get(0).getMyAnto().getLemma()+"antonymy ");
-			/*
-			 * byte[] ptext=null; try { ptext = wordLemma.getBytes("ISO8859_1");
-			 * String value = new String(ptext, Charset.forName("UTF-8"));
-			 * System.out.println("converted"+value); } catch
-			 * (UnsupportedEncodingException e) { // TODO Auto-generated catch
-			 * block e.printStackTrace(); }
-			 */
-
-			// words.get(i).getSynsetOffset();
-			// System.out.println(i+"-wordLemma"+wordLemma+"synset offset"+words.get(i).toString());
-		}
-		// String testlemm = synset.getWords().get(1).getLemma();
-		// System.out.println("synset"+synset.toString());
-		// System.out.println("lemma"+testlemm);
-		// NounSynset nsynset = synset;
-		// System.out.println(synset.getOffset());
-		// NounSynset mytkt = new NounSynset(synset);
-		// BeanUtilsBean.getInstance().getConvertUtils().register(SinhalaWordNetSynset.class,NounSynset.class);
-		// //register(false,true,-1);
-
-		// BeanUtils.copyProperties(mytkt, synset);
-
-		// System.out.println("fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff  යුනිකෝඩ්");
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		synsetdb.addNounSynset(synset);
 		// App app = new App();
