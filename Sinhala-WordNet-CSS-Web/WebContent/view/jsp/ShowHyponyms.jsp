@@ -24,6 +24,30 @@
           </c:choose>
        </c:forEach>
     </ul>
+        <div id="summary">
+            <h1>සාරාංශය</h1>
+            <div>
+                <div class="word_set">
+                    <div class="whitebox">
+                        <h3>${enSynset.getWordsAsString()}</h3>
+                    </div>
+                    <div class="whitebox">
+                        <table>
+                            <tr>
+                                <td valign="top">අර්ථය:</td>
+                                <td valign="top">${enSynset.getDefinition()}</td>
+                            </tr>
+                            <tr>
+                                <td valign="top">උදාහරණ:</td>
+                                <td valign="top">${enSynset.getExample()}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+        <div id="gap"></div>
 		<div id="menu">
 			<table>
 				<col>
@@ -84,30 +108,7 @@
 				</c:choose>
 			</table>
 		</div>
-		<div id="gap"></div>
-		<div id="summary">
-			<h1>සාරාංශය</h1>
-			<div>
-                <div class="word_set">
-                    <div class="whitebox">
-                        <h3>${enSynset.getWordsAsString()}</h3>
-                    </div>
-                    <div class="whitebox">
-                        <table>
-                            <tr>
-                                <td valign="top">අර්ථය:</td>
-                                <td valign="top">${enSynset.getDefinition()}</td>
-                            </tr>
-                            <tr>
-                                <td valign="top">උදාහරණ:</td>
-                                <td valign="top">${enSynset.getExample()}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            
-		</div>
+		
 		<div class="footer">
 			<div class="links">
 				<p class="lintitle1">
