@@ -226,5 +226,18 @@ public class SinhalaWordNetWord {
 		this.synsetOffset = synsetOffset;
 	}
 	
+public boolean isLemmaNull() {
+		
+		try {
+			if(this.lemma != null){
+				return false;
+			}
+			else{
+				return true;
+			}
+		} catch (NullPointerException e) {
+			return true;
+		}
+	}
 
 }

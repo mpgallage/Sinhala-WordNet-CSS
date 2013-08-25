@@ -114,7 +114,7 @@ public class EditSynsetsController {
 		// String value = new String(ptext, "UTF-8");
 
 		for (int i = 0; i < words.size(); i++) {
-			if ("".equals(words.get(i).getLemma()) || words.get(i).getLemma() == null) {
+			if (words.get(i).isLemmaNull()) {
 				words.remove(i);
 			}
 		}
