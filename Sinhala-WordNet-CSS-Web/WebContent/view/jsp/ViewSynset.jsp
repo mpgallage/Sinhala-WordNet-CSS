@@ -18,6 +18,21 @@ function doubleClicked(item){
 </script>
 </head>
 <body>
+    <div class="top_div">
+        <table>
+            <tr>
+                <td>
+                    <h3>Sinhala WordNet CrowdSourcing System</h3>
+                </td>
+                <sec:authorize access="isAuthenticated()">
+                    <td>You are logged in as <b><sec:authentication
+                            property="principal.username" /></b>
+                </sec:authorize>
+                <td><a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
+                </td>
+            </tr>
+        </table>
+    </div>
 	<div id="warp">
 	<ul id="breadcrumbs">
        <c:forEach var="bcObject" items="${breadCrumb.breadCrumbList}" varStatus="loop">

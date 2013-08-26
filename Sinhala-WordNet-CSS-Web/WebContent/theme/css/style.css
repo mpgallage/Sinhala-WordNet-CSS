@@ -166,3 +166,19 @@ ul, li {
     float: right;
     margin-right: 5px;
 }
+
+.top_div{
+    background-color: #8892B2;
+    border: 1px solid #FFFFFF;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.45);
+    height: 50px;
+}
+
+.top_div table{
+    width: 100%;
+}
+
+.top_div table h3{
+    margin-left: 30%;
+}
