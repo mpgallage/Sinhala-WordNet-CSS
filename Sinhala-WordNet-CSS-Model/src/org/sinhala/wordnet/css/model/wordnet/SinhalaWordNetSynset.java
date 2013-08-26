@@ -32,13 +32,14 @@ public class SinhalaWordNetSynset {
 	}
 	
 	public SinhalaWordNetSynset(String id, long offset, String definition,
-			String example, List<SinhalaWordNetWord> words){
+			String example, List<SinhalaWordNetWord> words,SinhalaWordNetWord gender){
 		super();
 		this.id = id;
 		this.offset = offset;
 		this.definition = definition;
 		this.example = example;
 		this.words = words;
+		this.gender = gender;
 	}
 	
 	public SinhalaWordNetSynset(Synset synset){

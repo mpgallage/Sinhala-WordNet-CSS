@@ -151,9 +151,9 @@
 								</tr>
 								<tr>
 									<td><label>ලිංග භේදය</label></td>
-									<td><form:radiobutton path="gender" value="පුරුෂ" />පුරුෂ<br>
-										<form:radiobutton path="gender" value="ස්ත්‍රී" />ස්ත්‍රී<br>
-										<form:radiobutton path="gender" value="නොසලකා හරින්න" />නොසලකා
+									<td><form:radiobutton path="gender.lemma" value="පුරුෂ" />පුරුෂ<br>
+										<form:radiobutton path="gender.lemma" value="ස්ත්‍රී" />ස්ත්‍රී<br>
+										<form:radiobutton path="gender.lemma" value="නොසලකා හරින්න" />නොසලකා
 										හරින්න</td>
 								</tr>
 							</tbody>

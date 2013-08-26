@@ -6,13 +6,13 @@ public class MongoSinhalaWordPointer {
 	Long synsetId;
 	String wordId;
 	
-	public Long SynsetId() {
+	public Long getSynsetId() {
 		return synsetId;
 	}
-	public String WordId() {
+	public String getWordId() {
 		return wordId;
 	}
-	public MongoSinhalaPointerTyps PointerType() {
+	public MongoSinhalaPointerTyps getPointerType() {
 		return pointerType;
 	}
 	

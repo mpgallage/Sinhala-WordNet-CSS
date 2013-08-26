@@ -34,7 +34,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			//try{
 			sinhalaWordNetword = words.get(i).getAntonym();
 			
-			if(sinhalaWordNetword.getLemma()!=""){
+			if(sinhalaWordNetword != null){
 				
 				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer(con,sinhalaWordNetword.getLemma(), MongoSinhalaPointerTyps.ANTONYM);
 				wordPointerList.add(wordPointer1);
@@ -45,11 +45,20 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			//	System.out.println(e );
 			//}
 			sinhalaWordNetword=null;
+			long tempSynId = 0;
 			try{
 			 sinhalaWordNetword = words.get(i).getDerivationType();//words.get(i).getDerivationType();
 			 //System.out.println(sinhalaWordNetword+"devi");
 			if(sinhalaWordNetword!=null){
-				MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer(con, sinhalaWordNetword.getId(), MongoSinhalaPointerTyps.DERIVATION_TYPE);
+				String derivationType = sinhalaWordNetword.getLemma();
+				if(derivationType.equalsIgnoreCase("තත්සම")){
+					tempSynId = 1;
+				}
+				else if(derivationType.equalsIgnoreCase("තත්භව")){
+					tempSynId = 2;
+				}
+				
+				MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer(tempSynId, "0", MongoSinhalaPointerTyps.DERIVATION_TYPE);
 				wordPointerList.add(wordPointer2);
 				//System.out.println("devi"+wordPointer2);
 			}
@@ -58,10 +67,33 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				System.out.println(e);
 			}
 			sinhalaWordNetword=null;
+			tempSynId = 0;
 			try{
 			 sinhalaWordNetword = words.get(i).getOrigin();
 			if(sinhalaWordNetword.getId()!=null){
-				MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer(con, sinhalaWordNetword.getId(), MongoSinhalaPointerTyps.ORIGIN);
+				
+				String origin = sinhalaWordNetword.getLemma();
+				//System.out.println("හින්දි"+origin);
+				if(origin.equalsIgnoreCase("නොදනී")){
+					tempSynId = 1;
+				}
+				else if(origin.equalsIgnoreCase("හින්දි")){
+					//System.out.println("got to hindi");
+					tempSynId = 2;
+				}
+				else if(origin.equalsIgnoreCase("දෙමළ")){
+					tempSynId = 3;
+				}
+				else if(origin.equalsIgnoreCase("ඉංග්‍රීසි")){
+					tempSynId = 4;
+				}
+				else if(origin.equalsIgnoreCase("පෘතුග්‍රීසි")){
+					tempSynId = 5;
+				}
+				else if(origin.equalsIgnoreCase("ලංදේසි")){
+					tempSynId = 6;
+				}
+				MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer(tempSynId, "0", MongoSinhalaPointerTyps.ORIGIN);
 				wordPointerList.add(wordPointer3);
 			}
 			}
@@ -72,6 +104,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			try{
 			 sinhalaWordNetword = words.get(i).getRoot();
 			if(sinhalaWordNetword.getId()!=null){
+				
 				MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(con, sinhalaWordNetword.getId(), MongoSinhalaPointerTyps.ROOT);
 				wordPointerList.add(wordPointer4);
 			}
@@ -80,10 +113,18 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				System.out.println(e);
 			}
 			sinhalaWordNetword=null;
+			tempSynId = 0;
 			try{
 			 sinhalaWordNetword = words.get(i).getUsage();
 			if(sinhalaWordNetword.getId()!=null){
-				MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer(con, sinhalaWordNetword.getId(), MongoSinhalaPointerTyps.USAGE);
+				String usage = sinhalaWordNetword.getLemma();
+				if(usage.equalsIgnoreCase("ලිඛිත")){
+					tempSynId = 1;
+				}
+				else if(usage.equalsIgnoreCase("වාචික")){
+					tempSynId = 2;
+				}
+				MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer(tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
 				wordPointerList.add(wordPointer5);
 			}
 			}
@@ -171,6 +212,30 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			System.out.println("ee"+e);
 			
 		}
+		try{
+			SinhalaWordNetWord gender = nounSynset.getGender();
+			long tempSynId = 0;
+			//System.out.println("mero"+meronymSynsets);
+			if(gender != null){
+				String genderLemm = gender.getLemma();
+				if(genderLemm.equalsIgnoreCase("පුරුෂ")){
+					tempSynId = 1;
+				}
+				else if(genderLemm.equalsIgnoreCase("ස්ත්‍රී")){
+					tempSynId = 2;
+				}
+				else if(genderLemm.equalsIgnoreCase("නොසලකා හරින්න")){
+					tempSynId = 3;
+				}
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(tempSynId, MongoSinhalaPointerTyps.GENDER);
+				sencePointerList.add(sencePointer);
+			}
+			
+			}
+			catch(Exception e){
+				System.out.println("ee"+e);
+				
+			}
 		MongoSinhalaNoun mongoNounsynset = new MongoSinhalaNoun(ewnid,wordList,sencePointerList,nounSynset.getDefinition()+"|"+nounSynset.getExample());
 		//System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoNounsynset;
@@ -187,12 +252,105 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		//List<SinhalaWordNetWord> uiWords = nounSynset.getWords();
 		//uiWords.clear();
 		List<SinhalaWordNetWord> updatedUiWords = new ArrayList<SinhalaWordNetWord>();
+		
 		for(int i=0;i<mongoWords.size();i++){
 			SinhalaWordNetWord tempWord = new SinhalaWordNetWord();
 			//mongoWords.get(i).getLemma()
 			tempWord.setLemmaFromMongo(mongoWords.get(i).getLemma());
+			List<MongoSinhalaWordPointer> wordPointers = mongoWords.get(i).getWordPointerList();
+			for(int j = 0;j<wordPointers.size();j++){
+				//pointerWord= null;
+				
+				if(wordPointers.get(j).getPointerType().equals(MongoSinhalaPointerTyps.ORIGIN)){
+					SinhalaWordNetWord pointerWordOri = new SinhalaWordNetWord();
+					if(wordPointers.get(j).getSynsetId()== 1){
+						pointerWordOri.setLemmaFromMongo("නොදනී");
+					//tempWord.getOrigin().setLemmaFromMongo("නොදනී");
+							}
+					else if(wordPointers.get(j).getSynsetId()== 2){
+						//System.out.println("in side if");
+						pointerWordOri.setLemmaFromMongo("හින්දි");
+						//tempWord.getOrigin().setLemmaFromMongo("හින්දි");
+								}
+					else if(wordPointers.get(j).getSynsetId()== 3){
+						pointerWordOri.setLemmaFromMongo("දෙමළ");
+						//tempWord.getOrigin().setLemmaFromMongo("දෙමළ");
+								}
+					else if(wordPointers.get(j).getSynsetId()== 4){
+						pointerWordOri.setLemmaFromMongo("ඉංග්‍රීසි");
+						//tempWord.getOrigin().setLemmaFromMongo("ඉංග්‍රීසි");
+								}
+					else if(wordPointers.get(j).getSynsetId()== 5){
+						pointerWordOri.setLemmaFromMongo("පෘතුග්‍රීසි");
+						//tempWord.getOrigin().setLemmaFromMongo("පෘතුග්‍රීසි");
+								}
+					else if(wordPointers.get(j).getSynsetId()== 6){
+						pointerWordOri.setLemmaFromMongo("ලංදේසි");
+						//tempWord.getOrigin().setLemmaFromMongo("ලංදේසි");
+								}
+					tempWord.setOrigin(pointerWordOri);
+				}
+				else if(wordPointers.get(j).getPointerType().equals(MongoSinhalaPointerTyps.USAGE)){
+					SinhalaWordNetWord pointerWordUse = new SinhalaWordNetWord();
+					
+					if(wordPointers.get(j).getSynsetId()== 1){
+						pointerWordUse.setLemmaFromMongo("ලිඛිත");
+					//tempWord.getUsage().setLemmaFromMongo("ලිඛිත");
+							}
+					else if(wordPointers.get(j).getSynsetId()== 2){
+						//System.out.println("in side if");
+						pointerWordUse.setLemmaFromMongo("වාචික");
+						//tempWord.getUsage().setLemmaFromMongo("වාචික");
+								}
+					tempWord.setUsage(pointerWordUse);
+				}
+				else if(wordPointers.get(j).getPointerType().equals(MongoSinhalaPointerTyps.DERIVATION_TYPE)){
+					SinhalaWordNetWord pointerWordDeri = new SinhalaWordNetWord();
+					
+					if(wordPointers.get(j).getSynsetId()== 1){
+						pointerWordDeri.setLemmaFromMongo("තත්සම");
+					//tempWord.getOrigin().setLemmaFromMongo("තත්සම");
+							}
+					else if(wordPointers.get(j).getSynsetId()== 2){
+						//System.out.println("in side if");
+						pointerWordDeri.setLemmaFromMongo("තත්භව");
+						//tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+								}
+					tempWord.setDerivationType(pointerWordDeri);
+				}
+			}
 			//System.out.println(tempWord.getLemma()+"in mongo convertor"+mongoWords.get(i).getLemma());
 			updatedUiWords.add(tempWord);
+		}
+		List<MongoSinhalaSencePointer> sencePointerList = new ArrayList<MongoSinhalaSencePointer>();
+		MongoSinhalaSencePointer genderPointer = new MongoSinhalaSencePointer();
+		SinhalaWordNetWord genderWord = new SinhalaWordNetWord();
+		try{
+			sencePointerList = mongoNoun.getSencePointers();
+			for(int k=0 ; k<sencePointerList.size();k++){
+				if(sencePointerList.get(k).getPointerType().equals(MongoSinhalaPointerTyps.GENDER)){
+				
+					if(sencePointerList.get(k).getSynsetId()== 1){
+					genderWord.setLemmaFromMongo("පුරුෂ");
+				//tempWord.getOrigin().setLemmaFromMongo("තත්සම");
+						}
+					else if(sencePointerList.get(k).getSynsetId()== 2){
+					//System.out.println("in side if");
+					genderWord.setLemmaFromMongo("ස්ත්‍රී");
+					//tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+							}
+					else if(sencePointerList.get(k).getSynsetId()== 3){
+					//System.out.println("in side if");
+					genderWord.setLemmaFromMongo("නොසලකා හරින්න");
+					//tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+							}
+					
+				}
+			}
+			
+		}
+		catch(Exception e){
+			System.out.println("exeption in gender pointer convetor");
 		}
 		//uiWords = updatedUiWords;
 		
@@ -205,13 +363,13 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		NounSynset tempNoun;
 		if(parts.length > 1){
 		
-		tempNoun = new NounSynset(mongoNoun.getId(),nounSynset.getOffset(),parts[0],parts[1],updatedUiWords);
+		tempNoun = new NounSynset(mongoNoun.getId(),nounSynset.getOffset(),parts[0],parts[1],updatedUiWords,genderWord);
 		}
 		else if(parts.length > 0){
-			tempNoun = new NounSynset(mongoNoun.getId(),nounSynset.getOffset(),parts[0],"",updatedUiWords);
+			tempNoun = new NounSynset(mongoNoun.getId(),nounSynset.getOffset(),parts[0],"",updatedUiWords,genderWord);
 		}
 		else{
-			tempNoun = new NounSynset(mongoNoun.getId(),nounSynset.getOffset(),"","",updatedUiWords);
+			tempNoun = new NounSynset(mongoNoun.getId(),nounSynset.getOffset(),"","",updatedUiWords,genderWord);
 		}
 		return tempNoun;
 			
