@@ -1,6 +1,7 @@
 package org.sinhala.wordnet.css.web.controller;
 
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
+import org.sinhala.wordnet.css.web.model.MailManager;
 import org.sinhala.wordnet.wordnetDB.core.CustomUserDetailsService;
 import org.sinhala.wordnet.wordnetDB.core.UserDBHandler;
 import org.sinhala.wordnet.wordnetDB.model.User;
@@ -21,7 +22,7 @@ public class UserController {
 		User user = new User();
 		model.addAttribute("user", user);
 		
-        return "auth/signup";
+        return "signup";
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
@@ -30,13 +31,18 @@ public class UserController {
 		
 		
 		
-		org.sinhala.wordnet.wordnetDB.model.User mongoUser = new org.sinhala.wordnet.wordnetDB.model.User(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName());
+		//org.sinhala.wordnet.wordnetDB.model.User mongoUser = new org.sinhala.wordnet.wordnetDB.model.User(user.getUsername(), user.getPassword(), user.getFirstName(), user.getLastName());
 		System.out.println("fname"+user.getFirstName()+"lname"+user.getLastName()+"uname"+user.getUsername()+"pass"+user.getPassword());
 		//UserDBHandler userHandler = new UserDBHandler();
 		//userHandler.addUser(mongoUser);
-		
+		//MailManager mailManager = new MailManager();
+		//System.out.println(user.getEmail());
+		//mailManager.placeOrder(user);
+		user.setRole(3);
 		CustomUserDetailsService cuds = new CustomUserDetailsService();
 		cuds.addUserDetail(user);
+		
+		
 		
         return "home";
     }

@@ -41,9 +41,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 		List<GrantedAuthority> authList = new ArrayList<GrantedAuthority>();
 		if (role.intValue() == 1) {
 			authList.add(new SimpleGrantedAuthority("ROLE_USER"));
+			authList.add(new SimpleGrantedAuthority("ROLE_EVALUATOR"));
 			authList.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
 		} else if (role.intValue() == 2) {
 			authList.add(new SimpleGrantedAuthority("ROLE_USER"));
+			authList.add(new SimpleGrantedAuthority("ROLE_EVALUATOR"));
+		}
+		else if (role.intValue() == 3) {
+		authList.add(new SimpleGrantedAuthority("ROLE_USER"));
 		}
 		return authList;
 	}
