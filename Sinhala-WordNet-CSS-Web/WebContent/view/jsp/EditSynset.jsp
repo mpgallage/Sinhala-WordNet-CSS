@@ -49,7 +49,7 @@
 				action="EditSynsets">
 				<div id="add_words" class="add_new">
 					<div class="section_header">
-						<h2>පද සම්බන්ධතා</h2>
+						<h2>පද</h2>
 					</div>
 					<div id="words_div">
 						<c:forEach items="${synset.words}" varStatus="loop">

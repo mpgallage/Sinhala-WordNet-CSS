@@ -1,11 +1,9 @@
 package org.sinhala.wordnet.css.web.controller;
 
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
-import org.sinhala.wordnet.css.web.model.CustomUserDetailsService;
-import org.sinhala.wordnet.css.web.model.User;
+import org.sinhala.wordnet.wordnetDB.core.CustomUserDetailsService;
 import org.sinhala.wordnet.wordnetDB.core.UserDBHandler;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
+import org.sinhala.wordnet.wordnetDB.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;

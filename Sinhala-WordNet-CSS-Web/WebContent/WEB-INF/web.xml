@@ -14,7 +14,6 @@
  <param-name>contextConfigLocation</param-name>
  <param-value>/WEB-INF/spring/root-context.xml
  /WEB-INF/spring/security-app-context.xml
- /WEB-INF/mongo/mongo-config.xml
  </param-value>
  </context-param>
 	

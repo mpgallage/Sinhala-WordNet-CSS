@@ -26,5 +26,12 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-JWNL"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="libs/jwnl.jar"/>
+	<classpathentry kind="lib" path="libs/spring-security-config-3.2.0.M1-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/spring-security-config-3.2.0.M1.jar"/>
+	<classpathentry kind="lib" path="libs/spring-security-core-3.2.0.M1-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/spring-security-core-3.2.0.M1.jar"/>
+	<classpathentry kind="lib" path="libs/spring-security-taglibs-3.1.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="libs/spring-security-web-3.2.0.M1-javadoc.jar"/>
+	<classpathentry kind="lib" path="libs/spring-security-web-3.2.0.M1.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
