@@ -59,5 +59,7 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-DAL"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-security-taglibs-3.1.4.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-core-asl-1.7.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-mapper-asl-1.7.4.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

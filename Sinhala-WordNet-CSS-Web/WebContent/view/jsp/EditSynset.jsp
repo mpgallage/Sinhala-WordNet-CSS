@@ -9,11 +9,27 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit Synset</title>
 <link rel="stylesheet" type="text/css" href="theme/css/style.css">
+<link rel="stylesheet" type="text/css" href="theme/css/jquery-ui.css">
 <link rel="shortcut icon" href="theme/images/wordnet1.jpg" />
 <script type="text/javascript" src="theme/js/add_new_div.js"></script>
 <script type="text/javascript" src="theme/js/expand_collapse.js"></script>
+<script type="text/javascript" src="theme/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="theme/js/jquery-ui.js"></script>
 <script type="text/javascript">
 	var counter = ${synset.getWords().size()};
+</script>
+ <script type="text/javascript">
+$(function() {
+    $( ".root" ).autocomplete({
+		 source: "Ajax?action=getRoots",
+		 select: function( event, ui ) {
+			 alert(ui.item.lemma);
+			 return false;
+		 }
+	})data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" ).append( "<a>" + item.lemma + "</a>" ).appendTo( ul );
+	};
+});
 </script>
 </head>
 <body>
@@ -86,7 +102,7 @@
 											<tr>
 												<td><label>ප්‍රකෘතිය</label></td>
 												<td><form:input path="words[${loop.index}].root.lemma"
-														type="text" maxlength="255" size="22" /></td>
+														type="text" maxlength="255" size="22" class="root" /></td>
 											</tr>
 											<tr>
 												<td><label>මූල භාෂාව</label></td>
@@ -97,7 +113,9 @@
 														<form:option value="දෙමළ">දෙමළ</form:option>
 														<form:option value="ඉංග්‍රීසි">ඉංග්‍රීසි</form:option>
 														<form:option value="පෘතුග්‍රීසි">පෘතුග්‍රීසි</form:option>
-														<form:option value="ලංදේසි">ලංදේසි</form:option>
+														<form:option value="ලංදේසි">ලංදේසි</form:option>සංස්කෘත
+														<form:option value="පාලි">පාලි</form:option>
+														<form:option value="සංස්කෘත">සංස්කෘත</form:option>
 													</form:select></td>
 											</tr>
 											<tr>

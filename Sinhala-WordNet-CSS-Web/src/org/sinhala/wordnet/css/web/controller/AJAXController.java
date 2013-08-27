@@ -6,6 +6,7 @@ import java.util.List;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounWord;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWord;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,21 +15,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-@RequestMapping("/ajax")
+@RequestMapping("/Ajax")
 public class AJAXController {
 
-	@RequestMapping(method = RequestMethod.GET, headers = "Accept = application/json", params = {
+	@RequestMapping(method = RequestMethod.GET, params = {
 			"action=getRoots"})
-	public @ResponseBody List<SinhalaWordNetWord> returnNounRoot(){
+	public @ResponseBody List<MongoSinhalaWord> returnNounRoot(){
 		
 		// load from mongo DB
-		List<SinhalaWordNetWord> list = new ArrayList<SinhalaWordNetWord>();
+		List<MongoSinhalaWord> list = new ArrayList<MongoSinhalaWord>();
 		
-		list.add(new SinhalaWordNetWord("1", "abcd", null, null, null, null, null));
-		list.add(new SinhalaWordNetWord("2", "abcdsf", null, null, null, null, null));
-		list.add(new SinhalaWordNetWord("2", "absfg", null, null, null, null, null));
-		list.add(new SinhalaWordNetWord("1", "gdgcd", null, null, null, null, null));
-		list.add(new SinhalaWordNetWord("3", "bcdjjtr", null, null, null, null, null));
+		list.add(new MongoSinhalaWord("aaaa", "1", null));
+		list.add(new MongoSinhalaWord("abdfg", "1", null));
+		list.add(new MongoSinhalaWord("abfdg", "1", null));
+		list.add(new MongoSinhalaWord("acrfs", "1", null));
+		list.add(new MongoSinhalaWord("bsfgd", "1", null));
 		
 		return list;
 		

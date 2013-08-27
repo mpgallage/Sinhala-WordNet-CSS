@@ -21,7 +21,7 @@ public class UserController {
 		User user = new User();
 		model.addAttribute("user", user);
 		
-        return "auth/signup";
+        return "signup";
     }
 	
 	@RequestMapping(method = RequestMethod.POST)
