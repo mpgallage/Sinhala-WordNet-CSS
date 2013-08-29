@@ -106,8 +106,6 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			try {
 				sinhalaWordNetword = words.get(i).getRoot();
 				if (sinhalaWordNetword.getId() != null) {
-
-					if (sinhalaWordNetword.getId().equals("0")) {
 						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 						dbHandler.addRoot(sinhalaWordNetword.getLemma());
 						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
@@ -115,14 +113,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 										sinhalaWordNetword.getLemma()).getId(),
 								"0", MongoSinhalaPointerTyps.ROOT);
 						wordPointerList.add(wordPointer4);
-					}
-
-					else {
-						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(sinhalaWordNetword.getId(),
-								"0", MongoSinhalaPointerTyps.ROOT);
-						wordPointerList.add(wordPointer4);
-					}
-
+					
 				}
 			} catch (Exception e) {
 				System.out.println(e);

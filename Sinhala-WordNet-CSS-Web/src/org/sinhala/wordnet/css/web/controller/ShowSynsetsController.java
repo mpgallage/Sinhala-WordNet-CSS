@@ -174,4 +174,14 @@ public class ShowSynsetsController {
 			return "ShowHyponyms";
 		}
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowHyponyms"})
+	public String showHyponyms(ModelMap model, @RequestParam(value = "type", required = false) String type){
+		if("verb".equals(type) || "adj".equals(type) || "adv".equals(type)){
+			return "underConstruction";
+		}
+		else{
+			return "error";
+		}
+	}
 }

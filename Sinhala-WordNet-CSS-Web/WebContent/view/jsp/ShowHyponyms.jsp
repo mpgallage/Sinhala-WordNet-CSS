@@ -123,8 +123,7 @@
 					</c:otherwise>
 				</c:choose>
 				<td><input type="button" class="button"
-						value="Insert New Synset"
-						onclick="window.location.href='InsetNewSynset?action=ShowInsertNewSynset&type=<c:out value="${type}"/>'" />
+						value="Insert New Synset" />
 					</td>
 			</table>
 		</div>
