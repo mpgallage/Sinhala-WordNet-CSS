@@ -40,7 +40,7 @@ public class SynsetMongoDbHandler {
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		MongoSinhalaNoun mongoNounsynset = ssmsc.converttoMongoNoun(nounSynset);
 
-		
+
 		mongoOperation.save(mongoNounsynset);
 
 		System.out.println("saved");

@@ -21,8 +21,7 @@
 				</td>
 				<sec:authorize access="isAuthenticated()">
 					<td>You are logged in as <b><sec:authentication
-							property="principal.username" /></b>
-							Role: <sec:authentication property="principal.authorities"/>
+							property="principal.username" /></b></td>
 				</sec:authorize>
 				<td><a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
 				</td>
