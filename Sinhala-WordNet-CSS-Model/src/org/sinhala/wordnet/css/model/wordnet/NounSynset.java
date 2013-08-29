@@ -175,4 +175,67 @@ public class NounSynset extends SinhalaWordNetSynset{
 		return super.getWords();
 	}
 
+	
+	public String getDefinition() {
+		if(this.definition != null){
+			return this.definition;
+		}
+		else{
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset = null;
+		try {
+			//synset = dict.getSynsetAt(arg0, arg1)
+			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
+		} catch (NumberFormatException e) {
+			
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		String out = "";
+		
+		try{
+			out = synset.getGloss().split(";")[0];
+		} catch(ArrayIndexOutOfBoundsException e){
+			//e.printStackTrace();
+		}
+		
+		return out;
+		}
+	}
+	
+	
+	public String getExample() {
+		if(this.example != null){
+			return this.example;
+		}
+		
+		else{
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset = null;
+		
+		try {
+			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		String out = "";
+		
+		try{
+			out = synset.getGloss().split(";")[1];
+		} catch(ArrayIndexOutOfBoundsException e){
+			//e.printStackTrace();
+		}
+		
+		return out;
+		}
+	}
 }

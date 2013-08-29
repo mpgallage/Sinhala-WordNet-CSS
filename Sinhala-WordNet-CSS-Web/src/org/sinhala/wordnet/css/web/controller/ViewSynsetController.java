@@ -14,6 +14,7 @@ import net.didion.jwnl.dictionary.Dictionary;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
+import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.springframework.stereotype.Controller;
@@ -54,7 +55,7 @@ public class ViewSynsetController {
 			List<NounSynset[]> list = new ArrayList<NounSynset[]>();
 			List<NounSynset[]> parents = new ArrayList<NounSynset[]>();
 
-			System.out.println("**********" + nodeList.size());
+			//System.out.println("**********" + nodeList.size());
 
 			if (nodeList.size() > 0) {
 
@@ -98,7 +99,7 @@ public class ViewSynsetController {
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 			NounSynset castMainSynset = mongoSynsetConvertor.OverWriteByMongo(nSynset);
 			
-			System.out.println("*******"+list.size());
+			//System.out.println("*******"+list.size());
 			model.addAttribute("hyponymsList", list);
 			model.addAttribute("parentsList", parents);
 			model.addAttribute("synset", castMainSynset);
@@ -111,4 +112,93 @@ public class ViewSynsetController {
 
 	}
 
+	
+	
+	@RequestMapping(method = RequestMethod.GET, params = { "action=ViewSynset", "type=verb" })
+	public String viewVerbSynset(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "type", required = false) String type, ModelMap model) {
+
+		if (id != null && !"".equals(id)) {
+			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.VERB);
+			Dictionary dict = WordNetDictionary.getInstance();
+			Synset synset = null;
+			try {
+				synset = dict.getSynsetAt(POS.VERB, Long.parseLong(id));
+			} catch (NumberFormatException | JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			PointerUtils pointerUtils = PointerUtils.getInstance();
+			PointerTargetNodeList nodeList = null;
+			PointerTargetNodeList parentsList = null;
+			try {
+				nodeList = pointerUtils.getDirectHyponyms(synset);
+				parentsList = pointerUtils.getDirectHypernyms(synset);
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			List<VerbSynset[]> list = new ArrayList<VerbSynset[]>();
+			List<VerbSynset[]> parents = new ArrayList<VerbSynset[]>();
+
+			//System.out.println("**********" + nodeList.size());
+
+			if (nodeList.size() > 0) {
+
+				for (int i = 0; i < nodeList.size(); i++) {
+					VerbSynset[] verbsynsetArr = new VerbSynset[2];
+					PointerTargetNode node = (PointerTargetNode) nodeList.get(i);
+					PointerTarget target = node.getPointerTarget();
+					Synset s = (Synset) target;
+					VerbSynset tempVerb = new VerbSynset(s);
+					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb);
+					//NounSynset castSynset = new NounSynset();
+					verbsynsetArr[0] = tempVerb;
+					verbsynsetArr[1] = castSynset;
+
+					list.add(verbsynsetArr);
+				}
+
+			}
+			
+			if (parentsList.size() > 0) {
+				
+				for (int i = 0; i < parentsList.size(); i++) {
+					
+					VerbSynset[] verbsynsetArr = new VerbSynset[2];
+					PointerTargetNode node = (PointerTargetNode) parentsList.get(i);
+					PointerTarget target = node.getPointerTarget();
+					Synset s = (Synset) target;
+					VerbSynset tempVerb = new VerbSynset(s);
+					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb);
+					//NounSynset castSynset = new NounSynset();
+					verbsynsetArr[0] = tempVerb;
+					verbsynsetArr[1] = castSynset;
+
+					parents.add(verbsynsetArr);
+				}
+			}
+
+			VerbSynset vSynset = new VerbSynset(synset);
+			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+			VerbSynset castMainSynset = mongoSynsetConvertor.OverWriteByMongo(vSynset);
+			
+			//System.out.println("*******"+list.size());
+			model.addAttribute("hyponymsList", list);
+			model.addAttribute("parentsList", parents);
+			model.addAttribute("synset", castMainSynset);
+			model.addAttribute("type", type);
+			model.addAttribute("breadCrumb", breadCrumb);
+			return "ViewSynset";
+		} else {
+			return "error";
+		}
+
+	}
+
+	
+	
 }

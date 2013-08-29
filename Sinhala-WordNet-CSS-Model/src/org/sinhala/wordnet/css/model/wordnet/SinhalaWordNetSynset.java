@@ -20,6 +20,7 @@ public class SinhalaWordNetSynset {
 	protected SinhalaWordNetWord gender;
 	protected List<SinhalaWordNetWord> words;
 	
+	
 	public SinhalaWordNetSynset(String id, long offset, String definition,
 			String example, SinhalaWordNetWord gender, List<SinhalaWordNetWord> words) {
 		super();

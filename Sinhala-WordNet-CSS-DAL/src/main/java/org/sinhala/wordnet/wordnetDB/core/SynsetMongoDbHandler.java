@@ -24,6 +24,7 @@ import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSencePointer;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSynset;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWord;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWordPointer;
 
@@ -39,42 +40,7 @@ public class SynsetMongoDbHandler {
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		MongoSinhalaNoun mongoNounsynset = ssmsc.converttoMongoNoun(nounSynset);
 
-		/*
-		 * MongoSinhalaWordPointer wordPointer1 = new
-		 * MongoSinhalaWordPointer("123", "456",
-		 * MongoSinhalaPointerTyps.MEMBER_HOLONYM); MongoSinhalaWordPointer
-		 * wordPointer2 = new MongoSinhalaWordPointer("789", "741",
-		 * MongoSinhalaPointerTyps.ANTONYM); List<MongoSinhalaWordPointer>
-		 * wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
-		 * wordPointerList.add(wordPointer1); wordPointerList.add(wordPointer2);
-		 * MongoSinhalaWord word1 = new MongoSinhalaWord("fother123456", "1",
-		 * wordPointerList); MongoSinhalaWordPointer wordPointer3 = new
-		 * MongoSinhalaWordPointer("abc", "def",
-		 * MongoSinhalaPointerTyps.DERIVATION); MongoSinhalaWordPointer
-		 * wordPointer4 = new MongoSinhalaWordPointer("asd", "hjk",
-		 * MongoSinhalaPointerTyps.CAUSE); List<MongoSinhalaWordPointer>
-		 * wordPointerList1 = new ArrayList<MongoSinhalaWordPointer>();
-		 * wordPointerList1.add(wordPointer3);
-		 * wordPointerList1.add(wordPointer4); MongoSinhalaWord word2 = new
-		 * MongoSinhalaWord("පිය�?123", "2", wordPointerList1);
-		 * List<MongoSinhalaWord> wordList = new ArrayList<MongoSinhalaWord>();
-		 * wordList.add(word1); wordList.add(word2);
-		 * List<MongoSinhalaSencePointer> sencePointerList = new
-		 * ArrayList<MongoSinhalaSencePointer>(); MongoSinhalaSencePointer
-		 * sencePointer1 = new
-		 * MongoSinhalaSencePointer("51c94199fd1d92fefeded261",
-		 * MongoSinhalaPointerTyps.HYPERNYM); MongoSinhalaSencePointer
-		 * sencePointer3 = new
-		 * MongoSinhalaSencePointer("51c941d7fd1d13899258fae2",
-		 * MongoSinhalaPointerTyps.HYPERNYM);
-		 * 
-		 * MongoSinhalaSencePointer sencePointer2 = new
-		 * MongoSinhalaSencePointer("789123",
-		 * MongoSinhalaPointerTyps.ATTRIBUTE);
-		 * sencePointerList.add(sencePointer1);
-		 * sencePointerList.add(sencePointer2);
-		 * sencePointerList.add(sencePointer3);
-		 */// save
+		
 		mongoOperation.save(mongoNounsynset);
 
 		System.out.println("saved");
@@ -92,7 +58,10 @@ public class SynsetMongoDbHandler {
 		List<MongoSinhalaWord> wordList = new ArrayList<MongoSinhalaWord>();
 		wordList.add(new MongoSinhalaWord(lemma, "0", null));
 		MongoSinhalaRoot root = new MongoSinhalaRoot(wordList, "");
+		MongoSinhalaRoot anyRoot = findRootByLemma(lemma);
+		if(anyRoot == null){
 		mongoOperation.save(root);
+		}
 	}
 
 	public void findAll() {
@@ -124,6 +93,23 @@ public class SynsetMongoDbHandler {
 		MongoSinhalaNoun foundSynset = null;
 		List<MongoSinhalaNoun> collection = mongoOperation.find(
 				searchSynsetQuery1, MongoSinhalaNoun.class);
+		if (collection.size() > 0) {
+			foundSynset = collection.get(collection.size() - 1);
+		}
+		return foundSynset;
+	}
+	public MongoSinhalaVerb findVerbBySynsetId(Long findId) {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		Query searchSynsetQuery1 = new Query(Criteria.where("eWNId").is(findId));
+		MongoSinhalaVerb foundSynset = null;
+		List<MongoSinhalaVerb> collection = mongoOperation.find(
+				searchSynsetQuery1, MongoSinhalaVerb.class);
 		if (collection.size() > 0) {
 			foundSynset = collection.get(collection.size() - 1);
 		}
@@ -249,7 +235,7 @@ public class SynsetMongoDbHandler {
 		}
 
 		if (returnList.size() > 0) {
-			foundSynset = collection.get(collection.size() - 1);
+			foundSynset = returnList.get(returnList.size() - 1);
 		}
 		return foundSynset;
 	}

@@ -32,6 +32,12 @@ public class VerbSynset extends SinhalaWordNetSynset {
 		this.cause = cause;
 	}
 	
+	
+	public VerbSynset(String id, long offset, String definition,
+			String example, List<SinhalaWordNetWord> words,SinhalaWordNetWord gender){
+		super(id, offset, definition, example, words, gender);
+	}
+	
 	public VerbSynset(Synset synset){
 		super(synset);
 	}
@@ -77,7 +83,7 @@ public class VerbSynset extends SinhalaWordNetSynset {
 		Dictionary dict = WordNetDictionary.getInstance();
 		Synset synset = null;
 		try {
-			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
+			synset = dict.getSynsetAt(POS.VERB, this.getOffset());
 		} catch (NumberFormatException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -91,5 +97,67 @@ public class VerbSynset extends SinhalaWordNetSynset {
 			words.add(new VerbWord(w));
 		}
 		return words;
+	}
+	
+	public String getDefinition() {
+		if(this.definition != null){
+			return this.definition;
+		}
+		else{
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset = null;
+		try {
+			//synset = dict.getSynsetAt(arg0, arg1)
+			synset = dict.getSynsetAt(POS.VERB, this.getOffset());
+		} catch (NumberFormatException e) {
+			
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		String out = "";
+		
+		try{
+			out = synset.getGloss().split(";")[0];
+		} catch(ArrayIndexOutOfBoundsException e){
+			//e.printStackTrace();
+		}
+		
+		return out;
+		}
+	}
+	
+	public String getExample() {
+		if(this.example != null){
+			return this.example;
+		}
+		
+		else{
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset = null;
+		
+		try {
+			synset = dict.getSynsetAt(POS.VERB, this.getOffset());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		String out = "";
+		
+		try{
+			out = synset.getGloss().split(";")[1];
+		} catch(ArrayIndexOutOfBoundsException e){
+			//e.printStackTrace();
+		}
+		
+		return out;
+		}
 	}
 }

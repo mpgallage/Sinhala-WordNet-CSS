@@ -5,7 +5,6 @@
 <title>Login</title>
 </head>
 <body>
-
  <c:if test="${not empty param.login_error}">
  <font color="#ff0000">
  Login unsuccessful.<br/>
