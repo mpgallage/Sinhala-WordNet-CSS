@@ -21,13 +21,20 @@
  <script type="text/javascript">
 $(function() {
     $( ".root" ).autocomplete({
+    	 minLength: 1,
 		 source: "Ajax?action=getRoots",
 		 select: function( event, ui ) {
-			 alert(ui.item.lemma);
-			 return false;
-		 }
-	})data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-		return $( "<li>" ).append( "<a>" + item.lemma + "</a>" ).appendTo( ul );
+			 event.preventDefault();
+			 $( this.id ).val( ui.item.words[0].lemma );
+			 var id = this.id.replace("lemma", "synsetOffset");
+			 $( id ).val( ui.item.id );
+		 },
+		 focus: function( event, ui ) {
+			 event.preventDefault();
+			 $( this.id ).val( ui.item.words[0].lemma );
+		}
+	}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
+		return $( "<li>" ).append( "<a>" + item.words[0].lemma + "</a>" ).appendTo( ul );
 	};
 });
 </script>
@@ -102,7 +109,9 @@ $(function() {
 											<tr>
 												<td><label>ප්‍රකෘතිය</label></td>
 												<td><form:input path="words[${loop.index}].root.lemma"
-														type="text" maxlength="255" size="22" class="root" /></td>
+														type="text" maxlength="255" size="22" class="root" />
+														<form:hidden path="words[${loop.index}].root.synsetOffset"/>
+                                                        </td>
 											</tr>
 											<tr>
 												<td><label>මූල භාෂාව</label></td>
@@ -169,9 +178,9 @@ $(function() {
 								</tr>
 								<tr>
 									<td><label>ලිංග භේදය</label></td>
-									<td><form:radiobutton path="gender" value="පුරුෂ" />පුරුෂ<br>
-										<form:radiobutton path="gender" value="ස්ත්‍රී" />ස්ත්‍රී<br>
-										<form:radiobutton path="gender" value="නොසලකා හරින්න" />නොසලකා
+									<td><form:radiobutton path="gender.lemma" value="පුරුෂ" />පුරුෂ<br>
+										<form:radiobutton path="gender.lemma" value="ස්ත්‍රී" />ස්ත්‍රී<br>
+										<form:radiobutton path="gender.lemma" value="නොසලකා හරින්න" />නොසලකා
 										හරින්න</td>
 								</tr>
 							</tbody>

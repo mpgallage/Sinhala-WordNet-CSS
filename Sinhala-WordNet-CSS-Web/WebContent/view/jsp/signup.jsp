@@ -34,7 +34,11 @@
 										
 										 <tr>
 											<td><label>Password</label></td>
-											<td><form:input path="password" type="text" maxlength="255" size="22"/></td>
+											<td><form:input path="password" type="password" maxlength="255" size="22"/></td>
+										</tr>
+										<tr>
+											<td><label>E-mail</label></td>
+											<td><form:input path="email" type="text" maxlength="255" size="22"/></td>
 										</tr>
 								</tbody>
 					</table>

@@ -215,7 +215,11 @@ public class SinhalaWordNetWord {
 
 	public Long getSynsetOffset() {
 		
-		return this.word.getSynset().getOffset();
+		try{
+			return this.word.getSynset().getOffset();
+		} catch(NullPointerException e ){
+			return 0l;
+		}
 	}
 
 	public void setSynsetOffset(long synsetOffset) {

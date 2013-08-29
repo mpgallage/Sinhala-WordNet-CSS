@@ -1,3 +1,4 @@
 eclipse.preferences.version=1
 encoding//src/main/java/org/sinhala/wordnet/wordnetDB/core/App.java=UTF-8
+encoding//src/main/java/org/sinhala/wordnet/wordnetDB/core/SinhalaSynsetMongoSynsetConvertor.java=UTF-8
 encoding//src/main/java/org/sinhala/wordnet/wordnetDB/core/SynsetMongoDbHandler.java=UTF-8

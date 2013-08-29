@@ -34,8 +34,8 @@ public class NounSynset extends SinhalaWordNetSynset{
 	}
 	
 	public NounSynset(String id, long offset, String definition,
-			String example, List<SinhalaWordNetWord> words){
-		super(id, offset, definition, example, words);
+			String example, List<SinhalaWordNetWord> words,SinhalaWordNetWord gender){
+		super(id, offset, definition, example, words, gender);
 	}
 	
 	public NounSynset(Synset synset){
