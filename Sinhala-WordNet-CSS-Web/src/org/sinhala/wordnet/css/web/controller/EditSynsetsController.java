@@ -133,9 +133,7 @@ public class EditSynsetsController {
 		if(synset instanceof NounSynset){
 			System.out.println("noun");
 		}
-		else if(synset instanceof VerbSynset){
-			System.out.println("verb");
-		}
+		
 
 		SinhalaWordNetSynset CommSynset = synset;
 		
@@ -150,9 +148,9 @@ public class EditSynsetsController {
 
 		
 		
-		NounSynset nSynset = (NounSynset)synset;
+		//NounSynset nSynset = (NounSynset)synset;
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		synsetdb.addNounSynset(nSynset);
+		//synsetdb.addNounSynset(nSynset);
 		// App app = new App();
 		// synsetdb.test();
 
@@ -160,4 +158,6 @@ public class EditSynsetsController {
 
 		return showEditSynset(String.valueOf(synset.getOffset()), model, "noun");
 	}
+
+	
 }

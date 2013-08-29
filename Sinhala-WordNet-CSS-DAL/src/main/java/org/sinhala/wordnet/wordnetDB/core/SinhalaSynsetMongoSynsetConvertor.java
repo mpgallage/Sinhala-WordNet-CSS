@@ -528,10 +528,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						} else if (wordPointers.get(j).getSynsetId() == 6) {
 							pointerWordOri.setLemmaFromMongo("ලංදේසි");
 							// tempWord.getOrigin().setLemmaFromMongo("ලංදේසි");
-						}else if (wordPointers.get(j).getSynsetId() == 5) {
+						}else if (wordPointers.get(j).getSynsetId() == 7) {
 						pointerWordOri.setLemmaFromMongo("පාලි");
 						// tempWord.getOrigin().setLemmaFromMongo("පෘතුග්‍රීසි");
-						 } else if (wordPointers.get(j).getSynsetId() == 6) {
+						 } else if (wordPointers.get(j).getSynsetId() == 8) {
 						pointerWordOri.setLemmaFromMongo("සංස්කෘත");
 						// tempWord.getOrigin().setLemmaFromMongo("ලංදේසි");
 						 }
