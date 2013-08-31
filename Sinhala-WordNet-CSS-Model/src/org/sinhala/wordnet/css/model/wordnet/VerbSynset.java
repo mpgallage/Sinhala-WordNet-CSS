@@ -77,26 +77,39 @@ public class VerbSynset extends SinhalaWordNetSynset {
 	public void setCause(List<SinhalaWordNetSynset> cause) {
 		this.cause = cause;
 	}
+	
+	public void setWords(List<SinhalaWordNetWord> words) {
+		
+		this.words= words;
+	}
 
 	public List<SinhalaWordNetWord> getWords() {
+		if(this.words!=null){
+			
+			return this.words;
 		
-		Dictionary dict = WordNetDictionary.getInstance();
-		Synset synset = null;
-		try {
-			synset = dict.getSynsetAt(POS.VERB, this.getOffset());
-		} catch (NumberFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (JWNLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
-		List<SinhalaWordNetWord> words = new ArrayList<SinhalaWordNetWord>();
-		Word[] originalWords = synset.getWords();
-		for(Word w : originalWords){
-			words.add(new VerbWord(w));
+		else{
+			Dictionary dict = WordNetDictionary.getInstance();
+			Synset synset = null;
+			try {
+				synset = dict.getSynsetAt(POS.VERB, this.getOffset());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			List<SinhalaWordNetWord> words = new ArrayList<SinhalaWordNetWord>();
+			Word[] originalWords = synset.getWords();
+			for(Word w : originalWords){
+				words.add(new NounWord(w));
+			}
+			
+			this.words = words;
+			return words;
 		}
-		return words;
 	}
 	
 	public String getDefinition() {

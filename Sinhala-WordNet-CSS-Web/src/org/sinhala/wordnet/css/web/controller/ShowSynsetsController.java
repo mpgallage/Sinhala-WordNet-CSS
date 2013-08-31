@@ -310,9 +310,9 @@ public class ShowSynsetsController {
 				if(nodeList.size()==0){
 					
 					verbSynsets.add(tempVerb);
-					//SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					//VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb);
-					VerbSynset castSynset = tempVerb;
+					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb);
+					//VerbSynset castSynset = tempVerb;
 					verbsynsetArr[0] = tempVerb;
 					verbsynsetArr[1] = castSynset;
 					list.add(verbsynsetArr);
@@ -334,7 +334,7 @@ public class ShowSynsetsController {
 					
 					
 				}
-				if(i == 50){
+				if(i == 1000){
 					break;
 				}
 				
@@ -344,7 +344,7 @@ public class ShowSynsetsController {
 
 			
 			
-			System.out.println("count"+i);
+			//System.out.println("count"+i);
 			
 			//VerbSynset[] verbsynsetArr = new VerbSynset[2];
 			

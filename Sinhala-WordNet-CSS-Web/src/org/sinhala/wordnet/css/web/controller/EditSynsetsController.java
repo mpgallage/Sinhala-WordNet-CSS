@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping("/EditSynsets")
+@RequestMapping("/EditSynsetsnoun")
 public class EditSynsetsController {
 
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEditSynset", "type=noun" })
@@ -127,12 +127,10 @@ public class EditSynsetsController {
 		}
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
-	public String editSynset(@ModelAttribute SinhalaWordNetSynset synset, ModelMap model) {
+	@RequestMapping(method = RequestMethod.POST )
+	public String editSynset(@ModelAttribute NounSynset synset, ModelMap model) {
 
-		if(synset instanceof NounSynset){
-			System.out.println("noun");
-		}
+		
 		
 
 		SinhalaWordNetSynset CommSynset = synset;
@@ -148,9 +146,9 @@ public class EditSynsetsController {
 
 		
 		
-		//NounSynset nSynset = (NounSynset)synset;
+		NounSynset nSynset = (NounSynset)synset;
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		//synsetdb.addNounSynset(nSynset);
+		synsetdb.addNounSynset(nSynset);
 		// App app = new App();
 		// synsetdb.test();
 
@@ -158,6 +156,7 @@ public class EditSynsetsController {
 
 		return showEditSynset(String.valueOf(synset.getOffset()), model, "noun");
 	}
+	
 
 	
 }

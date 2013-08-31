@@ -18,6 +18,7 @@ import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
+import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.wordnetDB.config.SpringMongoConfig;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
@@ -42,6 +43,23 @@ public class SynsetMongoDbHandler {
 
 
 		mongoOperation.save(mongoNounsynset);
+
+		System.out.println("saved");
+
+	}
+	
+	public void addVerbSynset(VerbSynset verbSynset) {
+
+		// @SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
+		MongoSinhalaVerb mongoVerbsynset = ssmsc.converttoMongoVerb(verbSynset);
+
+
+		mongoOperation.save(mongoVerbsynset);
 
 		System.out.println("saved");
 

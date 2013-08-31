@@ -69,8 +69,8 @@ $(function() {
        </c:forEach>
     </ul>
 		<div id="new_sysnset">
-			<form:form method="POST" modelAttribute="synset"
-				action="EditSynsets">
+		
+		<form:form method="POST" modelAttribute="synset" action="EditSynsets${type}">
 				<div id="add_words" class="add_new">
 					<div class="section_header">
 						<h2>පද</h2>
@@ -191,7 +191,9 @@ $(function() {
 							class="button" style="float: right" />
 					</div>
 				</div>
-			</form:form>
+				
+				
+		</form:form>	
 		</div>
 		<div id="synset_relation" class="add_new">
 			<div>

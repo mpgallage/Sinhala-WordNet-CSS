@@ -250,7 +250,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 	
 	
 	
-	public MongoSinhalaNoun converttoMongoVerb(VerbSynset verbSynset) {
+	public MongoSinhalaVerb converttoMongoVerb(VerbSynset verbSynset) {
 
 		SinhalaWordNetWord sinhalaWordNetword = null;
 		// List<MongoSinhalaWordPointer> wordPointerList = new
@@ -477,11 +477,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			System.out.println("ee" + e);
 
 		}
-		MongoSinhalaNoun mongoNounsynset = new MongoSinhalaNoun(ewnid,
+		MongoSinhalaVerb mongoVerbsynset = new MongoSinhalaVerb(ewnid,
 				wordList, sencePointerList, verbSynset.getDefinition() + "|"
 						+ verbSynset.getExample());
 		// System.out.println("ssssssssss"+mongoNounsynset);
-		return mongoNounsynset;
+		return mongoVerbsynset;
 
 	}
 	
