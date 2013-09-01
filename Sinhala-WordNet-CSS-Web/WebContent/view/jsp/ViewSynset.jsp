@@ -52,7 +52,7 @@ function doubleClicked(item){
 				<div class="header">
 					<h1>${synset.getWordsAsString()}</h1>
 					<input type="button" class="button" value="Edit"
-                                    onclick="window.location.href='EditSynsets?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
+                                    onclick="window.location.href='EditSynsets${type}?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getOffset()}"/>'" />
 				</div>
 				<table>
 					<tbody>

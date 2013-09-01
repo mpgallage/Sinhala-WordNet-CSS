@@ -14,6 +14,7 @@ import net.didion.jwnl.data.list.PointerTargetNodeList;
 import net.didion.jwnl.dictionary.Dictionary;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
+import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
@@ -365,6 +366,202 @@ public class ShowSynsetsController {
 
 			VerbSynset enSynset = mongoSynsetConvertor
 					.OverWriteByMongo(verbSynset);
+			model.addAttribute("enSynset", enSynset);
+
+			model.addAttribute("breadCrumb", breadCrumb);
+			return "ShowHyponyms";
+		}
+		}
+	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowHyponyms", "type=adj" })
+	public String showAdjHyponyms(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
+		if (id != null && !"".equalsIgnoreCase(id)) {
+			Dictionary dict = WordNetDictionary.getInstance();
+			Synset synset = null;
+			try {
+				synset = dict.getSynsetAt(POS.ADJECTIVE, Long.parseLong(id));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			BreadCrumb breadCrumb = new BreadCrumb();
+			try{
+				breadCrumb = new BreadCrumb(synset.getOffset(), POS.ADJECTIVE);
+			} catch (Exception e){
+				return "error";
+			}
+
+			PointerUtils pointerUtils = PointerUtils.getInstance();
+			PointerTargetNodeList nodeList = null;
+			try {
+				nodeList = pointerUtils.getDirectHyponyms(synset);
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (nodeList.size() > 0) {
+
+				List<AdjectiveSynset[]> list = new ArrayList<AdjectiveSynset[]>();
+				List<Boolean> nextLevelList = new ArrayList<Boolean>();
+
+				for (int i = 0; i < nodeList.size(); i++) {
+					AdjectiveSynset[] adjsynsetArr = new AdjectiveSynset[2];
+					PointerTargetNode node = (PointerTargetNode) nodeList.get(i);
+					PointerTarget target = node.getPointerTarget();
+					Synset s = (Synset) target;
+					AdjectiveSynset tempAdj = new AdjectiveSynset(s);
+					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					AdjectiveSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempAdj);
+					// NounSynset castSynset = new NounSynset();
+					adjsynsetArr[0] = tempAdj;
+					adjsynsetArr[1] = castSynset;
+
+					list.add(adjsynsetArr);
+					
+					PointerTargetNodeList subNodeList = null;
+					try {
+						subNodeList = pointerUtils.getDirectHyponyms(s);
+					} catch (JWNLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (subNodeList.size() > 0) {
+						nextLevelList.add(true);
+					} else {
+						nextLevelList.add(false);
+					}
+
+				}
+				model.addAttribute("synsetList", list);
+				model.addAttribute("type", type);
+				model.addAttribute("nextLevelList", nextLevelList);
+			} else {
+				PointerTargetNodeList list = null;
+				try {
+					list = pointerUtils.getDirectHypernyms(synset);
+				} catch (JWNLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				PointerTargetNode node = (PointerTargetNode) list.get(0);
+				Synset tempSynset = (Synset) node.getPointerTarget();
+				long parentOffset = tempSynset.getOffset();
+
+				model.addAttribute("synsetList", new ArrayList<SinhalaWordNetSynset>());
+				model.addAttribute("type", type);
+				model.addAttribute("parent", String.valueOf(parentOffset));
+				
+			}
+			
+			AdjectiveSynset adjSynset = new AdjectiveSynset(synset);
+			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+
+			AdjectiveSynset enSynset = mongoSynsetConvertor
+					.OverWriteByMongo(adjSynset);
+			model.addAttribute("enSynset", enSynset);
+			
+			model.addAttribute("breadCrumb", breadCrumb);
+			return "ShowHyponyms";
+			
+		} else {
+			
+			BreadCrumb breadCrumb = new BreadCrumb(POS.ADJECTIVE);
+			Dictionary dict = WordNetDictionary.getInstance();
+			List<AdjectiveSynset> adjSynsets = new ArrayList<AdjectiveSynset>();
+			Synset synset = null;
+			List<AdjectiveSynset[]> list = new ArrayList<AdjectiveSynset[]>();
+			Iterator<Synset> allAdjSynsets =null;
+			PointerUtils pointerUtils = null;
+			try {
+				allAdjSynsets= dict.getSynsetIterator(POS.ADJECTIVE);
+				pointerUtils = PointerUtils.getInstance();
+				
+				
+								
+				
+				synset = dict.getSynsetAt(POS.ADJECTIVE, 1740);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			int i=0;
+			List<Boolean> nextLevelList = new ArrayList<Boolean>();
+			while(allAdjSynsets.hasNext()){
+				PointerTargetNodeList nodeList = new PointerTargetNodeList();
+				Synset tempSynset = allAdjSynsets.next();
+				AdjectiveSynset tempVerb = new AdjectiveSynset(tempSynset);
+				try {
+					nodeList = pointerUtils.getDirectHypernyms(tempSynset);
+					
+				} catch (JWNLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				AdjectiveSynset[] adjsynsetArr = new AdjectiveSynset[2];
+				if(nodeList.size()==0){
+					
+					adjSynsets.add(tempVerb);
+					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					AdjectiveSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb);
+					//VerbSynset castSynset = tempVerb;
+					adjsynsetArr[0] = tempVerb;
+					adjsynsetArr[1] = castSynset;
+					list.add(adjsynsetArr);
+					
+					
+					
+					PointerTargetNodeList subNodeList = null;
+					try {
+						subNodeList = pointerUtils.getDirectHyponyms(tempSynset);
+					} catch (JWNLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					if (subNodeList.size() > 0) {
+						nextLevelList.add(true);
+					} else {
+						nextLevelList.add(false);
+					}
+					
+					
+				}
+				if(i == 50){
+					break;
+				}
+				
+				i++;
+				
+			}
+
+			
+			
+			//System.out.println("count"+i);
+			
+			//VerbSynset[] verbsynsetArr = new VerbSynset[2];
+			
+			
+			// NounSynset castSynset = new NounSynset();
+			
+
+			
+			
+			
+
+			model.addAttribute("synsetList", list);
+			model.addAttribute("type", type);
+			model.addAttribute("nextLevelList", nextLevelList);
+			
+			AdjectiveSynset adjSynset = new AdjectiveSynset(synset);
+			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+
+			AdjectiveSynset enSynset = mongoSynsetConvertor
+					.OverWriteByMongo(adjSynset);
 			model.addAttribute("enSynset", enSynset);
 
 			model.addAttribute("breadCrumb", breadCrumb);

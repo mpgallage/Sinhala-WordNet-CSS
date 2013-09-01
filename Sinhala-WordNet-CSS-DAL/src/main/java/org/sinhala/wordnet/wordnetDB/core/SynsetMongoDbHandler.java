@@ -15,11 +15,13 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
+import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.wordnetDB.config.SpringMongoConfig;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdjective;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
@@ -60,6 +62,22 @@ public class SynsetMongoDbHandler {
 
 
 		mongoOperation.save(mongoVerbsynset);
+
+		System.out.println("saved");
+
+	}
+	public void addAdjSynset(AdjectiveSynset adjSynset) {
+
+		// @SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
+		MongoSinhalaAdjective mongoAdjsynset = ssmsc.converttoMongoAdj(adjSynset);
+
+
+		mongoOperation.save(mongoAdjsynset);
 
 		System.out.println("saved");
 
@@ -128,6 +146,23 @@ public class SynsetMongoDbHandler {
 		MongoSinhalaVerb foundSynset = null;
 		List<MongoSinhalaVerb> collection = mongoOperation.find(
 				searchSynsetQuery1, MongoSinhalaVerb.class);
+		if (collection.size() > 0) {
+			foundSynset = collection.get(collection.size() - 1);
+		}
+		return foundSynset;
+	}
+	public MongoSinhalaAdjective findAdjBySynsetId(Long findId) {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		Query searchSynsetQuery1 = new Query(Criteria.where("eWNId").is(findId));
+		MongoSinhalaAdjective foundSynset = null;
+		List<MongoSinhalaAdjective> collection = mongoOperation.find(
+				searchSynsetQuery1, MongoSinhalaAdjective.class);
 		if (collection.size() > 0) {
 			foundSynset = collection.get(collection.size() - 1);
 		}

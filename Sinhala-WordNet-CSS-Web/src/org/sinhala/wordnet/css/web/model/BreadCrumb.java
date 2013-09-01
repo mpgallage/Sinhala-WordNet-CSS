@@ -16,6 +16,7 @@ import net.didion.jwnl.data.list.PointerTargetTree;
 import net.didion.jwnl.dictionary.Dictionary;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
+import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
@@ -184,10 +185,74 @@ public class BreadCrumb {
 					break;
 				}
 			}
-			
-			
-			
 		}
+			else if(type == "adj"){
+				AdjectiveSynset adjSynset = new AdjectiveSynset(synset);
+				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+
+				AdjectiveSynset castSynset = mongoSynsetConvertor
+						.OverWriteByMongo(adjSynset);
+
+				String wordsAsString = castSynset.getWordsAsString();
+
+				if (!adjSynset.getWordsAsString()
+						.equals(castSynset.getWordsAsString())) {
+					wordsAsString = castSynset.getWordsAsString() + "("
+							+ adjSynset.getWordsAsString() + ")";
+				}
+				BreadCrumbObject bcrumObject = new BreadCrumbObject("", wordsAsString,
+						"");
+				breadCrumbList.add(bcrumObject);
+
+				while (true) {
+
+					PointerUtils pointerUtils = PointerUtils.getInstance();
+					PointerTargetNodeList nodeList = new PointerTargetNodeList();
+					try {
+						nodeList = pointerUtils.getDirectHypernyms(synset);
+					} catch (JWNLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+
+					if (nodeList.size() > 0) {
+
+						PointerTargetNode node = (PointerTargetNode) nodeList.get(0);
+						PointerTarget target = node.getPointerTarget();
+						Synset s = (Synset) target;
+						AdjectiveSynset aSynset = new AdjectiveSynset(s);
+
+						mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+						castSynset = mongoSynsetConvertor.OverWriteByMongo(aSynset);
+
+						String def = castSynset.getDefinition();
+						wordsAsString = castSynset.getWordsAsString();
+
+						if (!aSynset.getDefinition().equals(castSynset.getDefinition())) {
+							def = castSynset.getDefinition() + "("
+									+ aSynset.getDefinition() + ")";
+						}
+						if (!aSynset.getWordsAsString().equals(
+								castSynset.getWordsAsString())) {
+							wordsAsString = castSynset.getWordsAsString() + "("
+									+ aSynset.getWordsAsString() + ")";
+						}
+
+						BreadCrumbObject bcObject = new BreadCrumbObject(def,
+								wordsAsString, "ShowSynsets?action=ShowHyponyms&type="
+										+ type + "&id=" + s.getOffset());
+
+						breadCrumbList.add(bcObject);
+						synset = s;
+					}
+
+					else {
+						break;
+					}
+				}
+				}
+			
+		
 		BreadCrumbObject root = new BreadCrumbObject("මුලය(Root)",
 				"මුලය(Root)", "ShowSynsets?action=ShowRoot");
 		BreadCrumbObject posRoot = null;
@@ -198,6 +263,10 @@ public class BreadCrumb {
 		}
 		if (pos.equals(POS.VERB)) {
 			posRoot = new BreadCrumbObject("ක්‍රියාපද(Verbs)", "ක්‍රියාපද(Verbs)",
+					"ShowSynsets?action=ShowHyponyms&type=" + type);
+		}
+		if (pos.equals(POS.ADJECTIVE)) {
+			posRoot = new BreadCrumbObject("නාම විශේෂණ(Adjective)", "නාම විශේෂණ(Adjective)",
 					"ShowSynsets?action=ShowHyponyms&type=" + type);
 		}
 		breadCrumbList.add(posRoot);
@@ -231,6 +300,10 @@ public class BreadCrumb {
 		}
 		if (pos.equals(POS.VERB)) {
 			posRoot = new BreadCrumbObject("ක්‍රියාපද(Verbs)", "ක්‍රියාපද(Verbs)",
+					"ShowSynsets?action=ShowHyponyms&type=" + type);
+		}
+		if (pos.equals(POS.ADJECTIVE)) {
+			posRoot = new BreadCrumbObject("නාම විශේෂණ(Adjective)", "නාම විශේෂණ(Adjective)",
 					"ShowSynsets?action=ShowHyponyms&type=" + type);
 		}
 		breadCrumbList.add(posRoot);
