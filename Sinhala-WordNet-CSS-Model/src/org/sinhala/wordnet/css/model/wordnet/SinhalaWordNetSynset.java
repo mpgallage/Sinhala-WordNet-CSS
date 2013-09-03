@@ -17,6 +17,7 @@ public class SinhalaWordNetSynset {
 	protected long offset;
 	protected String definition;
 	protected String example;
+	protected String userName;
 	protected SinhalaWordNetWord gender;
 	protected List<SinhalaWordNetWord> words;
 	
@@ -59,6 +60,13 @@ public class SinhalaWordNetSynset {
 
 	public void setId(String id) {
 		this.id = id;
+	}
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public long getOffset() {

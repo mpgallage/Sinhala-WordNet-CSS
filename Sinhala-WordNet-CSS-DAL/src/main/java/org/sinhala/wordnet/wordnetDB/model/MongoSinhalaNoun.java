@@ -12,6 +12,7 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	
 	@Id
 	private String id;
+	String userName;
 	Long eWNId;
 	String SMDBId;
 	List<MongoSinhalaWord> words;
@@ -19,9 +20,10 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	String gloss;
 	
 	
-	public MongoSinhalaNoun(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss) {
+	public MongoSinhalaNoun(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss,String userName) {
 		super();
 		this.eWNId = eWNId;
+		this.userName = userName;
 		this.words = words;
 		this.sencePointers = sencePointers;
 		this.gloss = gloss;
@@ -30,7 +32,7 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 
 	@Override
 	public String toString() {
-		return "Synset [id=" + id + ", EWNId=" + eWNId + ", SMDBId=" + SMDBId + ", words="+words+", sencePointerList="+sencePointers+", gloss="+gloss+"]";
+		return "Synset [id=" + id + ", EWNId=" + eWNId +", userName=" + userName + ", SMDBId=" + SMDBId + ", words="+words+", sencePointerList="+sencePointers+", gloss="+gloss+"]";
 	}
 
 	@Override
@@ -43,6 +45,12 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	public Long getEWNId() {
 		// TODO Auto-generated method stub
 		return eWNId;
+	}
+
+	@Override
+	public String getUserName() {
+		// TODO Auto-generated method stub
+		return userName;
 	}
 
 	@Override
@@ -79,6 +87,12 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	public void SetEWNId(Long eWNId) {
 		// TODO Auto-generated method stub
 		this.eWNId = eWNId;
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		// TODO Auto-generated method stub
+		this.userName = userName;
 	}
 
 	@Override

@@ -12,6 +12,7 @@ public interface MongoSinhalaSynset{
 	
 	public String getId();
 	public Long getEWNId();
+	public String getUserName();
 	public String getSMDBId();
 	public List<MongoSinhalaWord> getWords();
 	public List<MongoSinhalaSencePointer> getSencePointers();
@@ -19,6 +20,7 @@ public interface MongoSinhalaSynset{
 	
 	public void setId(String id);
 	public void SetEWNId(Long eWNId);
+	public void setUserName(String userName);
 	public void SetSMDBId(String SMDBId);
 	public void SetWords(List<MongoSinhalaWord> words);
 	public void SetSencePointers(List<MongoSinhalaSencePointer> sencePointers);

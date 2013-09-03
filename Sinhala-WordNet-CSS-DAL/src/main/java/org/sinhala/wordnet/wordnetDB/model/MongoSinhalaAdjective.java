@@ -14,24 +14,26 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 	@Id
 	private String id;
 	Long eWNId;
+	String userName;
 	String SMDBId;
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
 	
 	
-	public MongoSinhalaAdjective(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss) {
+	public MongoSinhalaAdjective(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss,String userName) {
 		super();
 		this.eWNId = eWNId;
 		this.words = words;
 		this.sencePointers = sencePointers;
 		this.gloss = gloss;
+		this.userName = userName;
 		
 	}
 
 	@Override
 	public String toString() {
-		return "Synset [id=" + id + ", EWNId=" + eWNId + ", SMDBId=" + SMDBId + ", words="+words+", sencePointerList="+sencePointers+", gloss="+gloss+"]";
+		return "Synset [id=" + id + ", EWNId=" + eWNId +", userName=" + userName + ", SMDBId=" + SMDBId + ", words="+words+", sencePointerList="+sencePointers+", gloss="+gloss+"]";
 	}
 
 	@Override
@@ -112,6 +114,19 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 		// TODO Auto-generated method stub
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		synsetdb.findRelatedSynsetById(this.id, relation);
+	}
+
+	@Override
+	public String getUserName() {
+		// TODO Auto-generated method stub
+		return userName;
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		this.userName = userName;
+		// TODO Auto-generated method stub
+		
 	}
 
 	

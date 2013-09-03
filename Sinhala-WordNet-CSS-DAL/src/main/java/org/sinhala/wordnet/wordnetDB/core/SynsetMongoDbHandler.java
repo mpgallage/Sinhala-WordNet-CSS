@@ -83,7 +83,7 @@ public class SynsetMongoDbHandler {
 
 	}
 
-	public void addRoot(String lemma) {
+	public void addRoot(String lemma, String userName) {
 
 		// @SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -93,7 +93,7 @@ public class SynsetMongoDbHandler {
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		List<MongoSinhalaWord> wordList = new ArrayList<MongoSinhalaWord>();
 		wordList.add(new MongoSinhalaWord(lemma, "0", null));
-		MongoSinhalaRoot root = new MongoSinhalaRoot(wordList, "");
+		MongoSinhalaRoot root = new MongoSinhalaRoot(wordList, "",userName);
 		MongoSinhalaRoot anyRoot = findRootByLemma(lemma);
 		if(anyRoot == null){
 		mongoOperation.save(root);

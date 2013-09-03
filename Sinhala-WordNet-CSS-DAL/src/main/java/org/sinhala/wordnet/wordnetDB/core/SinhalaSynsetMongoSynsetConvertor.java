@@ -28,6 +28,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		List<MongoSinhalaSencePointer> sencePointerList = new ArrayList<MongoSinhalaSencePointer>();
 
 		// hjhjb
+		String userName = nounSynset.getUserName();
 		long con = 123456;
 		Long ewnid = nounSynset.getOffset();
 		List<SinhalaWordNetWord> words = nounSynset.getWords();
@@ -111,7 +112,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				sinhalaWordNetword = words.get(i).getRoot();
 				if (sinhalaWordNetword.getId() != null) {
 						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-						dbHandler.addRoot(sinhalaWordNetword.getLemma());
+						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
 						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
 								dbHandler.findRootByLemma(
 										sinhalaWordNetword.getLemma()).getId(),
@@ -244,7 +245,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		}
 		MongoSinhalaNoun mongoNounsynset = new MongoSinhalaNoun(ewnid,
 				wordList, sencePointerList, nounSynset.getDefinition() + "|"
-						+ nounSynset.getExample());
+						+ nounSynset.getExample(),userName);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoNounsynset;
 
@@ -261,6 +262,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		List<MongoSinhalaSencePointer> sencePointerList = new ArrayList<MongoSinhalaSencePointer>();
 
 		// hjhjb
+		String userName = verbSynset.getUserName();
 		long con = 123456;
 		Long ewnid = verbSynset.getOffset();
 		List<SinhalaWordNetWord> words = verbSynset.getWords();
@@ -346,7 +348,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 				
 						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-						dbHandler.addRoot(sinhalaWordNetword.getLemma());
+						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
 						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
 								dbHandler.findRootByLemma(
 										sinhalaWordNetword.getLemma()).getId(),
@@ -481,7 +483,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		}
 		MongoSinhalaVerb mongoVerbsynset = new MongoSinhalaVerb(ewnid,
 				wordList, sencePointerList, verbSynset.getDefinition() + "|"
-						+ verbSynset.getExample());
+						+ verbSynset.getExample(),userName);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoVerbsynset;
 
@@ -497,6 +499,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		List<MongoSinhalaSencePointer> sencePointerList = new ArrayList<MongoSinhalaSencePointer>();
 
 		// hjhjb
+		String userName = adjSynset.getUserName();
 		long con = 123456;
 		Long ewnid = adjSynset.getOffset();
 		List<SinhalaWordNetWord> words = adjSynset.getWords();
@@ -582,7 +585,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 				
 						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-						dbHandler.addRoot(sinhalaWordNetword.getLemma());
+						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
 						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
 								dbHandler.findRootByLemma(
 										sinhalaWordNetword.getLemma()).getId(),
@@ -717,7 +720,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		}
 		MongoSinhalaAdjective mongoAdjsynset = new MongoSinhalaAdjective(ewnid,
 				wordList, sencePointerList, adjSynset.getDefinition() + "|"
-						+ adjSynset.getExample());
+						+ adjSynset.getExample(),userName);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoAdjsynset;
 

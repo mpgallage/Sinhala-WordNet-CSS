@@ -14,18 +14,19 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 	private String id;
 	List<MongoSinhalaWord> words;
 	String gloss;
+	String userName;
 	
 	
-	public MongoSinhalaRoot(List<MongoSinhalaWord> words,String gloss) {
+	public MongoSinhalaRoot(List<MongoSinhalaWord> words,String gloss,String userName) {
 		super();
 		this.words = words;
 		this.gloss = gloss;
-		
+		this.userName = userName;
 	}
 
 	@Override
 	public String toString() {
-		return "Synset [id=" + id + ", words="+words+", gloss="+gloss+"]";
+		return "Synset [id=" + id + ", userName="+userName+", words="+words+", gloss="+gloss+"]";
 	}
 
 	@Override
@@ -34,7 +35,11 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 		return id;
 	}
 
-
+	@Override
+	public String getUserName() {
+		// TODO Auto-generated method stub
+		return userName;
+	}
 	@Override
 	public List<MongoSinhalaWord> getWords() {
 		// TODO Auto-generated method stub
@@ -106,6 +111,13 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 
 	@Override
 	public void SetSMDBId(String SMDBId) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setUserName(String userName) {
+		this.userName = userName;
 		// TODO Auto-generated method stub
 		
 	}

@@ -47,6 +47,9 @@ $(function() {
                     <h3>Sinhala WordNet CrowdSourcing System</h3>
                 </td>
                 <sec:authorize access="isAuthenticated()">
+                	<c:set var="username">
+					<sec:authentication property="principal.username" /> 
+					</c:set>
                     <td>You are logged in as <b><sec:authentication
                             property="principal.username" /></b>
                 </sec:authorize>
@@ -182,6 +185,12 @@ $(function() {
 										<form:radiobutton path="gender.lemma" value="ස්ත්‍රී" />ස්ත්‍රී<br>
 										<form:radiobutton path="gender.lemma" value="නොසලකා හරින්න" />නොසලකා
 										හරින්න</td>
+								</tr>
+								<tr>
+								<td>
+								<form:hidden path="userName" value ="${username}" />
+                            
+								</td>
 								</tr>
 							</tbody>
 						</table>
