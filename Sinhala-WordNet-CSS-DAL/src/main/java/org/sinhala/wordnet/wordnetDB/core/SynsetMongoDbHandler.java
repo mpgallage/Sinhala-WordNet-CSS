@@ -324,4 +324,18 @@ public class SynsetMongoDbHandler {
 
 		return collection;
 	}
+	public List<MongoSinhalaNoun> findAllNotEvaluatedNoun() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		List<MongoSinhalaNoun> collection = mongoOperation
+				.findAll(MongoSinhalaNoun.class);
+
+		return collection;
+	}
+	
 }
