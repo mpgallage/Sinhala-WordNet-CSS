@@ -15,7 +15,7 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 	List<MongoSinhalaWord> words;
 	String gloss;
 	String userName;
-	
+	Boolean evaluated = false;
 	
 	public MongoSinhalaRoot(List<MongoSinhalaWord> words,String gloss,String userName) {
 		super();
@@ -119,6 +119,19 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 	public void setUserName(String userName) {
 		this.userName = userName;
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean getEvaluated() {
+		// TODO Auto-generated method stub
+		return evaluated;
+	}
+
+	@Override
+	public void SetEvaluated() {
+		// TODO Auto-generated method stub
+		evaluated = true; 
 		
 	}
 

@@ -19,6 +19,7 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
+	Boolean evaluated = false;
 	
 	
 	public MongoSinhalaVerb(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss,String userName) {
@@ -127,6 +128,18 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 		this.userName = userName;
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public Boolean getEvaluated() {
+		// TODO Auto-generated method stub
+		return evaluated;
+	}
+
+	@Override
+	public void SetEvaluated() {
+		// TODO Auto-generated method stub
+		evaluated = true;
 	}
 
 	

@@ -4,7 +4,12 @@ public class MongoSinhalaSencePointer {
 	
 	MongoSinhalaPointerTyps pointerType;
 	Long synsetId;
+	String pointedFile;
 	
+	
+	public String getPointedFile() {
+		return pointedFile;
+	}
 	public Long getSynsetId() {
 		return synsetId;
 	}
@@ -16,16 +21,19 @@ public class MongoSinhalaSencePointer {
 	public void setSynsetId(Long synsetId) {
 		this.synsetId = synsetId;
 	}
+	public void setPointedFole(String pointedFile) {
+		this.pointedFile = pointedFile;
+	}
 	
 	public void setPointerType(MongoSinhalaPointerTyps pointerType) {
 		this.pointerType = pointerType;
 	}
 	
-	public MongoSinhalaSencePointer(Long holoSynsetID, MongoSinhalaPointerTyps pointerType) {
+	public MongoSinhalaSencePointer(String pointedFile , Long holoSynsetID, MongoSinhalaPointerTyps pointerType) {
 		super();
 		this.synsetId = holoSynsetID;
-		
 		this.pointerType = pointerType;
+		this.pointedFile = pointedFile;
 	}
 	public MongoSinhalaSencePointer(){
 		super();

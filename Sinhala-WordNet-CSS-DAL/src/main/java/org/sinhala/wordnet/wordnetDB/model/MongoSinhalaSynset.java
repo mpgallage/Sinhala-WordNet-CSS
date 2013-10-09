@@ -17,6 +17,7 @@ public interface MongoSinhalaSynset{
 	public List<MongoSinhalaWord> getWords();
 	public List<MongoSinhalaSencePointer> getSencePointers();
 	public String getGloss();
+	public Boolean getEvaluated();
 	
 	public void setId(String id);
 	public void SetEWNId(Long eWNId);
@@ -25,6 +26,8 @@ public interface MongoSinhalaSynset{
 	public void SetWords(List<MongoSinhalaWord> words);
 	public void SetSencePointers(List<MongoSinhalaSencePointer> sencePointers);
 	public void SetGloss(String gloss);
+	public void SetEvaluated();
+	
 	public void getRelatedSynsets(MongoSinhalaPointerTyps relation);
 	
 	

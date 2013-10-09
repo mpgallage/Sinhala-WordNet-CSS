@@ -18,6 +18,7 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
+	Boolean evaluated = false;
 	
 	
 	public MongoSinhalaNoun(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss,String userName) {
@@ -125,6 +126,18 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 		// TODO Auto-generated method stub
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		synsetdb.findRelatedSynsetById(this.id, relation);
+	}
+
+	@Override
+	public Boolean getEvaluated() {
+		// TODO Auto-generated method stub
+		return evaluated;
+	}
+
+	@Override
+	public void SetEvaluated() {
+		// TODO Auto-generated method stub
+		evaluated = true;
 	}
 
 }

@@ -19,7 +19,7 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
-	
+	Boolean evaluated = false;
 	
 	public MongoSinhalaAdjective(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss,String userName) {
 		super();
@@ -126,6 +126,19 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 	public void setUserName(String userName) {
 		this.userName = userName;
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Boolean getEvaluated() {
+		// TODO Auto-generated method stub
+		return evaluated;
+	}
+
+	@Override
+	public void SetEvaluated() {
+		// TODO Auto-generated method stub
+		evaluated = true;
 		
 	}
 

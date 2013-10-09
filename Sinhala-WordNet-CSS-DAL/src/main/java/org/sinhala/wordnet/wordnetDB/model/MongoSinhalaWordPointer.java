@@ -6,7 +6,12 @@ public class MongoSinhalaWordPointer {
 	String synsetIDasString;
 	Long synsetId;
 	String wordId;
+	String pointedFile;
 	
+	
+	public String getPointedFile() {
+		return pointedFile;
+	}
 	public String getSynsetIDasString() {
 		return synsetIDasString;
 	}
@@ -33,27 +38,33 @@ public class MongoSinhalaWordPointer {
 		this.pointerType = pointerType;
 	}
 	
-	public MongoSinhalaWordPointer(Long synsetId, String wordId, MongoSinhalaPointerTyps pointerType) {
+	public void setPointedFole(String pointedFile) {
+		this.pointedFile = pointedFile;
+	}
+	
+	public MongoSinhalaWordPointer(String pointedFile,Long synsetId, String wordId, MongoSinhalaPointerTyps pointerType) {
 		super();
 		this.synsetId = synsetId;
 		this.wordId = wordId;
 		this.pointerType = pointerType;
+		this.pointedFile = pointedFile;
 	}
 	
 	public MongoSinhalaWordPointer() {
 		super();
 	}
 	
-	public MongoSinhalaWordPointer(String synsetIDasString, String wordId, MongoSinhalaPointerTyps pointerType) {
+	public MongoSinhalaWordPointer(String pointedFile,String synsetIDasString, String wordId, MongoSinhalaPointerTyps pointerType) {
 		super();
 		this.synsetIDasString = synsetIDasString;
 		this.wordId = wordId;
 		this.pointerType = pointerType;
+		this.pointedFile = pointedFile;
 	}
 	
 	@Override
 	public String toString() {
-		return "pointer [SynsetId=" + synsetId + ", WordId=" + wordId + ", PointerType=" + pointerType + "]";
+		return "pointer [PointedFile =  "+pointedFile+"SynsetId=" + synsetId + ", WordId=" + wordId + ", PointerType=" + pointerType + "]";
 	}
 
 

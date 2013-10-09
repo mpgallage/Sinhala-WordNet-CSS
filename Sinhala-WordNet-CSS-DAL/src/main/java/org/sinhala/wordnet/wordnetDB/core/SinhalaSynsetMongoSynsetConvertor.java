@@ -42,7 +42,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 			if (sinhalaWordNetword != null) {
 
-				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer(
+				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer("n",
 						con, sinhalaWordNetword.getLemma(),
 						MongoSinhalaPointerTyps.ANTONYM);
 				wordPointerList.add(wordPointer1);
@@ -65,7 +65,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 2;
 					}
 
-					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
 							tempSynId, "0",
 							MongoSinhalaPointerTyps.DERIVATION_TYPE);
 					wordPointerList.add(wordPointer2);
@@ -100,7 +100,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (origin.equalsIgnoreCase("සංස්කෘත")) {
 						tempSynId = 8;
 					}
-					MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer("o",
 							tempSynId, "0", MongoSinhalaPointerTyps.ORIGIN);
 					wordPointerList.add(wordPointer3);
 				}
@@ -113,7 +113,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				if (sinhalaWordNetword.getId() != null) {
 						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
-						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
+						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer("r",
 								dbHandler.findRootByLemma(
 										sinhalaWordNetword.getLemma()).getId(),
 								"0", MongoSinhalaPointerTyps.ROOT);
@@ -133,7 +133,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
 					}
-					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
 					wordPointerList.add(wordPointer5);
 				}
@@ -155,7 +155,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("holo"+holoSynsets);
 			for (int i = 0; i < holoSynsets.size(); i++) {
 				Long holoSynsetID = holoSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						holoSynsetID, MongoSinhalaPointerTyps.PART_HOLONYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -169,7 +169,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("hyper"+hypernymSynsets);
 			for (int i = 0; i < hypernymSynsets.size(); i++) {
 				Long hypernymSynsetID = hypernymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						hypernymSynsetID, MongoSinhalaPointerTyps.HYPERNYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -183,7 +183,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println(hyponymSynsets.size()+"hypon"+hyponymSynsets);
 			for (int i = 0; i < hyponymSynsets.size(); i++) {
 				Long hyponymSynsetID = hyponymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						hyponymSynsetID, MongoSinhalaPointerTyps.HYPONYM);
 				sencePointerList.add(sencePointer);
 				// System.out.println("hypon added"+sencePointer);
@@ -198,7 +198,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("attri"+attributeSynsets);
 			for (int i = 0; i < attributeSynsets.size(); i++) {
 				Long attributeSynsetID = attributeSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						attributeSynsetID, MongoSinhalaPointerTyps.ATTRIBUTE);
 				sencePointerList.add(sencePointer);
 			}
@@ -212,7 +212,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("mero"+meronymSynsets);
 			for (int i = 0; i < meronymSynsets.size(); i++) {
 				Long meronymSynsetID = meronymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						meronymSynsetID, MongoSinhalaPointerTyps.PART_MERONYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -234,7 +234,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				} else if (genderLemm.equalsIgnoreCase("නොසලකා හරින්න")) {
 					tempSynId = 3;
 				}
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("g",
 						tempSynId, MongoSinhalaPointerTyps.GENDER);
 				sencePointerList.add(sencePointer);
 			}
@@ -276,7 +276,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 			if (sinhalaWordNetword != null) {
 
-				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer(
+				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer("v",
 						con, sinhalaWordNetword.getLemma(),
 						MongoSinhalaPointerTyps.ANTONYM);
 				wordPointerList.add(wordPointer1);
@@ -299,7 +299,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 2;
 					}
 
-					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
 							tempSynId, "0",
 							MongoSinhalaPointerTyps.DERIVATION_TYPE);
 					wordPointerList.add(wordPointer2);
@@ -334,7 +334,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (origin.equalsIgnoreCase("සංස්කෘත")) {
 						tempSynId = 8;
 					}
-					MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer("o",
 							tempSynId, "0", MongoSinhalaPointerTyps.ORIGIN);
 					wordPointerList.add(wordPointer3);
 				}
@@ -349,7 +349,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				
 						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
-						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
+						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer("r",
 								dbHandler.findRootByLemma(
 										sinhalaWordNetword.getLemma()).getId(),
 								"0", MongoSinhalaPointerTyps.ROOT);
@@ -371,7 +371,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
 					}
-					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
 					wordPointerList.add(wordPointer5);
 				}
@@ -393,7 +393,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("holo"+holoSynsets);
 			for (int i = 0; i < holoSynsets.size(); i++) {
 				Long holoSynsetID = holoSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
 						holoSynsetID, MongoSinhalaPointerTyps.PART_HOLONYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -407,7 +407,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("hyper"+hypernymSynsets);
 			for (int i = 0; i < hypernymSynsets.size(); i++) {
 				Long hypernymSynsetID = hypernymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
 						hypernymSynsetID, MongoSinhalaPointerTyps.HYPERNYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -421,7 +421,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println(hyponymSynsets.size()+"hypon"+hyponymSynsets);
 			for (int i = 0; i < hyponymSynsets.size(); i++) {
 				Long hyponymSynsetID = hyponymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
 						hyponymSynsetID, MongoSinhalaPointerTyps.HYPONYM);
 				sencePointerList.add(sencePointer);
 				// System.out.println("hypon added"+sencePointer);
@@ -436,7 +436,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("attri"+attributeSynsets);
 			for (int i = 0; i < attributeSynsets.size(); i++) {
 				Long attributeSynsetID = attributeSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
 						attributeSynsetID, MongoSinhalaPointerTyps.ATTRIBUTE);
 				sencePointerList.add(sencePointer);
 			}
@@ -450,7 +450,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("mero"+meronymSynsets);
 			for (int i = 0; i < meronymSynsets.size(); i++) {
 				Long meronymSynsetID = meronymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
 						meronymSynsetID, MongoSinhalaPointerTyps.PART_MERONYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -472,7 +472,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				} else if (genderLemm.equalsIgnoreCase("නොසලකා හරින්න")) {
 					tempSynId = 3;
 				}
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("g",
 						tempSynId, MongoSinhalaPointerTyps.GENDER);
 				sencePointerList.add(sencePointer);
 			}
@@ -513,7 +513,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 			if (sinhalaWordNetword != null) {
 
-				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer(
+				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer("adj",
 						con, sinhalaWordNetword.getLemma(),
 						MongoSinhalaPointerTyps.ANTONYM);
 				wordPointerList.add(wordPointer1);
@@ -536,7 +536,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 2;
 					}
 
-					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
 							tempSynId, "0",
 							MongoSinhalaPointerTyps.DERIVATION_TYPE);
 					wordPointerList.add(wordPointer2);
@@ -571,7 +571,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (origin.equalsIgnoreCase("සංස්කෘත")) {
 						tempSynId = 8;
 					}
-					MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer("o",
 							tempSynId, "0", MongoSinhalaPointerTyps.ORIGIN);
 					wordPointerList.add(wordPointer3);
 				}
@@ -586,7 +586,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				
 						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
-						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
+						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer("r",
 								dbHandler.findRootByLemma(
 										sinhalaWordNetword.getLemma()).getId(),
 								"0", MongoSinhalaPointerTyps.ROOT);
@@ -608,7 +608,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
 					}
-					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer(
+					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
 					wordPointerList.add(wordPointer5);
 				}
@@ -630,7 +630,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("holo"+holoSynsets);
 			for (int i = 0; i < holoSynsets.size(); i++) {
 				Long holoSynsetID = holoSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
 						holoSynsetID, MongoSinhalaPointerTyps.PART_HOLONYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -644,7 +644,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("hyper"+hypernymSynsets);
 			for (int i = 0; i < hypernymSynsets.size(); i++) {
 				Long hypernymSynsetID = hypernymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
 						hypernymSynsetID, MongoSinhalaPointerTyps.HYPERNYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -658,7 +658,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println(hyponymSynsets.size()+"hypon"+hyponymSynsets);
 			for (int i = 0; i < hyponymSynsets.size(); i++) {
 				Long hyponymSynsetID = hyponymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
 						hyponymSynsetID, MongoSinhalaPointerTyps.HYPONYM);
 				sencePointerList.add(sencePointer);
 				// System.out.println("hypon added"+sencePointer);
@@ -673,7 +673,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("attri"+attributeSynsets);
 			for (int i = 0; i < attributeSynsets.size(); i++) {
 				Long attributeSynsetID = attributeSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
 						attributeSynsetID, MongoSinhalaPointerTyps.ATTRIBUTE);
 				sencePointerList.add(sencePointer);
 			}
@@ -687,7 +687,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			// System.out.println("mero"+meronymSynsets);
 			for (int i = 0; i < meronymSynsets.size(); i++) {
 				Long meronymSynsetID = meronymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
 						meronymSynsetID, MongoSinhalaPointerTyps.PART_MERONYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -709,7 +709,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				} else if (genderLemm.equalsIgnoreCase("නොසලකා හරින්න")) {
 					tempSynId = 3;
 				}
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer(
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("g",
 						tempSynId, MongoSinhalaPointerTyps.GENDER);
 				sencePointerList.add(sencePointer);
 			}
