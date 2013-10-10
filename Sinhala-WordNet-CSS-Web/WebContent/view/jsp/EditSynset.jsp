@@ -52,6 +52,11 @@ $(function() {
 					</c:set>
                     <td>You are logged in as <b><sec:authentication
                             property="principal.username" /></b>
+                            <sec:authorize access="hasRole('ROLE_EVALUATOR')">
+ 										<td><input type="button" class="button" value="Evaluater Mode"
+									onclick="window.location.href='EvaluaterMode?action=ShowEvaluater&type=<c:out value="${type}"/>'" />
+								</td>
+							</sec:authorize>
                 </sec:authorize>
                 <td><a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
                 </td>
