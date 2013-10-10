@@ -64,6 +64,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (derivationType.equalsIgnoreCase("තත්භව")) {
 						tempSynId = 2;
 					}
+					else if (derivationType.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
+					}
 
 					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
 							tempSynId, "0",
@@ -132,6 +135,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
+					}
+					else if (usage.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
@@ -298,6 +304,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (derivationType.equalsIgnoreCase("තත්භව")) {
 						tempSynId = 2;
 					}
+					else if (derivationType.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
+					}
 
 					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
 							tempSynId, "0",
@@ -370,6 +379,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
+					}
+					else if (usage.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
@@ -535,6 +547,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					} else if (derivationType.equalsIgnoreCase("තත්භව")) {
 						tempSynId = 2;
 					}
+					else if (derivationType.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
+					}
 
 					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
 							tempSynId, "0",
@@ -607,6 +622,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
+					}
+					else if (usage.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
@@ -789,6 +807,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 							pointerWordUse.setLemmaFromMongo("වාචික");
 							// tempWord.getUsage().setLemmaFromMongo("වාචික");
 						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordUse.setLemmaFromMongo("නොදනී");
+							// tempWord.getUsage().setLemmaFromMongo("වාචික");
+						}
 						tempWord.setUsage(pointerWordUse);
 					} else if (wordPointers.get(j).getPointerType()
 							.equals(MongoSinhalaPointerTyps.DERIVATION_TYPE)) {
@@ -800,6 +823,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						} else if (wordPointers.get(j).getSynsetId() == 2) {
 							// System.out.println("in side if");
 							pointerWordDeri.setLemmaFromMongo("තත්භව");
+							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordDeri.setLemmaFromMongo("නොදනී");
 							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
 						}
 						tempWord.setDerivationType(pointerWordDeri);
@@ -946,6 +974,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 							pointerWordUse.setLemmaFromMongo("වාචික");
 							// tempWord.getUsage().setLemmaFromMongo("වාචික");
 						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordUse.setLemmaFromMongo("නොදනී");
+							// tempWord.getUsage().setLemmaFromMongo("වාචික");
+						}
 						tempWord.setUsage(pointerWordUse);
 					} else if (wordPointers.get(j).getPointerType()
 							.equals(MongoSinhalaPointerTyps.DERIVATION_TYPE)) {
@@ -957,6 +990,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						} else if (wordPointers.get(j).getSynsetId() == 2) {
 							// System.out.println("in side if");
 							pointerWordDeri.setLemmaFromMongo("තත්භව");
+							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordDeri.setLemmaFromMongo("නොදනී");
 							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
 						}
 						tempWord.setDerivationType(pointerWordDeri);
@@ -1104,6 +1142,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 							pointerWordUse.setLemmaFromMongo("වාචික");
 							// tempWord.getUsage().setLemmaFromMongo("වාචික");
 						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordUse.setLemmaFromMongo("නොදනී");
+							// tempWord.getUsage().setLemmaFromMongo("වාචික");
+						}
 						tempWord.setUsage(pointerWordUse);
 					} else if (wordPointers.get(j).getPointerType()
 							.equals(MongoSinhalaPointerTyps.DERIVATION_TYPE)) {
@@ -1115,6 +1158,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						} else if (wordPointers.get(j).getSynsetId() == 2) {
 							// System.out.println("in side if");
 							pointerWordDeri.setLemmaFromMongo("තත්භව");
+							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordDeri.setLemmaFromMongo("නොදනී");
 							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
 						}
 						tempWord.setDerivationType(pointerWordDeri);

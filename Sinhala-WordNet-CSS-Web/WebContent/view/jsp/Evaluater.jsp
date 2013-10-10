@@ -53,6 +53,7 @@ function fnGetSelected( oTableLocal )
 			<th>Words</th>
 			<th>gloss</th>
 			<th>Edited By</th>
+			<th>Edited Date</th>
 			
 		</tr>
 	</thead>
@@ -64,6 +65,7 @@ function fnGetSelected( oTableLocal )
 					<td>${synset.getWordsAsString()}</td>
 					<td>${synset.getGloss()}</td>
 					<td>${synset.getUserName()}</td>
+					<td>${synset.getDate()}</td>
 					</tr>
 					</c:forEach>
 					
@@ -76,6 +78,7 @@ function fnGetSelected( oTableLocal )
 			<th>Words</th>
 			<th>gloss</th>
 			<th>Edited By</th>
+			<th>Edited Date</th>
 			
 		</tr>
 	</tfoot>

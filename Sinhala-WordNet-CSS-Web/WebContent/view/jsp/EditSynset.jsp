@@ -141,7 +141,10 @@ $(function() {
 														path="words[${loop.index}].derivationType.lemma"
 														value="තත්සම" />තත්සම<br> <form:radiobutton
 														path="words[${loop.index}].derivationType.lemma"
-														value="තත්භව" />තත්භව<br>
+														value="තත්භව" />තත්භව<br><form:radiobutton
+														path="words[${loop.index}].derivationType.lemma"
+														value="නොදනී" />නොදනී<br>
+														
 											</tr>
 											<tr>
 												<td><label>භාවිතය</label></td>
@@ -149,6 +152,8 @@ $(function() {
 														path="words[${loop.index}].usage.lemma" value="වාචික" />වාචික<br>
 													<form:radiobutton path="words[${loop.index}].usage.lemma"
 														value="ලිඛිත" />ලිඛිත<br>
+														<form:radiobutton path="words[${loop.index}].usage.lemma"
+														value="නොදනී" />නොදනී<br>
 											</tr>
 											<tr>
 												<td><label>විරුද්ධ පදය</label></td>
