@@ -22,7 +22,7 @@ public class EvaluaterController {
 		List<MongoSinhalaNoun> list = new ArrayList<MongoSinhalaNoun>();
 		SynsetMongoDbHandler synMongoDbHandler = new SynsetMongoDbHandler();
 		list = synMongoDbHandler.findAllNotEvaluatedNoun();
-		System.out.println("list size"+list.size());
+		
 		
 		model.addAttribute("synsetList", list);
 		return "Evaluater";

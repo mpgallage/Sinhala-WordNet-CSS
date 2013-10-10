@@ -1,9 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Evaluater Page</title>
 
 <!-- DataTables CSS -->
@@ -15,42 +16,66 @@
 <!-- DataTables -->
 <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
 <script type="text/javascript">
+var oTable;
+var giRedraw = false;
 $(document).ready(function(){
-  $('#example').dataTable();
+	$("#example tbody").click(function(event) {
+		$(oTable.fnSettings().aoData).each(function (){
+			$(this.nTr).removeClass('row_selected');
+		});
+		$(event.target.parentNode).addClass('row_selected');
+	});
+	oTable = $('#example').dataTable( );
 });
+function fnGetSelected( oTableLocal )
+{
+	var aReturn = new Array();
+	var aTrs = oTableLocal.fnGetNodes();
+	
+	for ( var i=0 ; i<aTrs.length ; i++ )
+	{
+		if ( $(aTrs[i]).hasClass('row_selected') )
+		{
+			aReturn.push( aTrs[i] );
+		}
+	}
+	return aReturn;
+}
 </script>
 </head>
 <body>
+					
 
-
-<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+<table cellpadding="0" cellspacing="0" border="1" class="display" id="example">
 	<thead>
 		<tr>
-			<th>Synset</th>
-			<th>Browser</th>
+			<th>English WN ID</th>
+			<th>Words</th>
+			<th>gloss</th>
+			<th>Edited By</th>
 			
 		</tr>
 	</thead>
 	<tbody>
-	<tr>
-					<td>"${synsetList[0].toString()}"</td>
-					<td>"${synsetList.size()}"</td>
-					</tr>
-		<c:choose>
-					<c:when test="${synsetList.size()>0}">
-					<c:forEach items="${synsetList}" varStatus="loop">
+
+					<c:forEach var="synset" items="${synsetList}" varStatus="loop">
 					<tr>
-					<td>"${synsetList[1].toString()}"</td>
-					<td>"${loop.index}"</td>
+					<td><a href='EditSynsetsnoun?action=ShowEditSynset&type=noun&id=<c:out value="${synset.getEWNId()}"/>'>"${synset.getEWNId()}"</a></td>
+					<td>"${synset.getWordsAsString()}"</td>
+					<td>"${synset.getGloss()}"</td>
+					<td>"${synset.getUserName()}"</td>
 					</tr>
 					</c:forEach>
-					</c:when>
-					</c:choose>
+					
+					
+					
 	</tbody>
 	<tfoot>
 		<tr>
-			<th>Synset</th>
-			<th>Browser</th>
+			<th>English WN ID</th>
+			<th>Words</th>
+			<th>gloss</th>
+			<th>Edited By</th>
 			
 		</tr>
 	</tfoot>

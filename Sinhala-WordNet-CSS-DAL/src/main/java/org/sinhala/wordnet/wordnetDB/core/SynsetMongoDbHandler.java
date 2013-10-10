@@ -334,7 +334,7 @@ public class SynsetMongoDbHandler {
 
 		List<MongoSinhalaNoun> collection = mongoOperation
 				.findAll(MongoSinhalaNoun.class);
-
+		
 		return collection;
 	}
 	

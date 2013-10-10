@@ -2,6 +2,7 @@ package org.sinhala.wordnet.wordnetDB.model;
 
 import java.util.List;
 
+import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -76,6 +77,16 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	public String getGloss() {
 		// TODO Auto-generated method stub
 		return gloss;
+	}
+	
+	public String getWordsAsString() {
+		// TODO Auto-generated method stub
+		String out = "";
+		for(MongoSinhalaWord w : this.getWords()){
+			out += w.getLemma() + ", ";
+		}
+		
+		return out;
 	}
 
 	@Override
