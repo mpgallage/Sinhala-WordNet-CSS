@@ -1,7 +1,11 @@
 package org.sinhala.wordnet.wordnetDB.core;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.POS;
@@ -42,7 +46,11 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		MongoSinhalaNoun mongoNounsynset = ssmsc.converttoMongoNoun(nounSynset);
-
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+		Date date = new Date();
+		//Date formatteddate = dateFormat.format(date);
+		mongoNounsynset.setDate(date);
 
 		mongoOperation.save(mongoNounsynset);
 
@@ -59,7 +67,11 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		MongoSinhalaVerb mongoVerbsynset = ssmsc.converttoMongoVerb(verbSynset);
-
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+		Date date = new Date();
+		//Date formatteddate = dateFormat.format(date);
+		mongoVerbsynset.setDate(date);
 
 		mongoOperation.save(mongoVerbsynset);
 
@@ -75,7 +87,12 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		MongoSinhalaAdjective mongoAdjsynset = ssmsc.converttoMongoAdj(adjSynset);
-
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+		Date date = new Date();
+		//Date formatteddate = dateFormat.format(date);
+		mongoAdjsynset.setDate(date);
 
 		mongoOperation.save(mongoAdjsynset);
 

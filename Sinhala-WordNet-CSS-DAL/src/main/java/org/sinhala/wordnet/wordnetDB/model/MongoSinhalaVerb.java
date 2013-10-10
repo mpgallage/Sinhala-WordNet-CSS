@@ -1,5 +1,6 @@
 package org.sinhala.wordnet.wordnetDB.model;
 
+import java.util.Date;
 import java.util.List;
 
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
@@ -20,6 +21,7 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
 	Boolean evaluated = false;
+	Date date;
 	
 	
 	public MongoSinhalaVerb(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss,String userName) {
@@ -140,6 +142,18 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	public void SetEvaluated() {
 		// TODO Auto-generated method stub
 		evaluated = true;
+	}
+
+	@Override
+	public Date getDate() {
+		// TODO Auto-generated method stub
+		return date;
+	}
+
+	@Override
+	public void setDate(Date date) {
+		// TODO Auto-generated method stub
+		this.date = date;
 	}
 
 	
