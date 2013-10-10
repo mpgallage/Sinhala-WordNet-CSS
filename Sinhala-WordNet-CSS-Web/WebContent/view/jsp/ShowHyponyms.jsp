@@ -23,7 +23,7 @@
                             property="principal.username" /></b>
                            <sec:authorize access="hasRole('ROLE_EVALUATOR')">
  										<td><input type="button" class="button" value="ShowEvaluater"
-									onclick="window.location.href='EvaluaterMode?action=ShowEvaluater&type=noun'" />
+									onclick="window.location.href='EvaluaterMode?action=ShowEvaluater&type=<c:out value="${type}"/>'" />
 								</td>
 							</sec:authorize>
                 </sec:authorize>

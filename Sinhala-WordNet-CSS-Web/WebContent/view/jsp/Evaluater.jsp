@@ -60,7 +60,7 @@ function fnGetSelected( oTableLocal )
 
 					<c:forEach var="synset" items="${synsetList}" varStatus="loop">
 					<tr>
-					<td><a href='EditSynsetsnoun?action=ShowEditSynset&type=noun&id=<c:out value="${synset.getEWNId()}"/>'>"${synset.getEWNId()}"</a></td>
+					<td><a href='EditSynsets${type}?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getEWNId()}"/>'>"${synset.getEWNId()}"</a></td>
 					<td>"${synset.getWordsAsString()}"</td>
 					<td>"${synset.getGloss()}"</td>
 					<td>"${synset.getUserName()}"</td>

@@ -20,6 +20,7 @@ public interface MongoSinhalaSynset{
 	public String getGloss();
 	public Boolean getEvaluated();
 	public Date getDate();
+	public String getWordsAsString();
 	
 	public void setId(String id);
 	public void SetEWNId(Long eWNId);

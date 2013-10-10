@@ -61,6 +61,16 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 		// TODO Auto-generated method stub
 		return words;
 	}
+	
+	public String getWordsAsString() {
+		// TODO Auto-generated method stub
+		String out = "";
+		for(MongoSinhalaWord w : this.getWords()){
+			out += w.getLemma() + ", ";
+		}
+		
+		return out;
+	}
 
 	@Override
 	public List<MongoSinhalaSencePointer> getSencePointers() {

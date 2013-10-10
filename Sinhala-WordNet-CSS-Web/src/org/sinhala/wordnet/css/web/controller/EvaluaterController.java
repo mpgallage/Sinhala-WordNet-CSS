@@ -5,7 +5,9 @@ import java.util.List;
 
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdjective;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class EvaluaterController {
 	
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEvaluater", "type=noun" })
-	public String showRoot(ModelMap model) {
+	public String nounEvaluaterMode(ModelMap model) {
 		
 		List<MongoSinhalaNoun> list = new ArrayList<MongoSinhalaNoun>();
 		SynsetMongoDbHandler synMongoDbHandler = new SynsetMongoDbHandler();
@@ -25,6 +27,33 @@ public class EvaluaterController {
 		
 		
 		model.addAttribute("synsetList", list);
+		model.addAttribute("type", "noun");
+		return "Evaluater";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEvaluater", "type=verb" })
+	public String verbEvaluaterMode(ModelMap model) {
+		
+		List<MongoSinhalaVerb> list = new ArrayList<MongoSinhalaVerb>();
+		SynsetMongoDbHandler synMongoDbHandler = new SynsetMongoDbHandler();
+		list = synMongoDbHandler.findAllNotEvaluatedVerb();
+		
+		
+		model.addAttribute("synsetList", list);
+		model.addAttribute("type", "verb");
+		return "Evaluater";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEvaluater", "type=adj" })
+	public String adjEvaluaterMode(ModelMap model) {
+		
+		List<MongoSinhalaAdjective> list = new ArrayList<MongoSinhalaAdjective>();
+		SynsetMongoDbHandler synMongoDbHandler = new SynsetMongoDbHandler();
+		list = synMongoDbHandler.findAllNotEvaluatedAdj();
+		
+		
+		model.addAttribute("synsetList", list);
+		model.addAttribute("type", "adj");
 		return "Evaluater";
 	}
 

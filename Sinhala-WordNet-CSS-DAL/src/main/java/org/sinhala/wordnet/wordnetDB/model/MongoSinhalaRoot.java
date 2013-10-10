@@ -67,6 +67,8 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 		this.words = words;
 		
 	}
+	
+	
 
 	@Override
 	public void SetGloss(String gloss) {
@@ -103,6 +105,16 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 	public String getSMDBId() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public String getWordsAsString() {
+		// TODO Auto-generated method stub
+		String out = "";
+		for(MongoSinhalaWord w : this.getWords()){
+			out += w.getLemma() + ", ";
+		}
+		
+		return out;
 	}
 
 	@Override

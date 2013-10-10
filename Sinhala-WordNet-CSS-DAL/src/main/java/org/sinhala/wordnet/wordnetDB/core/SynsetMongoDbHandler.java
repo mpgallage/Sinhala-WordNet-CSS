@@ -355,4 +355,32 @@ public class SynsetMongoDbHandler {
 		return collection;
 	}
 	
+	public List<MongoSinhalaVerb> findAllNotEvaluatedVerb() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		List<MongoSinhalaVerb> collection = mongoOperation
+				.findAll(MongoSinhalaVerb.class);
+		
+		return collection;
+	}
+	
+	public List<MongoSinhalaAdjective> findAllNotEvaluatedAdj() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		List<MongoSinhalaAdjective> collection = mongoOperation
+				.findAll(MongoSinhalaAdjective.class);
+		
+		return collection;
+	}
+	
 }

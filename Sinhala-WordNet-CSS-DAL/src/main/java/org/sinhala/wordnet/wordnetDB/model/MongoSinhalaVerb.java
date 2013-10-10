@@ -99,6 +99,16 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 		this.words = words;
 		
 	}
+	
+	public String getWordsAsString() {
+		// TODO Auto-generated method stub
+		String out = "";
+		for(MongoSinhalaWord w : this.getWords()){
+			out += w.getLemma() + ", ";
+		}
+		
+		return out;
+	}
 
 	@Override
 	public void SetSencePointers(List<MongoSinhalaSencePointer> sencePointers) {
