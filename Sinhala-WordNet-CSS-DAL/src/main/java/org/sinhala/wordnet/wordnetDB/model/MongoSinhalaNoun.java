@@ -20,6 +20,8 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
+	String comment;
+	String rating;
 	Boolean evaluated = false;
 	Date date;
 	
@@ -100,6 +102,14 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 		// TODO Auto-generated method stub
 		this.id = id;
 	}
+	public void setComment(String comment) {
+		// TODO Auto-generated method stub
+		this.comment = comment;
+	}
+	public void setRating(String rating) {
+		// TODO Auto-generated method stub
+		this.rating = rating;
+	}
 	public void setDate(Date date) {
 		// TODO Auto-generated method stub
 		this.date = date;
@@ -153,6 +163,14 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	public Boolean getEvaluated() {
 		// TODO Auto-generated method stub
 		return evaluated;
+	}
+	public String getComment() {
+		// TODO Auto-generated method stub
+		return comment;
+	}
+	public String getRating() {
+		// TODO Auto-generated method stub
+		return rating;
 	}
 
 	@Override

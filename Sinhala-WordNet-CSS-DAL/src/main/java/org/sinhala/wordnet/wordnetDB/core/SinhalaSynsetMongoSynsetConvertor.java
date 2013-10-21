@@ -29,6 +29,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		// hjhjb
 		String userName = nounSynset.getUserName();
+		String comment = nounSynset.getComment();
+		String rating = nounSynset.getRating();
+		Boolean evaluated = nounSynset.getEvaluated();
 		long con = 123456;
 		Long ewnid = nounSynset.getOffset();
 		List<SinhalaWordNetWord> words = nounSynset.getWords();
@@ -252,6 +255,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		MongoSinhalaNoun mongoNounsynset = new MongoSinhalaNoun(ewnid,
 				wordList, sencePointerList, nounSynset.getDefinition() + "|"
 						+ nounSynset.getExample(),userName);
+		mongoNounsynset.setComment(comment);
+		mongoNounsynset.setRating(rating);
+		if(evaluated){
+		mongoNounsynset.SetEvaluated();
+		}
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoNounsynset;
 
