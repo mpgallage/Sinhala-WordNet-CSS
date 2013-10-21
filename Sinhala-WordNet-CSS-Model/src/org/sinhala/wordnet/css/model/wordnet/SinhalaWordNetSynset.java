@@ -20,7 +20,7 @@ public class SinhalaWordNetSynset {
 	protected String userName;
 	protected String comment;
 	protected String rating;
-	protected Boolean evaluated = false;
+	protected String evaluated = "false" ;
 	protected SinhalaWordNetWord gender;
 	protected List<SinhalaWordNetWord> words;
 	
@@ -64,11 +64,11 @@ public class SinhalaWordNetSynset {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void SetEvaluated(Boolean evaluated) {
+	public void SetEvaluated(String evaluated) {
 		// TODO Auto-generated method stub
 		this.evaluated = evaluated;
 	}
-	public Boolean getEvaluated() {
+	public String getEvaluated() {
 		// TODO Auto-generated method stub
 		return evaluated;
 	}

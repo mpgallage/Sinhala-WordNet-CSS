@@ -35,6 +35,8 @@ import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWord;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWordPointer;
 
+import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
+
 public class SynsetMongoDbHandler {
 
 	public void addNounSynset(NounSynset nounSynset) {
@@ -381,6 +383,23 @@ public class SynsetMongoDbHandler {
 				.findAll(MongoSinhalaAdjective.class);
 		
 		return collection;
+	}
+	public List<MongoSinhalaNoun> findNounSynsetByLemma(String word, POS pos){
+		List<MongoSinhalaSynset> collection;
+		List<MongoSinhalaNoun> nounCollection = null;
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
+		if(pos.equals(POS.NOUN)){
+			
+			nounCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+		}
+		
+		return nounCollection;
 	}
 	
 }

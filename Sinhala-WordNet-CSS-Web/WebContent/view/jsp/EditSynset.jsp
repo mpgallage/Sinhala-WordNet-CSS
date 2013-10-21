@@ -232,8 +232,8 @@ $(function() {
             					<tr>
 								<td>
 								<form:hidden path="evaluated" value ="true" />
-                            
 								</td>
+								</tr>
 									</sec:authorize>
 								
 							

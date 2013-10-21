@@ -31,7 +31,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		String userName = nounSynset.getUserName();
 		String comment = nounSynset.getComment();
 		String rating = nounSynset.getRating();
-		Boolean evaluated = nounSynset.getEvaluated();
+		String evaluated = nounSynset.getEvaluated();
 		long con = 123456;
 		Long ewnid = nounSynset.getOffset();
 		List<SinhalaWordNetWord> words = nounSynset.getWords();
@@ -257,7 +257,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						+ nounSynset.getExample(),userName);
 		mongoNounsynset.setComment(comment);
 		mongoNounsynset.setRating(rating);
-		if(evaluated){
+		if(evaluated.equals("true")){
 		mongoNounsynset.SetEvaluated();
 		}
 		// System.out.println("ssssssssss"+mongoNounsynset);
