@@ -268,7 +268,9 @@ public class ShowSynsetsController {
 			model.addAttribute("enSynset", enSynset);
 			
 			model.addAttribute("breadCrumb", breadCrumb);
-			return "ShowHyponyms";
+			SearchWord searchWord = new SearchWord();
+			model.addAttribute("searchWord", searchWord);
+			return "SearchSynset";
 			
 		} else {
 			
@@ -369,7 +371,13 @@ public class ShowSynsetsController {
 			model.addAttribute("enSynset", enSynset);
 
 			model.addAttribute("breadCrumb", breadCrumb);
-			return "ShowHyponyms";
+			
+			SearchWord searchWord = new SearchWord();
+			model.addAttribute("searchWord", searchWord);
+			
+			
+			
+			return "SearchSynset";
 		}
 		}
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowHyponyms", "type=adj" })
@@ -578,4 +586,6 @@ public class ShowSynsetsController {
 
 			}
 		}
+		
+
 }
