@@ -1,5 +1,6 @@
 package org.sinhala.wordnet.wordnetDB.core;
 
+import java.util.Collection;
 import java.util.List;
 
 import net.didion.jwnl.JWNLException;
@@ -36,7 +37,7 @@ public class App {
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		Long offset = (long) 29714;
 		
-		List<MongoSinhalaVerb> collection = synsetdb.findVerbSynsetByLemma("ආශ්වාස කිරී", POS.VERB);
+		Collection<MongoSinhalaVerb> collection = synsetdb.findVerbSynsetByLemma("ආශ්වාස කිරී", POS.VERB);
 		
 		for (MongoSinhalaVerb noun : collection) {
 			System.out.println("sysnet"+noun.toString());

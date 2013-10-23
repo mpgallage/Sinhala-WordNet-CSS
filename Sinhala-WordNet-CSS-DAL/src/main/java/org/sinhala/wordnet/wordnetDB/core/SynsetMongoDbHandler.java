@@ -3,7 +3,9 @@ package org.sinhala.wordnet.wordnetDB.core;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -15,6 +17,7 @@ import net.didion.jwnl.dictionary.Dictionary;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.mapreduce.GroupBy;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -431,9 +434,7 @@ public class SynsetMongoDbHandler {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
-<<<<<<< HEAD
 
-=======
 		List<MongoSinhalaAdjective> collection = mongoOperation
 				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
 		
@@ -452,33 +453,8 @@ public class SynsetMongoDbHandler {
 		
 		return collection;
 	}
-	public List<MongoSinhalaAdjective> findAllEditedAdj() {
-
-		@SuppressWarnings("resource")
-		ApplicationContext ctx = new AnnotationConfigApplicationContext(
-				SpringMongoConfig.class);
-		MongoOperations mongoOperation = (MongoOperations) ctx
-				.getBean("mongoTemplate");
-
->>>>>>> branch 'individual_commits' of https://github.com/mpgallage/Sinhala-WordNet-CSS.git
-		List<MongoSinhalaAdjective> collection = mongoOperation
-				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
-		
-		return collection;
-	}
-	public List<MongoSinhalaAdjective> findAllEvaluatedAdj() {
-
-		@SuppressWarnings("resource")
-		ApplicationContext ctx = new AnnotationConfigApplicationContext(
-				SpringMongoConfig.class);
-		MongoOperations mongoOperation = (MongoOperations) ctx
-				.getBean("mongoTemplate");
-		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
-		List<MongoSinhalaAdjective> collection = mongoOperation
-				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
-		
-		return collection;
-	}
+	
+	
 	
 	
 	public List<MongoSinhalaAdjective> findAllEditedAdj() {
@@ -514,22 +490,37 @@ public class SynsetMongoDbHandler {
 		return nounCollection;
 	}
 	
-	public List<MongoSinhalaVerb> findVerbSynsetByLemma(String word, POS pos){
+	public Collection<MongoSinhalaVerb> findVerbSynsetByLemma(String word, POS pos){
 		List<MongoSinhalaSynset> collection;
 		List<MongoSinhalaVerb> verbCollection = null;
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
+		
+		
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
 		if(pos.equals(POS.VERB)){
 			collection = new ArrayList<MongoSinhalaSynset>();
+			Criteria cr = new Criteria(word);
+			GroupBy gb = new GroupBy("EWNID");
+			//verbCollection = mongoOperation.group(c, "id", gb, MongoSinhalaVerb.class)
 			verbCollection = mongoOperation
 				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
 		}
+		HashMap<Long,MongoSinhalaVerb> hm = new HashMap<Long,MongoSinhalaVerb>();
+		for (MongoSinhalaVerb s : verbCollection) {
+
+			
+			hm.put(s.getEWNId(), s);
+
+		}
 		
-		return verbCollection;
+		Collection<MongoSinhalaVerb> newverbCollection = hm.values();
+		 
+		
+		return newverbCollection;
 	}
 	
 	public List<MongoSinhalaAdjective> findAdjSynsetByLemma(String word, POS pos){

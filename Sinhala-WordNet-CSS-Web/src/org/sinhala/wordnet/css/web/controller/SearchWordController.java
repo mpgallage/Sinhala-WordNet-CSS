@@ -1,6 +1,7 @@
 package org.sinhala.wordnet.css.web.controller;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
@@ -69,7 +70,7 @@ public class SearchWordController {
 		if (searchWord.isSinhala()) {
 			// search for Sinhala synsets
 			SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-			List<MongoSinhalaVerb> tempSysnsetList = dbHandler
+			Collection<MongoSinhalaVerb> tempSysnsetList = dbHandler
 					.findVerbSynsetByLemma(theWord, searchWord.getPos());//************************
 
 			if (tempSysnsetList.size() < 1) {
@@ -78,7 +79,7 @@ public class SearchWordController {
 				offsetArray = new long[tempSysnsetList.size()];
 
 				for (int i = 0; i < tempSysnsetList.size(); i++) {
-					offsetArray[i] = tempSysnsetList.get(i).getEWNId();
+					offsetArray[i] = tempSysnsetList.iterator().next().getEWNId();
 				}
 			}
 		} else {
