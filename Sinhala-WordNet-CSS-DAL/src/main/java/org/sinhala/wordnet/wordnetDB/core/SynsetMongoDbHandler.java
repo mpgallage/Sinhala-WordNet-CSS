@@ -523,7 +523,7 @@ public class SynsetMongoDbHandler {
 		return newverbCollection;
 	}
 	
-	public List<MongoSinhalaAdjective> findAdjSynsetByLemma(String word, POS pos){
+	public Collection<MongoSinhalaAdjective> findAdjSynsetByLemma(String word, POS pos){
 		List<MongoSinhalaSynset> collection;
 		List<MongoSinhalaAdjective> adjCollection = null;
 		@SuppressWarnings("resource")
@@ -532,13 +532,22 @@ public class SynsetMongoDbHandler {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
-		if(pos.equals(POS.NOUN)){
+		if(pos.equals(POS.ADJECTIVE)){
 			collection = new ArrayList<MongoSinhalaSynset>();
 			adjCollection = mongoOperation
 				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
 		}
 		
-		return adjCollection;
+		HashMap<Long,MongoSinhalaAdjective> hm = new HashMap<Long,MongoSinhalaAdjective>();
+		for (MongoSinhalaAdjective s : adjCollection) {
+
+			
+			hm.put(s.getEWNId(), s);
+
+		}
+		
+		Collection<MongoSinhalaAdjective> newadjCollection = hm.values();
+		return newadjCollection;
 	}
 	
 	
