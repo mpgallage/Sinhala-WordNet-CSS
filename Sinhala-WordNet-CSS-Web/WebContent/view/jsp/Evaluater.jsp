@@ -24,6 +24,9 @@
 var oTable;
 var giRedraw = false;
 $(document).ready(function(){
+	$(".clickableRow").click(function() {
+        window.document.location = $(this).attr("href");
+  });
 	$("#example tbody").click(function(event) {
 		$(oTable.fnSettings().aoData).each(function (){
 			$(this.nTr).removeClass('row_selected');
@@ -31,6 +34,7 @@ $(document).ready(function(){
 		$(event.target.parentNode).addClass('row_selected');
 	});
 	oTable = $('#example').dataTable( );
+	
 });
 function fnGetSelected( oTableLocal )
 {
@@ -82,7 +86,13 @@ function fnGetSelected( oTableLocal )
 								</td>
 	</tr>
 	</table>
-	</div>			
+	</div>	
+	<div id="summary">
+	<div class="whitebox">
+                        <h3>Click a row to evaluate it</h3>
+      </div>
+	
+	</div>	
 	<div id="menu">
 <table cellpadding="0" cellspacing="0" border="1" class="display" id="example">
 	<thead>
@@ -102,7 +112,7 @@ function fnGetSelected( oTableLocal )
 	<tbody>
 
 					<c:forEach var="synset" items="${synsetList}" varStatus="loop">
-					<tr>
+					<tr class='clickableRow' href='EditSynsets${type}?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getEWNId()}"/>'>
 					<td><a href='EditSynsets${type}?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset.getEWNId()}"/>'>${synset.getEWNId()}</a></td>
 					<td>${synset.getWordsAsString()}</td>
 					<td>${synset.getGloss()}</td>

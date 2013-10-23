@@ -52,7 +52,7 @@ public class EditSynsetsController {
 			NounSynset mongoCastSynset = new NounSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset);
-			
+			System.out.println("rat"+mongoCastSynset.getRating());
 			
 
 			MeaningRequestHandler meaningRequestHandler = new MeaningRequestHandler();

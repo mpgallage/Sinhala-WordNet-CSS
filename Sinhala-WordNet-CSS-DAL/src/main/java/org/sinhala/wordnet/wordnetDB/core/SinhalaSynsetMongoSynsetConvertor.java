@@ -938,8 +938,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						nounSynset.getOffset(), "", "", updatedUiWords,
 						genderWord);
 			}
-			tempNoun.setComment(mongoNoun.getComment());
+			tempNoun.setCommentByMongo(mongoNoun.getComment());
 			tempNoun.setRating(mongoNoun.getRating());
+			System.out.println(mongoNoun.getEWNId()+"id"+mongoNoun.getRating()+"rating"+tempNoun.getRating());
 			tempNoun.setUserName(mongoNoun.getUserName());
 			return tempNoun;
 
@@ -1109,7 +1110,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						genderWord);
 			}
 			
-			tempVerb.setComment(mongoVerb.getComment());
+			tempVerb.setCommentByMongo(mongoVerb.getComment());
 			tempVerb.setRating(mongoVerb.getRating());
 			tempVerb.setUserName(mongoVerb.getUserName());
 			return tempVerb;
@@ -1280,7 +1281,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						adjSynset.getOffset(), "", "", updatedUiWords,
 						genderWord);
 			}
-			tempAdj.setComment(mongoAdj.getComment());
+			tempAdj.setCommentByMongo(mongoAdj.getComment());
 			tempAdj.setRating(mongoAdj.getRating());
 			tempAdj.setUserName(mongoAdj.getUserName());
 			

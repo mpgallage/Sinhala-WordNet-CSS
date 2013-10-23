@@ -89,8 +89,36 @@ public class SinhalaWordNetSynset {
 		return comment;
 	}
 	public void setComment(String comment) {
-		this.comment = comment;
+		
+		byte ptext[] =null;
+		//byte ptext1[] =null;
+		String value=null;
+		//lemma.getBytes()
+		try {
+			//ptext = lemma.getBytes();
+			ptext = comment.getBytes("ISO8859_1");
+			value = new String(ptext, Charset.forName("UTF-8"));
+			//value = new String(ptext, "UTF-8");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(value != null){
+		this.comment = value;
+		}
+		else{
+			this.comment =comment;
+		}
+		
+		
+		
 	}
+	
+	public void setCommentByMongo(String comment){
+		this.comment =comment;
+	}
+	
 	public String getRating() {
 		return rating;
 	}
