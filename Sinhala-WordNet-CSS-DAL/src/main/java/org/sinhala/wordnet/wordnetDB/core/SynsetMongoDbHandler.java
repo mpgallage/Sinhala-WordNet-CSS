@@ -431,6 +431,9 @@ public class SynsetMongoDbHandler {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+<<<<<<< HEAD
+
+=======
 		List<MongoSinhalaAdjective> collection = mongoOperation
 				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
 		
@@ -457,11 +460,42 @@ public class SynsetMongoDbHandler {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 
+>>>>>>> branch 'individual_commits' of https://github.com/mpgallage/Sinhala-WordNet-CSS.git
 		List<MongoSinhalaAdjective> collection = mongoOperation
-				.findAll(MongoSinhalaAdjective.class);
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
 		
 		return collection;
 	}
+	public List<MongoSinhalaAdjective> findAllEvaluatedAdj() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+		List<MongoSinhalaAdjective> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+		
+		return collection;
+	}
+	
+	
+	public List<MongoSinhalaAdjective> findAllEditedAdj() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+		List<MongoSinhalaAdjective> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+		
+		return collection;
+	}
+	
+	
 	public List<MongoSinhalaNoun> findNounSynsetByLemma(String word, POS pos){
 		List<MongoSinhalaSynset> collection;
 		List<MongoSinhalaNoun> nounCollection = null;
@@ -489,7 +523,7 @@ public class SynsetMongoDbHandler {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
-		if(pos.equals(POS.NOUN)){
+		if(pos.equals(POS.VERB)){
 			collection = new ArrayList<MongoSinhalaSynset>();
 			verbCollection = mongoOperation
 				.find(searchSynsetQuery1,MongoSinhalaVerb.class);

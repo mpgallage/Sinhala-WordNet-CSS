@@ -1,5 +1,8 @@
 package org.sinhala.wordnet.css.web.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+
 import net.didion.jwnl.data.POS;
 
 public class SearchWord {
@@ -43,8 +46,19 @@ public class SearchWord {
 	}
 
 	public void setRawWord(String rawWord) {
-		this.rawWord = rawWord;
-		setCleanedWord(rawWord);
+		
+		byte[] ptext = null;
+		try {
+			ptext = rawWord.getBytes("ISO8859_1");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String value = new String(ptext, Charset.forName("UTF-8"));
+		System.out.println(value);
+		this.setCleanedWord(value);
+		this.rawWord = value;
+		
 	}
 
 	
@@ -60,8 +74,8 @@ public class SearchWord {
 
 	public boolean isSinhala() {
 		boolean isSinhala = false;
-		System.out.println(this.cleanedWord);
-		
+//		System.out.println((int)this.cleanedWord.charAt(0));
+//		System.out.println(this.cleanedWord.charAt(0));
 		char firstChar = this.cleanedWord.charAt(0);
 
 		if (firstChar <= '\u0DFF' && firstChar >= '\u0D80') {

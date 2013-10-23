@@ -1,10 +1,10 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-	<%request.setCharacterEncoding("utf-8");%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%-- pageEncoding="UTF-8" --%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+ <meta charset="UTF-8"> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -60,8 +60,7 @@
 				<form:form method="POST" modelAttribute="searchWord"
 					action="SearchWordController">
 					<td><form:input class="rWord" path="rawWord"
-							type="text/html;charset=UTF-8" maxlength="255" size="22" 
-						 />
+							type="text/html;charset=UTF-8" maxlength="255" size="22"/>
 						 <form:hidden path ="POS" value="${type}" />
 						 </td>
 					<input type="submit" value="Search" id="btn_search_word"

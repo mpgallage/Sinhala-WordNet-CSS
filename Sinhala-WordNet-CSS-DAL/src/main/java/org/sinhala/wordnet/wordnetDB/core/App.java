@@ -11,6 +11,7 @@ import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 
 
 
@@ -35,9 +36,9 @@ public class App {
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		Long offset = (long) 29714;
 		
-		List<MongoSinhalaNoun> collection = synsetdb.findNounSynsetByLemma("ථිත්", POS.NOUN);
+		List<MongoSinhalaVerb> collection = synsetdb.findVerbSynsetByLemma("ආශ්වාස කිරී", POS.VERB);
 		
-		for (MongoSinhalaNoun noun : collection) {
+		for (MongoSinhalaVerb noun : collection) {
 			System.out.println("sysnet"+noun.toString());
 		}
 		
