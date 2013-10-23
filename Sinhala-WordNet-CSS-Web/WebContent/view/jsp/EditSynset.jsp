@@ -66,7 +66,7 @@ $(function() {
                             property="principal.username" /></b>
                             <sec:authorize access="hasRole('ROLE_EVALUATOR')">
  										<td><input type="button" class="button" value="Evaluater Mode"
-									onclick="window.location.href='EvaluaterMode?action=ShowEvaluater&type=<c:out value="${type}"/>'" />
+									onclick="window.location.href='EvaluaterMode?action=ShowEvaluater&type=<c:out value="${type}"/>&mode=notevaluated'" />
 								</td>
 							</sec:authorize>
                 </sec:authorize>
@@ -208,12 +208,12 @@ $(function() {
 										<form:radiobutton path="gender.lemma" value="නොසලකා හරින්න" />නොසලකා
 										හරින්න</td>
 								</tr>
-								<tr>
-								<td>
-								<form:hidden path="userName" value ="${username}" />
-                            
-								</td>
-								</tr>
+								
+								
+								
+								
+								
+								
 								
 								
 								<sec:authorize access="hasRole('ROLE_EVALUATOR')">
@@ -227,15 +227,43 @@ $(function() {
             						<input path="rating" type="radio" name="rating" value="2" class="star">
             						<input path="rating" type="radio" name="rating" value="3" class="star">
            							<input path="rating" type="radio" name="rating" value="4" class="star">
-            						<input path="rating" type="radio" name="rating" value="5" class="star"></td>
+            						<input path="rating" type="radio" name="rating" value="5" class="star">
+            						<input path="rating" type="radio" name="rating" value="6" class="star">
+            						<input path="rating" type="radio" name="rating" value="7" class="star">
+            						<input path="rating" type="radio" name="rating" value="8" class="star">
+           							<input path="rating" type="radio" name="rating" value="9" class="star">
+            						<input path="rating" type="radio" name="rating" value="10" class="star"></td>
             					</tr>
             					<tr>
 								<td>
 								<form:hidden path="evaluated" value ="true" />
 								</td>
 								</tr>
+								<tr>
+								<td>
+								<form:hidden path="evaluatedBy" value ="${username}" />
+                            
+								</td>
+								</tr>
+								
+								<c:set var="evaluater">
+								<sec:authentication property="principal.username" /> 
+								</c:set>
 									</sec:authorize>
 								
+								<c:choose>
+                					<c:when test="${evaluater != username || userName == ''}">
+                    					<tr>
+										<td>
+											<form:hidden path="userName" value ="${username}" />
+                            
+										</td>
+										</tr>
+                					</c:when>
+                					<c:otherwise>
+                    						<form:hidden path="userName" />
+                					</c:otherwise>
+          						</c:choose>
 							
 								
 							</tbody>

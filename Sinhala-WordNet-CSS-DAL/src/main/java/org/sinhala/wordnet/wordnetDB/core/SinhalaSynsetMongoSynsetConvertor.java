@@ -32,6 +32,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		String comment = nounSynset.getComment();
 		String rating = nounSynset.getRating();
 		String evaluated = nounSynset.getEvaluated();
+		String evaluatedBy = nounSynset.getEvaluatedBy();
 		long con = 123456;
 		Long ewnid = nounSynset.getOffset();
 		List<SinhalaWordNetWord> words = nounSynset.getWords();
@@ -260,6 +261,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		if(evaluated.equals("true")){
 		mongoNounsynset.SetEvaluated();
 		}
+		mongoNounsynset.SetEvaluatedBy(evaluatedBy);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoNounsynset;
 
@@ -277,6 +279,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		// hjhjb
 		String userName = verbSynset.getUserName();
+		
+		String comment = verbSynset.getComment();
+		String rating = verbSynset.getRating();
+		String evaluated = verbSynset.getEvaluated();
+		String evaluatedBy = verbSynset.getEvaluatedBy();
 		long con = 123456;
 		Long ewnid = verbSynset.getOffset();
 		List<SinhalaWordNetWord> words = verbSynset.getWords();
@@ -504,6 +511,13 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		MongoSinhalaVerb mongoVerbsynset = new MongoSinhalaVerb(ewnid,
 				wordList, sencePointerList, verbSynset.getDefinition() + "|"
 						+ verbSynset.getExample(),userName);
+		
+		mongoVerbsynset.setComment(comment);
+		mongoVerbsynset.setRating(rating);
+		if(evaluated.equals("true")){
+		mongoVerbsynset.SetEvaluated();
+		}
+		mongoVerbsynset.SetEvaluatedBy(evaluatedBy);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoVerbsynset;
 
@@ -520,6 +534,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		// hjhjb
 		String userName = adjSynset.getUserName();
+		String comment = adjSynset.getComment();
+		String rating = adjSynset.getRating();
+		String evaluated = adjSynset.getEvaluated();
+		String evaluatedBy = adjSynset.getEvaluatedBy();
 		long con = 123456;
 		Long ewnid = adjSynset.getOffset();
 		List<SinhalaWordNetWord> words = adjSynset.getWords();
@@ -747,6 +765,14 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		MongoSinhalaAdjective mongoAdjsynset = new MongoSinhalaAdjective(ewnid,
 				wordList, sencePointerList, adjSynset.getDefinition() + "|"
 						+ adjSynset.getExample(),userName);
+		
+		
+		mongoAdjsynset.setComment(comment);
+		mongoAdjsynset.setRating(rating);
+		if(evaluated.equals("true")){
+			mongoAdjsynset.SetEvaluated();
+		}
+		mongoAdjsynset.SetEvaluatedBy(evaluatedBy);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoAdjsynset;
 
@@ -912,6 +938,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						nounSynset.getOffset(), "", "", updatedUiWords,
 						genderWord);
 			}
+			tempNoun.setComment(mongoNoun.getComment());
+			tempNoun.setRating(mongoNoun.getRating());
+			tempNoun.setUserName(mongoNoun.getUserName());
 			return tempNoun;
 
 		} else {
@@ -1079,6 +1108,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						verbSynset.getOffset(), "", "", updatedUiWords,
 						genderWord);
 			}
+			
+			tempVerb.setComment(mongoVerb.getComment());
+			tempVerb.setRating(mongoVerb.getRating());
+			tempVerb.setUserName(mongoVerb.getUserName());
 			return tempVerb;
 
 		} else {
@@ -1247,6 +1280,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						adjSynset.getOffset(), "", "", updatedUiWords,
 						genderWord);
 			}
+			tempAdj.setComment(mongoAdj.getComment());
+			tempAdj.setRating(mongoAdj.getRating());
+			tempAdj.setUserName(mongoAdj.getUserName());
+			
 			return tempAdj;
 
 		} else {

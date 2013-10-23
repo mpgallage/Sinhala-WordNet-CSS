@@ -17,10 +17,11 @@ public class SinhalaWordNetSynset {
 	protected long offset;
 	protected String definition;
 	protected String example;
-	protected String userName;
-	protected String comment;
-	protected String rating;
+	protected String userName="";
+	protected String comment="";
+	protected String rating="";
 	protected String evaluated = "false" ;
+	protected String evaluatedBy="";
 	protected SinhalaWordNetWord gender;
 	protected List<SinhalaWordNetWord> words;
 	
@@ -64,7 +65,7 @@ public class SinhalaWordNetSynset {
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void SetEvaluated(String evaluated) {
+	public void setEvaluated(String evaluated) {
 		// TODO Auto-generated method stub
 		this.evaluated = evaluated;
 	}
@@ -72,7 +73,15 @@ public class SinhalaWordNetSynset {
 		// TODO Auto-generated method stub
 		return evaluated;
 	}
-	
+
+	public void setEvaluatedBy(String evaluatedBy) {
+		// TODO Auto-generated method stub
+		this.evaluatedBy = evaluatedBy;
+	}
+	public String getEvaluatedBy() {
+		// TODO Auto-generated method stub
+		return evaluatedBy;
+	}
 	public String getUserName() {
 		return userName;
 	}

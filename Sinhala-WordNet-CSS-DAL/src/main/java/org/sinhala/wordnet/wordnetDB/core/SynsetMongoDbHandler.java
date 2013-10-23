@@ -350,7 +350,33 @@ public class SynsetMongoDbHandler {
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+		List<MongoSinhalaNoun> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaNoun> findAllEvaluatedNoun() {
 
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+		List<MongoSinhalaNoun> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaNoun> findAllEditedNoun() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		
 		List<MongoSinhalaNoun> collection = mongoOperation
 				.findAll(MongoSinhalaNoun.class);
 		
@@ -358,6 +384,32 @@ public class SynsetMongoDbHandler {
 	}
 	
 	public List<MongoSinhalaVerb> findAllNotEvaluatedVerb() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+		List<MongoSinhalaVerb> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaVerb> findAllEvaluatedVerb() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+		List<MongoSinhalaVerb> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaVerb> findAlleditedVerb() {
 
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -372,6 +424,32 @@ public class SynsetMongoDbHandler {
 	}
 	
 	public List<MongoSinhalaAdjective> findAllNotEvaluatedAdj() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+		List<MongoSinhalaAdjective> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaAdjective> findAllEvaluatedAdj() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+		List<MongoSinhalaAdjective> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaAdjective> findAllEditedAdj() {
 
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(

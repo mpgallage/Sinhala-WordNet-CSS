@@ -23,6 +23,7 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	String comment;
 	String rating;
 	Boolean evaluated = false;
+	String evaluatedBy;
 	Date date;
 	
 	
@@ -164,6 +165,10 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 		// TODO Auto-generated method stub
 		return evaluated;
 	}
+	public String getEvaluatedBY() {
+		// TODO Auto-generated method stub
+		return evaluatedBy;
+	}
 	public String getComment() {
 		// TODO Auto-generated method stub
 		return comment;
@@ -177,6 +182,10 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 	public void SetEvaluated() {
 		// TODO Auto-generated method stub
 		evaluated = true;
+	}
+	public void SetEvaluatedBy(String evaluatedBY) {
+		// TODO Auto-generated method stub
+		this.evaluatedBy = evaluatedBY;
 	}
 
 }

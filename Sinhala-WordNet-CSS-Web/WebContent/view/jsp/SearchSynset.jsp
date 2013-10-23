@@ -27,7 +27,7 @@
 							access="hasRole('ROLE_EVALUATOR')">
 							<td><input type="button" class="button"
 								value="Evaluater Mode"
-								onclick="window.location.href='EvaluaterMode?action=ShowEvaluater&type=<c:out value="${type}"/>'" />
+								onclick="window.location.href='EvaluaterMode?action=ShowEvaluater&type=<c:out value="${type}"/>&mode=notevaluated'" />
 							</td>
 						</sec:authorize>
 				</sec:authorize>
