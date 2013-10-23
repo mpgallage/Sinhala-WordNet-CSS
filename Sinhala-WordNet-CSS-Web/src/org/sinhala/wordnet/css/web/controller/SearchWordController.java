@@ -22,6 +22,7 @@ import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSynset;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -48,108 +49,86 @@ public class SearchWordController {
 		 * Searching block : English
 		 */
 		System.out.println(searchWord.getRawWord());
-		System.out.println(searchWord.getPOS());
+		System.out.println(searchWord.getPos());
 
+		// Iterator<Synset> allVerbSynsets = null;
+		PointerUtils pointerUtils = null;
 		IndexWord indexWord = null;
 		long[] offsetArray = null;
 		Synset synset = null;
-		String theWord = searchWord.getCleanedWord();
+		long parentOffset = 0;
 
+		BreadCrumb breadCrumb = new BreadCrumb(searchWord.getPos());
+		List<VerbSynset> verbSynsets = new ArrayList<VerbSynset>();//************************
+		List<VerbSynset[]> list = new ArrayList<VerbSynset[]>();//************************
+		List<Boolean> nextLevelList = new ArrayList<Boolean>();//************************
+
+		String theWord = searchWord.getCleanedWord();
 		Dictionary dict = WordNetDictionary.getInstance();
+
 		if (searchWord.isSinhala()) {
 			// search for Sinhala synsets
-			long[] sinhalaOffsetArray = null;
-			Synset[] SinhalaSynsetArray = null;
-			
-			if (SinhalaSynsetArray.length<1) {
-				return "error";
-			}else{
-				offsetArray = sinhalaOffsetArray;
-			}
+			SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+			List<MongoSinhalaVerb> tempSysnsetList = dbHandler
+					.findVerbSynsetByLemma(theWord, searchWord.getPos());//************************
 
-			
+			if (tempSysnsetList.size() < 1) {
+				return "error";
+			} else {
+				offsetArray = new long[tempSysnsetList.size()];
+
+				for (int i = 0; i < tempSysnsetList.size(); i++) {
+					offsetArray[i] = tempSysnsetList.get(i).getEWNId();
+				}
+			}
 		} else {
 			// search for English synsets
-
 			try {
-				indexWord = dict.lookupIndexWord(searchWord.getPOS(), theWord);
-
+				indexWord = dict.lookupIndexWord(searchWord.getPos(), theWord);
 			} catch (JWNLException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 			offsetArray = indexWord.getSynsetOffsets();
-			
-			if (offsetArray.length<1) {
-				return "error";
-			} else {
-
-			}
 		}
 
-		/**
-		 * Search : Sinhala
-		 */
+		if (offsetArray.length < 1) {
+			return "error";
+		} else {
 
-		// SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();//will
-		// return an array
-		//
-		// MongoSinhalaSynset sinhalaSearchedVerb =
-		// dbHandler.findBylemma(searchWord.getRawWord());
-		// VerbSynset sinhalaVerb = (VerbSynset) sinhalaSearchedVerb;
-
-		// SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertorx = new
-		// SinhalaSynsetMongoSynsetConvertor();
-		// VerbSynset castSynsetx = mongoSynsetConvertorx
-		// .OverWriteByMongo();
-
-		/*
-		 * 
-		 */
-
-		BreadCrumb breadCrumb = new BreadCrumb(searchWord.getPOS());
-		List<VerbSynset> verbSynsets = new ArrayList<VerbSynset>();
-		List<VerbSynset[]> list = new ArrayList<VerbSynset[]>();
-		PointerUtils pointerUtils = null;
-		try {
-			pointerUtils = PointerUtils.getInstance();
-			synset = dict.getSynsetAt(searchWord.getPOS(), offsetArray[0]);
-
-		} catch (NumberFormatException e) {
-			e.printStackTrace();
-		} catch (JWNLException e) {
-			e.printStackTrace();
-		}
-		List<Boolean> nextLevelList = new ArrayList<Boolean>();
-
-		for (int i = 0; i < offsetArray.length; i++) {
-			PointerTargetNodeList nodeList = new PointerTargetNodeList();
-			Synset tempSynset = null;
 			try {
-				tempSynset = dict.getSynsetAt(searchWord.getPOS(),
-						offsetArray[i]);
+				pointerUtils = PointerUtils.getInstance();
+				synset = dict.getSynsetAt(searchWord.getPos(), offsetArray[0]);
+
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
 			} catch (JWNLException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			VerbSynset tempVerb = new VerbSynset(tempSynset);
-			VerbSynset[] verbsynsetArr = new VerbSynset[2];
-			if (nodeList.size() == 0) {
+			for (int i = 0; i < offsetArray.length; i++) {
+				// PointerTargetNodeList nodeList = new PointerTargetNodeList();
+				Synset tempSynset = null;
+				try {
+					tempSynset = dict.getSynsetAt(searchWord.getPos(),
+							offsetArray[i]);
+				} catch (JWNLException e) {
 
-				verbSynsets.add(tempVerb);
+					e.printStackTrace();
+				}
+				VerbSynset tempVerb = new VerbSynset(tempSynset);//************************
+				VerbSynset[] verbsynsetArr = new VerbSynset[2];//************************
+
+				verbSynsets.add(tempVerb);//************************
 				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 				VerbSynset castSynset = mongoSynsetConvertor
-						.OverWriteByMongo(tempVerb);
-				// VerbSynset castSynset = tempVerb;
-				verbsynsetArr[0] = tempVerb;
-				verbsynsetArr[1] = castSynset;
+						.OverWriteByMongo(tempVerb);//************************
+				verbsynsetArr[0] = tempVerb;//************************
+				verbsynsetArr[1] = castSynset;//************************
 				list.add(verbsynsetArr);
 
 				PointerTargetNodeList subNodeList = null;
 				try {
 					subNodeList = pointerUtils.getDirectHyponyms(tempSynset);
 				} catch (JWNLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				if (subNodeList.size() > 0) {
@@ -158,36 +137,24 @@ public class SearchWordController {
 					nextLevelList.add(false);
 				}
 
-			}
-			if (i == 1000) {
-				break;
-			}
+				if (i == 1000) {
+					break;
+				}
 
-			i++;
+			}
+			PointerTargetNodeList listn = null;
+			try {
+				listn = pointerUtils.getDirectHypernyms(synset);
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			parentOffset = offsetArray[0];
 		}
 
-		/*
-		 * Be careful
+		/**
+		 * Search : Sinhala
 		 */
-
-		PointerTargetNodeList listn = null;
-		try {
-			listn = pointerUtils.getDirectHypernyms(synset);
-		} catch (JWNLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		// PointerTargetNode node = (PointerTargetNode) listn.get(0);
-		// Synset tempSynset = (Synset) node.getPointerTarget();
-		long parentOffset = offsetArray[0];
-		System.out.println(parentOffset);
-
-		/*
-		 * Be careful
-		 */
-
-		// long parentOffset = offsetArraay[0];
 
 		model.addAttribute("synsetList", list);
 		String type = "verb";

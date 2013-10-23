@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%request.setCharacterEncoding("utf-8");%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
@@ -59,7 +60,7 @@
 				<form:form method="POST" modelAttribute="searchWord"
 					action="SearchWordController">
 					<td><form:input class="rWord" path="rawWord"
-							type="text/html; charset=UTF-8" maxlength="255" size="22"
+							type="text/html;charset=UTF-8" maxlength="255" size="22" 
 						 />
 						 <form:hidden path ="POS" value="${type}" />
 						 </td>
@@ -104,13 +105,11 @@
 												<c:choose>
 													<c:when
 														test="${synset[0].getWordsAsString() == synset[1].getWordsAsString()}">
-														<a href=ShowSynsets?action=ShowHyponyms&type=
-															<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(No
+														<a href=SearchWordController?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(No
 															sinhala words)</a>
 													</c:when>
 													<c:otherwise>
-														<a href=ShowSynsets?action=ShowHyponyms&type=
-															<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(${synset[1].getWordsAsString()})</a>
+														<a href=SearchWordController?action=ShowHyponyms&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>>${synset[0].getWordsAsString()}(${synset[1].getWordsAsString()})</a>
 													</c:otherwise>
 												</c:choose>
 											</c:when>

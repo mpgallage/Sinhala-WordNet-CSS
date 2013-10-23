@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit Synset</title>
+
 <link rel="stylesheet" type="text/css" href="theme/css/style.css">
 <link rel="stylesheet" type="text/css" href="theme/css/jquery-ui.css">
 <link rel="shortcut icon" href="theme/images/wordnet1.jpg" />
@@ -15,6 +16,7 @@
 <script type="text/javascript" src="theme/js/expand_collapse.js"></script>
 <script type="text/javascript" src="theme/js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="theme/js/jquery-ui.js"></script>
+
 <script type="text/javascript">
 	var counter = ${synset.getWords().size()};
 </script>
@@ -38,6 +40,16 @@ $(function() {
 	};
 });
 </script>
+
+<link rel="stylesheet" href="theme/star-rating/jquery.rating.css">
+<script type="text/javascript" src="theme/star-rating/jquery.js"></script>
+<script type="text/javascript" src="theme/star-rating/jquery.rating.js"></script>
+<script type="text/javascript" src="theme/star-rating/jquery.form.js"></script>
+<script type="text/javascript" src="theme/star-rating/jquery.rating.pack.js"></script>
+<script type="text/javascript" src="theme/star-rating/jquery.Metadata.js"></script>
+
+
+
 </head>
 <body>
     <div class="top_div">
@@ -202,6 +214,30 @@ $(function() {
                             
 								</td>
 								</tr>
+								
+								
+								<sec:authorize access="hasRole('ROLE_EVALUATOR')">
+								<tr>
+ 										<td><label>comment :</label></td>
+									<td><form:textarea path="comment" rows="5" cols="30" /></td>
+								</tr>
+								<tr>
+									<td><label>Rating</label></td>
+								<td><input path="rating" type="radio" name="rating" value="1" class="star">
+            						<input path="rating" type="radio" name="rating" value="2" class="star">
+            						<input path="rating" type="radio" name="rating" value="3" class="star">
+           							<input path="rating" type="radio" name="rating" value="4" class="star">
+            						<input path="rating" type="radio" name="rating" value="5" class="star"></td>
+            					</tr>
+            					<tr>
+								<td>
+								<form:hidden path="evaluated" value ="true" />
+								</td>
+								</tr>
+									</sec:authorize>
+								
+							
+								
 							</tbody>
 						</table>
 					</div>

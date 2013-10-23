@@ -7,40 +7,52 @@ public class SearchWord {
 	private String rawWord;
 	private String cleanedWord;
 	private POS Pos;
+	private String POS;
 
 	public SearchWord() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public SearchWord(String raWord, String Pos) {
-		this.rawWord = raWord;
-
-		if (Pos.equalsIgnoreCase("noun")) {
-			this.Pos = POS.NOUN;
-		} else if (Pos.equalsIgnoreCase("verb")) {
-			this.Pos = POS.VERB;
-		} else if (Pos.equalsIgnoreCase("adj")) {
-			this.Pos = POS.ADJECTIVE;
-		} else if (Pos.equalsIgnoreCase("adv")) {
-			this.Pos = POS.ADVERB;
-		}
-
-		raWord = raWord.replaceAll("_", " ");
-		raWord = raWord.trim();
-		this.cleanedWord = raWord;
+	
+	public void setCleanedWord(String cleanedWord) {
+		this.cleanedWord = cleanedWord;
 	}
+
 
 	public String getRawWord() {
 		return rawWord;
 	}
 
-	public void setRawWord(String rawWord) {
-		this.rawWord = rawWord;
+	public String getPOS() {
+		return POS;
 	}
 
-	public POS getPOS() {
+	public void setPOS(String pOS) {
+		
+		if (pOS.equalsIgnoreCase("noun")) {
+			this.Pos = net.didion.jwnl.data.POS.NOUN;
+		} else if (pOS.equalsIgnoreCase("verb")) {
+			this.Pos = net.didion.jwnl.data.POS.VERB;
+		} else if (pOS.equalsIgnoreCase("adj")) {
+			this.Pos = net.didion.jwnl.data.POS.ADJECTIVE;
+		} else if (pOS.equalsIgnoreCase("adv")) {
+			this.Pos = net.didion.jwnl.data.POS.ADVERB;
+		}
+		
+		POS = pOS;
+	}
+
+	public void setRawWord(String rawWord) {
+		this.rawWord = rawWord;
+		setCleanedWord(rawWord);
+	}
+
+	
+	
+	public POS getPos() {
 		return Pos;
 	}
+
 
 	public String getCleanedWord() {
 		return cleanedWord;
@@ -48,6 +60,8 @@ public class SearchWord {
 
 	public boolean isSinhala() {
 		boolean isSinhala = false;
+		System.out.println(this.cleanedWord);
+		
 		char firstChar = this.cleanedWord.charAt(0);
 
 		if (firstChar <= '\u0DFF' && firstChar >= '\u0D80') {
