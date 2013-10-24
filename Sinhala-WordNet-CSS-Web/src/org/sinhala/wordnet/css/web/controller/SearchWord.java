@@ -22,12 +22,23 @@ public class SearchWord {
 	private String cleanedWord;
 	private POS Pos;
 	private String POS;
+	private String errorMessage="";
 
 	public SearchWord() {
 		// TODO Auto-generated constructor stub
 	}
 
 	
+	public String getErrorMessage() {
+		return errorMessage;
+	}
+
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+	}
+
+
 	public void setCleanedWord(String cleanedWord) {
 		this.cleanedWord = cleanedWord;
 	}
