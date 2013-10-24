@@ -629,7 +629,9 @@ public class ShowSynsetsController {
 						theWord, pos);
 
 				if (offsetCollection.size() < 1) {
-					return "error";
+					searchWord.setErrorMessage("Currently no result found for : "+searchWord.getCleanedWord());
+					model.addAttribute("breadCrumb", breadCrumb);
+					return "ShowHyponyms";
 				} else {
 					offsetArray = new long[offsetCollection.size()];
 					for (int i = 0; i < offsetCollection.size(); i++) {
@@ -644,11 +646,20 @@ public class ShowSynsetsController {
 				} catch (JWNLException e1) {
 					e1.printStackTrace();
 				}
-				offsetArray = indexWord.getSynsetOffsets();
+				if (indexWord !=null) {
+					offsetArray = indexWord.getSynsetOffsets();
+				}else{
+					searchWord.setErrorMessage("Currently no result found for : "+searchWord.getCleanedWord());
+					model.addAttribute("breadCrumb", breadCrumb);
+					return "ShowHyponyms";
+				}
+				
 			}
 
 			if (offsetArray.length < 1) {
-				return "error";
+				searchWord.setErrorMessage("Currently no result found for : "+searchWord.getCleanedWord());
+				model.addAttribute("breadCrumb", breadCrumb);
+				return "ShowHyponyms";
 			} else {
 
 				try {
