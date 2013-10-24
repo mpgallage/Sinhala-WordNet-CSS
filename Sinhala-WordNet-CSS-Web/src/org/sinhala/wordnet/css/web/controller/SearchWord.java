@@ -72,30 +72,6 @@ public class SearchWord {
 		
 	}
 
-//	public VerbSynset[] getVerbList(Synset tempSynset){
-//		
-//	
-//		Dictionary dict = WordNetDictionary.getInstance();
-//		
-//		
-//	
-//			VerbSynset tempVerb = new VerbSynset(tempSynset);//************************
-//			VerbSynset[] verbsynsetArr = new VerbSynset[2];//************************
-//
-//			
-//			PointerTargetNodeList verbSynsets;
-//			verbSynsets.add(tempVerb);//************************
-//			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-//			VerbSynset castSynset = mongoSynsetConvertor
-//					.OverWriteByMongo(tempVerb);//************************
-//			verbsynsetArr[0] = tempVerb;//************************
-//			verbsynsetArr[1] = castSynset;//************************
-//			
-//			
-//		
-//		return verbsynsetArr;
-//	}
-	
 	public POS getPos() {
 		return Pos;
 	}
