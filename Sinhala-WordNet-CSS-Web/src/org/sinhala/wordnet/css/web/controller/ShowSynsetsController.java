@@ -77,7 +77,7 @@ public class ShowSynsetsController {
 					Synset s = (Synset) target;
 					NounSynset tempNoun = new NounSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
+					NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
 					// NounSynset castSynset = new NounSynset();
 					nounsynsetArr[0] = tempNoun;
 					nounsynsetArr[1] = castSynset;
@@ -123,7 +123,7 @@ public class ShowSynsetsController {
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 			NounSynset enSynset = mongoSynsetConvertor
-					.OverWriteByMongo(nounSynset);
+					.OverWriteByMongo(nounSynset,"");
 			model.addAttribute("enSynset", enSynset);
 			
 			model.addAttribute("breadCrumb", breadCrumb);
@@ -152,7 +152,7 @@ public class ShowSynsetsController {
 			NounSynset[] nounsynsetArr = new NounSynset[2];
 			NounSynset tempNoun = new NounSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun);
+			NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
 			// NounSynset castSynset = new NounSynset();
 			nounsynsetArr[0] = tempNoun;
 			nounsynsetArr[1] = castSynset;
@@ -169,7 +169,7 @@ public class ShowSynsetsController {
 			mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 			NounSynset enSynset = mongoSynsetConvertor
-					.OverWriteByMongo(nounSynset);
+					.OverWriteByMongo(nounSynset,"");
 			model.addAttribute("enSynset", enSynset);
 
 			model.addAttribute("breadCrumb", breadCrumb);
@@ -218,7 +218,7 @@ public class ShowSynsetsController {
 					Synset s = (Synset) target;
 					VerbSynset tempVerb = new VerbSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb);
+					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb,"");
 					// NounSynset castSynset = new NounSynset();
 					verbsynsetArr[0] = tempVerb;
 					verbsynsetArr[1] = castSynset;
@@ -264,7 +264,7 @@ public class ShowSynsetsController {
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 			VerbSynset enSynset = mongoSynsetConvertor
-					.OverWriteByMongo(verbSynset);
+					.OverWriteByMongo(verbSynset,"");
 			model.addAttribute("enSynset", enSynset);
 			
 			model.addAttribute("breadCrumb", breadCrumb);
@@ -314,7 +314,7 @@ public class ShowSynsetsController {
 					
 					verbSynsets.add(tempVerb);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb);
+					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb,"");
 					//VerbSynset castSynset = tempVerb;
 					verbsynsetArr[0] = tempVerb;
 					verbsynsetArr[1] = castSynset;
@@ -367,7 +367,7 @@ public class ShowSynsetsController {
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 			VerbSynset enSynset = mongoSynsetConvertor
-					.OverWriteByMongo(verbSynset);
+					.OverWriteByMongo(verbSynset,"");
 			model.addAttribute("enSynset", enSynset);
 
 			model.addAttribute("breadCrumb", breadCrumb);
@@ -422,7 +422,7 @@ public class ShowSynsetsController {
 					Synset s = (Synset) target;
 					AdjectiveSynset tempAdj = new AdjectiveSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					AdjectiveSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempAdj);
+					AdjectiveSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempAdj,"");
 					// NounSynset castSynset = new NounSynset();
 					adjsynsetArr[0] = tempAdj;
 					adjsynsetArr[1] = castSynset;
@@ -468,7 +468,7 @@ public class ShowSynsetsController {
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 			AdjectiveSynset enSynset = mongoSynsetConvertor
-					.OverWriteByMongo(adjSynset);
+					.OverWriteByMongo(adjSynset,"");
 			model.addAttribute("enSynset", enSynset);
 			
 			model.addAttribute("breadCrumb", breadCrumb);
@@ -516,7 +516,7 @@ public class ShowSynsetsController {
 					
 					adjSynsets.add(tempVerb);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					AdjectiveSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb);
+					AdjectiveSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb,"");
 					//VerbSynset castSynset = tempVerb;
 					adjsynsetArr[0] = tempVerb;
 					adjsynsetArr[1] = castSynset;
@@ -569,7 +569,7 @@ public class ShowSynsetsController {
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 			AdjectiveSynset enSynset = mongoSynsetConvertor
-					.OverWriteByMongo(adjSynset);
+					.OverWriteByMongo(adjSynset,"");
 			model.addAttribute("enSynset", enSynset);
 
 			model.addAttribute("breadCrumb", breadCrumb);

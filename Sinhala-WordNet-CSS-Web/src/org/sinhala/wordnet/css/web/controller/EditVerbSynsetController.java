@@ -31,7 +31,7 @@ public class EditVerbSynsetController {
 	
 	
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEditSynset", "type=verb" })
-	public String showVerbEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
+	public String showVerbEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type,@RequestParam(value = "mongoid", required = false) String mongoid) {
 
 		if (id != null && !"".equals(id)) {
 			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.VERB);
@@ -50,7 +50,7 @@ public class EditVerbSynsetController {
 			VerbSynset castSynset = new VerbSynset(synset);
 			VerbSynset mongoCastSynset = new VerbSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset);
+			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
 			
 			
 
@@ -110,6 +110,6 @@ public class EditVerbSynsetController {
 
 		// model.addAttribute("synset", synset);
 
-		return showVerbEditSynset(String.valueOf(synset.getOffset()), model, "verb");
+		return showVerbEditSynset(String.valueOf(synset.getOffset()), model, "verb","");
 	}
 }

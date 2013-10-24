@@ -138,7 +138,59 @@ public class SynsetMongoDbHandler {
 
 		}
 	}
+	
+	public MongoSinhalaNoun findBySynsetMongoId(String findId) {
 
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));
+		MongoSinhalaNoun foundSynset = null;
+		List<MongoSinhalaNoun> collection = mongoOperation.find(
+				searchSynsetQuery1, MongoSinhalaNoun.class);
+		if (collection.size() > 0) {
+			foundSynset = collection.get(collection.size() - 1);
+		}
+		return foundSynset;
+	}
+	public MongoSinhalaVerb findVerbByMongoSynsetId(String findId) {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));
+		MongoSinhalaVerb foundSynset = null;
+		List<MongoSinhalaVerb> collection = mongoOperation.find(
+				searchSynsetQuery1, MongoSinhalaVerb.class);
+		if (collection.size() > 0) {
+			foundSynset = collection.get(collection.size() - 1);
+		}
+		return foundSynset;
+	}
+	public MongoSinhalaAdjective findAdjByMongoSynsetId(String findId) {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));
+		MongoSinhalaAdjective foundSynset = null;
+		List<MongoSinhalaAdjective> collection = mongoOperation.find(
+				searchSynsetQuery1, MongoSinhalaAdjective.class);
+		if (collection.size() > 0) {
+			foundSynset = collection.get(collection.size() - 1);
+		}
+		return foundSynset;
+	}
+	
 	public MongoSinhalaNoun findBySynsetId(Long findId) {
 
 		@SuppressWarnings("resource")
@@ -464,9 +516,9 @@ public class SynsetMongoDbHandler {
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
-		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+		
 		List<MongoSinhalaAdjective> collection = mongoOperation
-				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+				.findAll(MongoSinhalaAdjective.class);
 		
 		return collection;
 	}

@@ -779,10 +779,16 @@ public class SinhalaSynsetMongoSynsetConvertor {
 	}
 	
 
-	public NounSynset OverWriteByMongo(NounSynset nounSynset) {
+	public NounSynset OverWriteByMongo(NounSynset nounSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
-		MongoSinhalaNoun mongoNoun = mongoDBhandler.findBySynsetId(nounSynset
+		MongoSinhalaNoun mongoNoun = null;
+		if(mongoId.equals(null)||mongoId.equals("")){
+			mongoNoun = mongoDBhandler.findBySynsetId(nounSynset
 				.getOffset());
+		}
+		else{
+			mongoNoun = mongoDBhandler.findBySynsetMongoId(mongoId);
+		}
 
 		if (mongoNoun != null) {
 			List<MongoSinhalaWord> mongoWords = mongoNoun.getWords();
@@ -940,7 +946,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			}
 			tempNoun.setCommentByMongo(mongoNoun.getComment());
 			tempNoun.setRating(mongoNoun.getRating());
-			System.out.println(mongoNoun.getEWNId()+"id"+mongoNoun.getRating()+"rating"+tempNoun.getRating());
+			//System.out.println(mongoNoun.getEWNId()+"id"+mongoNoun.getRating()+"rating"+tempNoun.getRating());
 			tempNoun.setUserName(mongoNoun.getUserName());
 			return tempNoun;
 
@@ -950,11 +956,16 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		}
 	}
 	
-	public VerbSynset OverWriteByMongo(VerbSynset verbSynset) {
+	public VerbSynset OverWriteByMongo(VerbSynset verbSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
-		MongoSinhalaVerb mongoVerb = mongoDBhandler.findVerbBySynsetId(verbSynset
+		MongoSinhalaVerb mongoVerb=null;
+		if(mongoId.equals(null)||mongoId.equals("")){
+			mongoVerb = mongoDBhandler.findVerbBySynsetId(verbSynset
 				.getOffset());
-
+		}
+		else{
+			mongoVerb = mongoDBhandler.findVerbByMongoSynsetId(mongoId);
+		}
 		if (mongoVerb != null) {
 			List<MongoSinhalaWord> mongoWords = mongoVerb.getWords();
 			// List<SinhalaWordNetWord> uiWords = nounSynset.getWords();
@@ -1122,11 +1133,16 @@ public class SinhalaSynsetMongoSynsetConvertor {
 	}
 	
 	
-	public AdjectiveSynset OverWriteByMongo(AdjectiveSynset adjSynset) {
+	public AdjectiveSynset OverWriteByMongo(AdjectiveSynset adjSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
-		MongoSinhalaAdjective mongoAdj = mongoDBhandler.findAdjBySynsetId(adjSynset
+		MongoSinhalaAdjective mongoAdj = null;
+		if(mongoId.equals(null)||mongoId.equals("")){
+		 mongoAdj = mongoDBhandler.findAdjBySynsetId(adjSynset
 				.getOffset());
-
+		}
+		else{
+			mongoAdj = mongoDBhandler.findAdjByMongoSynsetId(mongoId);
+		}
 		if (mongoAdj != null) {
 			List<MongoSinhalaWord> mongoWords = mongoAdj.getWords();
 			// List<SinhalaWordNetWord> uiWords = nounSynset.getWords();
