@@ -782,12 +782,13 @@ public class SinhalaSynsetMongoSynsetConvertor {
 	public NounSynset OverWriteByMongo(NounSynset nounSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
 		MongoSinhalaNoun mongoNoun = null;
-		if(mongoId.equals(null)||mongoId.equals("")){
-			mongoNoun = mongoDBhandler.findBySynsetId(nounSynset
-				.getOffset());
+		if(mongoId!=null && mongoId!=""){
+			mongoNoun = mongoDBhandler.findBySynsetMongoId(mongoId);
 		}
 		else{
-			mongoNoun = mongoDBhandler.findBySynsetMongoId(mongoId);
+			mongoNoun = mongoDBhandler.findBySynsetId(nounSynset
+					.getOffset());
+			
 		}
 
 		if (mongoNoun != null) {
@@ -959,13 +960,13 @@ public class SinhalaSynsetMongoSynsetConvertor {
 	public VerbSynset OverWriteByMongo(VerbSynset verbSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
 		MongoSinhalaVerb mongoVerb=null;
-		if(mongoId.equals(null)||mongoId.equals("")){
-			mongoVerb = mongoDBhandler.findVerbBySynsetId(verbSynset
-				.getOffset());
-		}
-		else{
+		if(mongoId!=null && mongoId!=""){
 			mongoVerb = mongoDBhandler.findVerbByMongoSynsetId(mongoId);
 		}
+		else{
+			mongoVerb = mongoDBhandler.findVerbBySynsetId(verbSynset
+					.getOffset());
+			}
 		if (mongoVerb != null) {
 			List<MongoSinhalaWord> mongoWords = mongoVerb.getWords();
 			// List<SinhalaWordNetWord> uiWords = nounSynset.getWords();
@@ -1136,13 +1137,13 @@ public class SinhalaSynsetMongoSynsetConvertor {
 	public AdjectiveSynset OverWriteByMongo(AdjectiveSynset adjSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
 		MongoSinhalaAdjective mongoAdj = null;
-		if(mongoId.equals(null)||mongoId.equals("")){
-		 mongoAdj = mongoDBhandler.findAdjBySynsetId(adjSynset
-				.getOffset());
-		}
-		else{
+		if(mongoId!=null && mongoId!=""){
 			mongoAdj = mongoDBhandler.findAdjByMongoSynsetId(mongoId);
 		}
+		else{
+			mongoAdj = mongoDBhandler.findAdjBySynsetId(adjSynset
+					.getOffset());
+			}
 		if (mongoAdj != null) {
 			List<MongoSinhalaWord> mongoWords = mongoAdj.getWords();
 			// List<SinhalaWordNetWord> uiWords = nounSynset.getWords();

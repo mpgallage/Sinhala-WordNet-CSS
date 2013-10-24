@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.TimeZone;
 
 import net.didion.jwnl.JWNLException;
@@ -602,10 +606,10 @@ public class SynsetMongoDbHandler {
 		return newadjCollection;
 	}
 	
-	public Collection<Long> findSynsetIDByLemma(String word, POS pos){
+	public HashMap<Long,Long> findSynsetIDByLemma(String word, POS pos){
 		
-		Collection<Long> ewnidList = new ArrayList<Long>();
-		
+		Collection<Long> ewnidList =null;
+		HashMap<Long,Long> hm = new HashMap<Long,Long>();
 		
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -618,13 +622,23 @@ public class SynsetMongoDbHandler {
 			
 			nounCollection = mongoOperation
 				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+			Set<Long> st = new HashSet<Long>();
+			st.clear();
 			
-			HashMap<Long,Long> hm = new HashMap<Long,Long>();
 			for (MongoSinhalaNoun s : nounCollection) {	
-				hm.put(s.getEWNId(), s.getEWNId());
+				System.out.println("val"+s.getEWNId());
+				Long id = s.getEWNId();
+				hm.put(id, id);
+				st.add(id);
 				}
 			
 			ewnidList = hm.values();
+			Iterator iter = hm.entrySet().iterator();
+			 
+			while (iter.hasNext()) {
+				Map.Entry mEntry = (Map.Entry) iter.next();
+				System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
+			}
 			
 		}
 		if(pos.equals(POS.VERB)){
@@ -633,7 +647,7 @@ public class SynsetMongoDbHandler {
 			verbCollection = mongoOperation
 				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
 			
-			HashMap<Long,Long> hm = new HashMap<Long,Long>();
+			
 			for (MongoSinhalaVerb s : verbCollection) {	
 				hm.put(s.getEWNId(), s.getEWNId());
 				}
@@ -646,7 +660,7 @@ public class SynsetMongoDbHandler {
 			adjCollection = mongoOperation
 				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
 			
-			HashMap<Long,Long> hm = new HashMap<Long,Long>();
+			
 			for (MongoSinhalaAdjective s : adjCollection) {	
 				hm.put(s.getEWNId(), s.getEWNId());
 				}
@@ -657,7 +671,7 @@ public class SynsetMongoDbHandler {
 		
 		
 		
-		return ewnidList;
+		return hm;
 	}
 	
 	

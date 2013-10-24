@@ -2,8 +2,10 @@ package org.sinhala.wordnet.css.web.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.IndexWord;
@@ -625,7 +627,7 @@ public class ShowSynsetsController {
 			if (searchWord.isSinhala()) {
 				// search for Sinhala synsets
 				SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-				Collection<Long> offsetCollection = dbHandler.findSynsetIDByLemma(
+				HashMap<Long,Long> offsetCollection = dbHandler.findSynsetIDByLemma(
 						theWord, pos);
 
 				if (offsetCollection.size() < 1) {
@@ -634,10 +636,20 @@ public class ShowSynsetsController {
 					return "ShowHyponyms";
 				} else {
 					offsetArray = new long[offsetCollection.size()];
-					for (int i = 0; i < offsetCollection.size(); i++) {
+					
+					Iterator iter = offsetCollection.entrySet().iterator();
+					 int i=0;
+					while (iter.hasNext()) {
+						Map.Entry mEntry = (Map.Entry) iter.next();
+						offsetArray[i] = (long) mEntry.getValue();
+						System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
+						i++;
+					}
+					
+					/*for (int i = 0; i < offsetCollection.size(); i++) {
 						offsetArray[i] = offsetCollection.iterator().next()
 								.longValue();
-					}
+					}*/
 				}
 			} else {
 				// search for English synsets

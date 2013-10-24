@@ -37,9 +37,9 @@ public class App {
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		Long offset = (long) 29714;
 		
-		Collection<MongoSinhalaVerb> collection = synsetdb.findVerbSynsetByLemma("ආශ්වාස කිරී", POS.VERB);
+		Collection<MongoSinhalaNoun> collection = synsetdb.findNounSynsetByLemma("ම", POS.NOUN);
 		
-		for (MongoSinhalaVerb noun : collection) {
+		for (MongoSinhalaNoun noun : collection) {
 			System.out.println("sysnet"+noun.toString());
 		}
 		
