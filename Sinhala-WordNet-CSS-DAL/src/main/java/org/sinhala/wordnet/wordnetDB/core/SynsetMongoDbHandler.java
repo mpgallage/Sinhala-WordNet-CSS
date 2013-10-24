@@ -550,6 +550,64 @@ public class SynsetMongoDbHandler {
 		return newadjCollection;
 	}
 	
+	public Collection<Long> findSynsetIDByLemma(String word, POS pos){
+		
+		Collection<Long> ewnidList = new ArrayList<Long>();
+		
+		
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
+		if(pos.equals(POS.NOUN)){
+			List<MongoSinhalaNoun> nounCollection = null;
+			
+			nounCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+			
+			HashMap<Long,Long> hm = new HashMap<Long,Long>();
+			for (MongoSinhalaNoun s : nounCollection) {	
+				hm.put(s.getEWNId(), s.getEWNId());
+				}
+			
+			ewnidList = hm.values();
+			
+		}
+		if(pos.equals(POS.VERB)){
+			List<MongoSinhalaVerb> verbCollection = null;
+			
+			verbCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
+			
+			HashMap<Long,Long> hm = new HashMap<Long,Long>();
+			for (MongoSinhalaVerb s : verbCollection) {	
+				hm.put(s.getEWNId(), s.getEWNId());
+				}
+			
+			ewnidList = hm.values();
+		}
+		if(pos.equals(POS.ADJECTIVE)){
+			List<MongoSinhalaAdjective> adjCollection = null;
+			
+			adjCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+			
+			HashMap<Long,Long> hm = new HashMap<Long,Long>();
+			for (MongoSinhalaAdjective s : adjCollection) {	
+				hm.put(s.getEWNId(), s.getEWNId());
+				}
+			
+			ewnidList = hm.values();
+			
+		}
+		
+		
+		
+		return ewnidList;
+	}
+	
 	
 	
 }
