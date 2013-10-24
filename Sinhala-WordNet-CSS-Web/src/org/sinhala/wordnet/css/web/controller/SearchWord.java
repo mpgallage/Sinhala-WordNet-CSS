@@ -2,8 +2,19 @@ package org.sinhala.wordnet.css.web.controller;
 
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
+import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
+import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
+
+import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.POS;
+import net.didion.jwnl.data.PointerUtils;
+import net.didion.jwnl.data.Synset;
+import net.didion.jwnl.data.list.PointerTargetNodeList;
+import net.didion.jwnl.dictionary.Dictionary;
 
 public class SearchWord {
 
@@ -61,7 +72,29 @@ public class SearchWord {
 		
 	}
 
-	
+//	public VerbSynset[] getVerbList(Synset tempSynset){
+//		
+//	
+//		Dictionary dict = WordNetDictionary.getInstance();
+//		
+//		
+//	
+//			VerbSynset tempVerb = new VerbSynset(tempSynset);//************************
+//			VerbSynset[] verbsynsetArr = new VerbSynset[2];//************************
+//
+//			
+//			PointerTargetNodeList verbSynsets;
+//			verbSynsets.add(tempVerb);//************************
+//			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+//			VerbSynset castSynset = mongoSynsetConvertor
+//					.OverWriteByMongo(tempVerb);//************************
+//			verbsynsetArr[0] = tempVerb;//************************
+//			verbsynsetArr[1] = castSynset;//************************
+//			
+//			
+//		
+//		return verbsynsetArr;
+//	}
 	
 	public POS getPos() {
 		return Pos;
@@ -84,5 +117,7 @@ public class SearchWord {
 
 		return isSinhala;
 	}
+	
+	
 
 }
