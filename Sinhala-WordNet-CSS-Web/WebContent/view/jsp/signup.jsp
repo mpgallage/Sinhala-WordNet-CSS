@@ -7,47 +7,70 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="theme/css/wordnetstyle.css">
+<link rel="shortcut icon" href="theme/images/wordnet1.jpg" />
 </head>
 <body>
+	<div class="top_div">
+		<table>
+			<tr>
+				<td>
+					<h3>Sinhala WordNet CrowdSourcing System</h3>
+				</td>
 
-<div id="wrap">
-<form:form method="POST" modelAttribute="user" action="SignUp">
 
-					<table class="word_table">
-									<tbody>
-									
-										<tr>
-											<td><label>First Name</label></td>
-											<td><form:input class="fName" path="firstName" type="text/html; charset=UTF-8" maxlength="255"
-													size="22"  /></td>
-										</tr>
-										
-										 <tr>
-											<td><label>Last Name</label></td>
-											<td><form:input path="lastName" type="text" maxlength="255" size="22"/></td>
-										</tr>
-										<tr>
-											<td><label>User Name</label></td>
-											<td><form:input class="uname" path="username" type="text/html; charset=UTF-8" maxlength="255"
-													size="22"  /></td>
-										</tr>
-										
-										 <tr>
-											<td><label>Password</label></td>
-											<td><form:input path="password" type="password" maxlength="255" size="22"/></td>
-										</tr>
-										<tr>
-											<td><label>E-mail</label></td>
-											<td><form:input path="email" type="text" maxlength="255" size="22"/></td>
-										</tr>
-								</tbody>
-					</table>
+				<td><a href="<c:url value="login.jsp"/>">Login</a></td>
+			</tr>
+		</table>
+	</div>
 
-				<div class="button_div">
-					<input type="submit" value="යොමන්න" id="btn_add_synset"
-						class="button" style="float: right" />
+
+	<div id="wrap">
+		<form:form method="POST" modelAttribute="user" action="SignUp">
+			<div id="loginDiv">
+				<div>
+					<h3>Signup</h3>
 				</div>
-</form:form>
-</div>
+				<table class="word_table">
+					<tbody>
+
+						<tr>
+							<td><label>First Name</label></td>
+							<td><form:input class="formText" path="firstName"
+									type="text/html; charset=UTF-8" maxlength="255" size="22" /></td>
+						</tr>
+
+						<tr>
+							<td><label>Last Name</label></td>
+							<td><form:input class="formText" path="lastName" type="text"
+									maxlength="255" size="22" /></td>
+						</tr>
+						<tr>
+							<td><label>User Name</label></td>
+							<td><form:input class="formText" path="username"
+									type="text/html; charset=UTF-8" maxlength="255" size="22" /></td>
+						</tr>
+
+						<tr>
+							<td><label>Password</label></td>
+							<td><form:input class="formText" path="password"
+									type="password" maxlength="255" size="22" /></td>
+						</tr>
+						<tr>
+							<td><label>E-mail</label></td>
+							<td><form:input class="formText" path="email" type="text"
+									maxlength="255" size="22" /></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><input type="submit" value="යොමන්න" id="btn_add_synset"
+								class="button" style="float: right" /></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</form:form>
+	</div>
 </body>
 </html>

@@ -165,7 +165,7 @@ $(function() {
 													<form:radiobutton path="words[${loop.index}].usage.lemma"
 														value="ලිඛිත" />ලිඛිත<br>
 														<form:radiobutton path="words[${loop.index}].usage.lemma"
-														value="නොදනී" />නොදනී<br>
+														value="නොදනී" />වාචික හා  ලිඛිත<br>
 											</tr>
 											<tr>
 												<td><label>විරුද්ධ පදය</label></td>
@@ -270,7 +270,7 @@ $(function() {
 						</table>
 					</div>
 					<div class="button_div">
-						<input type="submit" value="යොමන්න" id="btn_add_synset"
+						<input type="submit" value="සුරකින්න" id="btn_add_synset"
 							class="button" style="float: right" />
 					</div>
 				</div>
