@@ -11,11 +11,11 @@ http://www.springframework.org/schema/security
  
 http://www.springframework.org/schema/security/spring-security-3.1.xsd">
  
-<http use-expressions="true">
+<http auto-config="true" use-expressions="true">
 <intercept-url pattern="/login.jsp" access="permitAll" />
-<intercept-url pattern="/**.css" access="permitAll" />
 <intercept-url pattern="/signup*" access="permitAll" />
-<intercept-url pattern="/confirm_reg*" access="permitAll" />
+<intercept-url pattern="/verify*" access="permitAll" />
+<intercept-url pattern="/theme/**" access="permitAll" />
 <intercept-url pattern="/**" access="isAuthenticated()" />
  
  <form-login

@@ -54,7 +54,8 @@ public class UserController {
 		
 		MailHandler.sendMail(to, from, subject, content);
 
-		model.addAttribute("msg", "Please check your email account for a confirmation email.");
+		model.addAttribute("success", "Please check your email account for a confirmation email.");
+		model.addAttribute("error", "");
 		return "confirm_reg";
 	}
 

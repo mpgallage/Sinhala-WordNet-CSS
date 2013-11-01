@@ -23,15 +23,18 @@ public class UserVerifyController {
 		if (user != null) {
 			if (!user.isVerified()) {
 				cuds.confirmUser(user);
-				model.addAttribute("msg",
+				model.addAttribute("success",
 						"Successfully verified account. Please login.");
+				model.addAttribute("error", "");
 			} else {
-				model.addAttribute("msg",
+				model.addAttribute("error",
 						"This user has already verified his/her account.");
+				model.addAttribute("success","");
 			}
 		} else {
-			model.addAttribute("msg",
+			model.addAttribute("error",
 					"Bad Request. Please try again with a valid request.");
+			model.addAttribute("success","");
 		}
 
 		return "confirm_reg";

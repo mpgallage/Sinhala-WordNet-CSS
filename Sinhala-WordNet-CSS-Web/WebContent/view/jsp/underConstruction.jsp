@@ -29,7 +29,7 @@
         </table>
     </div>
     <div id="warp">
-    <h2 style="color: #FF0000;">This feature is still under construction. Please try again later.</h2>
+    <h4 style="color: #FF0000;">This feature is still under construction. Please try again later.</h4>
     </div>
 </body>
 </html>

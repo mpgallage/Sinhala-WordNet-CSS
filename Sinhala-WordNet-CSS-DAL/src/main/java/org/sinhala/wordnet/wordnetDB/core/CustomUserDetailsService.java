@@ -27,10 +27,17 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		User user = getUserDetail(username);
+		if(user != null){
 		org.springframework.security.core.userdetails.User userDetail = new org.springframework.security.core.userdetails.User(
 				user.getUsername(), user.getPassword(), true, true, true, true,
 				getAuthorities(user.getRole()));
 		return userDetail;
+		}
+		else{
+			return new org.springframework.security.core.userdetails.User(
+					"user", "pass", false, true, true, true,
+					getAuthorities(0));
+		}
 
 	}
 
@@ -62,7 +69,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		User user = mongoOperation.findOne(new Query(Criteria.where("username")
 				.is(username).and("verified").is(true)), User.class);
 		if (user == null) {
-			return new User();
+			return user;
 		}
 		return user;
 	}
