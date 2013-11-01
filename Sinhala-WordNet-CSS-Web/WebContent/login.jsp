@@ -48,7 +48,7 @@
 		</tr>
 		<tr>
 			<td></td>
-			<td><input type="submit" value="ඇතුල්වන්න" id="loginBtn"
+			<td><input type="submit" value="Login" id="loginBtn"
                                 class="button" style="float: right" /></td>
 		</tr>
 		</form>

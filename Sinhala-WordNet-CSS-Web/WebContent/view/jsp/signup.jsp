@@ -64,7 +64,7 @@
                         </tr>
                         <tr>
                             <td></td>
-                            <td><input type="submit" value="යොමන්න" id="signupBtn"
+                            <td><input type="submit" value="Signup" id="signupBtn"
                                 class="button" style="float: right" /></td>
                         </tr>
                     </tbody>
