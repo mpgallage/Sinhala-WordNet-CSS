@@ -51,6 +51,8 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-web-3.2.3.RELEASE.jar" sourcepath="D:/wordnet/resource/spring-framework-4.0.0.M1-dist/spring-framework-4.0.0.M1/libs/spring-web-4.0.0.M1-javadoc.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-3.2.3.RELEASE-javadoc.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-webmvc-3.2.3.RELEASE.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/activation.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/mail.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-Common"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-Model"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Sinhala-WordNet-CSS-Util"/>
@@ -61,5 +63,7 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/spring-security-taglibs-3.1.4.RELEASE.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-core-asl-1.7.4.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-mapper-asl-1.7.4.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang3-3.1-javadoc.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/commons-lang3-3.1.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

@@ -10,44 +10,48 @@
 </head>
 <body>
 
-<div id="wrap">
-<form:form method="POST" modelAttribute="user" action="SignUp">
+	<div id="wrap">
+	<p>${error}</p>
+		<form:form method="POST" modelAttribute="user" action="SignUp">
 
-					<table class="word_table">
-									<tbody>
-									
-										<tr>
-											<td><label>First Name</label></td>
-											<td><form:input class="fName" path="firstName" type="text/html; charset=UTF-8" maxlength="255"
-													size="22"  /></td>
-										</tr>
-										
-										 <tr>
-											<td><label>Last Name</label></td>
-											<td><form:input path="lastName" type="text" maxlength="255" size="22"/></td>
-										</tr>
-										<tr>
-											<td><label>User Name</label></td>
-											<td><form:input class="uname" path="username" type="text/html; charset=UTF-8" maxlength="255"
-													size="22"  /></td>
-										</tr>
-										
-										 <tr>
-											<td><label>Password</label></td>
-											<td><form:input path="password" type="password" maxlength="255" size="22"/></td>
-										</tr>
-										<tr>
-											<td><label>E-mail</label></td>
-											<td><form:input path="email" type="text" maxlength="255" size="22"/></td>
-										</tr>
-								</tbody>
-					</table>
+			<table class="word_table">
+				<tbody>
 
-				<div class="button_div">
-					<input type="submit" value="යොමන්න" id="btn_add_synset"
-						class="button" style="float: right" />
-				</div>
-</form:form>
-</div>
+					<tr>
+						<td><label>First Name</label></td>
+						<td><form:input class="fName" path="firstName"
+								type="text/html; charset=UTF-8" maxlength="255" size="22" /></td>
+					</tr>
+
+					<tr>
+						<td><label>Last Name</label></td>
+						<td><form:input path="lastName" type="text" maxlength="255"
+								size="22" /></td>
+					</tr>
+					<tr>
+						<td><label>User Name</label></td>
+						<td><form:input class="uname" path="username"
+								type="text/html; charset=UTF-8" maxlength="255" size="22" /></td>
+					</tr>
+
+					<tr>
+						<td><label>Password</label></td>
+						<td><form:input path="password" type="password"
+								maxlength="255" size="22" /></td>
+					</tr>
+					<tr>
+						<td><label>E-mail</label></td>
+						<td><form:input path="email" type="text" maxlength="255"
+								size="22" /></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td><input type="submit" value="යොමන්න" id="btn_add_synset"
+							class="button" style="float: right" /></td>
+					</tr>
+				</tbody>
+			</table>
+		</form:form>
+	</div>
 </body>
 </html>

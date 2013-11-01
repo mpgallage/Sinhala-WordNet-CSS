@@ -8,6 +8,8 @@ public String username;
  public String lastName;
  public String email;
  public int role;
+ public boolean verified = false;
+ public String key;
  
 public User() {
  }
@@ -21,11 +23,12 @@ public void setRole(int role) {
  }
  
 public User(String username, String password, String firstName,
- String lastName) {
+ String lastName, String email) {
  this.username = username;
  this.password = password;
  this.firstName = firstName;
  this.lastName = lastName;
+ this.email = email;
  }
  
 public String getUsername() {
@@ -67,7 +70,23 @@ public String getEmail() {
 public void setEmail(String email) {
  this.email = email;
  }
- 
+
+public boolean isVerified() {
+	return verified;
+}
+
+public void setVerified(boolean verified) {
+	this.verified = verified;
+}
+
+public String getKey() {
+	return key;
+}
+
+public void setKey(String key) {
+	this.key = key;
+}
+
 @Override
  public String toString(){
  return "First Name:" + this.firstName + " Last Name:" + this.lastName + " Username:" + this.username ;
