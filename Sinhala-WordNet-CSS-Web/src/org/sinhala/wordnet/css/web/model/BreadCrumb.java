@@ -60,7 +60,7 @@ public class BreadCrumb {
 		SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 		NounSynset castSynset = mongoSynsetConvertor
-				.OverWriteByMongo(nounSynset);
+				.OverWriteByMongo(nounSynset,"");
 
 		String wordsAsString = castSynset.getWordsAsString();
 
@@ -92,7 +92,7 @@ public class BreadCrumb {
 				NounSynset nSynset = new NounSynset(s);
 
 				mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-				castSynset = mongoSynsetConvertor.OverWriteByMongo(nSynset);
+				castSynset = mongoSynsetConvertor.OverWriteByMongo(nSynset,"");
 
 				String def = castSynset.getDefinition();
 				wordsAsString = castSynset.getWordsAsString();
@@ -126,7 +126,7 @@ public class BreadCrumb {
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 			VerbSynset castSynset = mongoSynsetConvertor
-					.OverWriteByMongo(verbSynset);
+					.OverWriteByMongo(verbSynset,"");
 
 			String wordsAsString = castSynset.getWordsAsString();
 
@@ -158,7 +158,7 @@ public class BreadCrumb {
 					VerbSynset vSynset = new VerbSynset(s);
 
 					mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					castSynset = mongoSynsetConvertor.OverWriteByMongo(vSynset);
+					castSynset = mongoSynsetConvertor.OverWriteByMongo(vSynset,"");
 
 					String def = castSynset.getDefinition();
 					wordsAsString = castSynset.getWordsAsString();
@@ -191,7 +191,7 @@ public class BreadCrumb {
 				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 				AdjectiveSynset castSynset = mongoSynsetConvertor
-						.OverWriteByMongo(adjSynset);
+						.OverWriteByMongo(adjSynset,"");
 
 				String wordsAsString = castSynset.getWordsAsString();
 
@@ -223,7 +223,7 @@ public class BreadCrumb {
 						AdjectiveSynset aSynset = new AdjectiveSynset(s);
 
 						mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-						castSynset = mongoSynsetConvertor.OverWriteByMongo(aSynset);
+						castSynset = mongoSynsetConvertor.OverWriteByMongo(aSynset,"");
 
 						String def = castSynset.getDefinition();
 						wordsAsString = castSynset.getWordsAsString();

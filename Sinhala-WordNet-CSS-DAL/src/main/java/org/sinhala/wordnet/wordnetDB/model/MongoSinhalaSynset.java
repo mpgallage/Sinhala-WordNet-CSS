@@ -1,5 +1,6 @@
 package org.sinhala.wordnet.wordnetDB.model;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -18,6 +19,8 @@ public interface MongoSinhalaSynset{
 	public List<MongoSinhalaSencePointer> getSencePointers();
 	public String getGloss();
 	public Boolean getEvaluated();
+	public Date getDate();
+	public String getWordsAsString();
 	
 	public void setId(String id);
 	public void SetEWNId(Long eWNId);
@@ -27,6 +30,7 @@ public interface MongoSinhalaSynset{
 	public void SetSencePointers(List<MongoSinhalaSencePointer> sencePointers);
 	public void SetGloss(String gloss);
 	public void SetEvaluated();
+	public void setDate(Date date);
 	
 	public void getRelatedSynsets(MongoSinhalaPointerTyps relation);
 	

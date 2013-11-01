@@ -30,7 +30,7 @@ public class EditAdjSynsetController {
 	
 	
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEditSynset", "type=adj" })
-	public String showVerbEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
+	public String showVerbEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type,@RequestParam(value = "mongoid", required = false) String mongoid) {
 
 		if (id != null && !"".equals(id)) {
 			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.ADJECTIVE);
@@ -49,7 +49,7 @@ public class EditAdjSynsetController {
 			AdjectiveSynset castSynset = new AdjectiveSynset(synset);
 			AdjectiveSynset mongoCastSynset = new AdjectiveSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset);
+			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
 			
 			
 
@@ -109,7 +109,7 @@ public class EditAdjSynsetController {
 
 		// model.addAttribute("synset", synset);
 
-		return showVerbEditSynset(String.valueOf(synset.getOffset()), model, "adj");
+		return showVerbEditSynset(String.valueOf(synset.getOffset()), model, "adj","");
 	}
 
 }

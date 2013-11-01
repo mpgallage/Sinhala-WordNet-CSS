@@ -1,5 +1,8 @@
 package org.sinhala.wordnet.wordnetDB.core;
 
+import java.util.Collection;
+import java.util.List;
+
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.POS;
 import net.didion.jwnl.data.Synset;
@@ -7,6 +10,9 @@ import net.didion.jwnl.dictionary.Dictionary;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 
 
 
@@ -30,7 +36,14 @@ public class App {
 		*/
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		Long offset = (long) 29714;
-		synsetdb.update(offset);
+		
+		Collection<MongoSinhalaNoun> collection = synsetdb.findNounSynsetByLemma("ම", POS.NOUN);
+		
+		for (MongoSinhalaNoun noun : collection) {
+			System.out.println("sysnet"+noun.toString());
+		}
+		
+		//synsetdb.update(offset);
 		//SinhalaSynset sinhalasynset = synsetdb.findBylemma("ත�?ත්ත�?123456");
 		//sinhalasynset.getRelatedSynsets("hypernym");
 		//NounSynset castSynset = new NounSynset(synset);

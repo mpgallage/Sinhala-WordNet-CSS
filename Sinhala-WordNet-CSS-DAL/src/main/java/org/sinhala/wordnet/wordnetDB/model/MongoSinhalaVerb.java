@@ -1,5 +1,6 @@
 package org.sinhala.wordnet.wordnetDB.model;
 
+import java.util.Date;
 import java.util.List;
 
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
@@ -19,7 +20,11 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
+	String comment;
+	String rating;
 	Boolean evaluated = false;
+	String evaluatedBy;
+	Date date;
 	
 	
 	public MongoSinhalaVerb(Long eWNId,List<MongoSinhalaWord> words,List<MongoSinhalaSencePointer> sencePointers,String gloss,String userName) {
@@ -97,6 +102,16 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 		this.words = words;
 		
 	}
+	
+	public String getWordsAsString() {
+		// TODO Auto-generated method stub
+		String out = "";
+		for(MongoSinhalaWord w : this.getWords()){
+			out += w.getLemma() + ", ";
+		}
+		
+		return out;
+	}
 
 	@Override
 	public void SetSencePointers(List<MongoSinhalaSencePointer> sencePointers) {
@@ -142,5 +157,42 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 		evaluated = true;
 	}
 
+	@Override
+	public Date getDate() {
+		// TODO Auto-generated method stub
+		return date;
+	}
+
+	@Override
+	public void setDate(Date date) {
+		// TODO Auto-generated method stub
+		this.date = date;
+	}
 	
+	public String getEvaluatedBY() {
+		// TODO Auto-generated method stub
+		return evaluatedBy;
+	}
+	public String getComment() {
+		// TODO Auto-generated method stub
+		return comment;
+	}
+	public String getRating() {
+		// TODO Auto-generated method stub
+		return rating;
+	}
+
+	public void setComment(String comment) {
+		// TODO Auto-generated method stub
+		this.comment = comment;
+	}
+	public void setRating(String rating) {
+		// TODO Auto-generated method stub
+		this.rating = rating;
+	}
+	
+	public void SetEvaluatedBy(String evaluatedBY) {
+		// TODO Auto-generated method stub
+		this.evaluatedBy = evaluatedBY;
+	}
 }

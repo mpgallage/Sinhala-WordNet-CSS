@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class EditSynsetsController {
 
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEditSynset", "type=noun" })
-	public String showEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
+	public String showEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type,@RequestParam(value = "mongoid", required = false) String mongoid) {
 
 		if (id != null && !"".equals(id)) {
 			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.NOUN);
@@ -48,10 +48,12 @@ public class EditSynsetsController {
 				e.printStackTrace();
 			}
 
+			
+			
 			NounSynset castSynset = new NounSynset(synset);
 			NounSynset mongoCastSynset = new NounSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset);
+			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
 			
 			
 
@@ -80,7 +82,7 @@ public class EditSynsetsController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEditSynset", "type=verb" })
-	public String showVerbEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
+	public String showVerbEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type,@RequestParam(value = "mongoid", required = false) String mongoid) {
 
 		if (id != null && !"".equals(id)) {
 			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.VERB);
@@ -99,7 +101,7 @@ public class EditSynsetsController {
 			VerbSynset castSynset = new VerbSynset(synset);
 			VerbSynset mongoCastSynset = new VerbSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset);
+			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
 			
 			
 
@@ -147,15 +149,18 @@ public class EditSynsetsController {
 		
 		
 		NounSynset nSynset = (NounSynset)synset;
+		System.out.println(synset.getEvaluated()+"rating");
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		//System.out.println("user name"+nSynset.getUserName());
 		synsetdb.addNounSynset(nSynset);
+		//String rating = nSynset.getRating();
+		
 		// App app = new App();
 		// synsetdb.test();
 
 		// model.addAttribute("synset", synset);
 
-		return showEditSynset(String.valueOf(synset.getOffset()), model, "noun");
+		return showEditSynset(String.valueOf(synset.getOffset()), model, "noun","");
 	}
 	
 

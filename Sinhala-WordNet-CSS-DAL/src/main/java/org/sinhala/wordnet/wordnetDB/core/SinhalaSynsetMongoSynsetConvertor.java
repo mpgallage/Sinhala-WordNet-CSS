@@ -29,6 +29,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		// hjhjb
 		String userName = nounSynset.getUserName();
+		String comment = nounSynset.getComment();
+		String rating = nounSynset.getRating();
+		String evaluated = nounSynset.getEvaluated();
+		String evaluatedBy = nounSynset.getEvaluatedBy();
 		long con = 123456;
 		Long ewnid = nounSynset.getOffset();
 		List<SinhalaWordNetWord> words = nounSynset.getWords();
@@ -63,6 +67,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (derivationType.equalsIgnoreCase("තත්භව")) {
 						tempSynId = 2;
+					}
+					else if (derivationType.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 
 					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
@@ -132,6 +139,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
+					}
+					else if (usage.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
@@ -246,6 +256,12 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		MongoSinhalaNoun mongoNounsynset = new MongoSinhalaNoun(ewnid,
 				wordList, sencePointerList, nounSynset.getDefinition() + "|"
 						+ nounSynset.getExample(),userName);
+		mongoNounsynset.setComment(comment);
+		mongoNounsynset.setRating(rating);
+		if(evaluated.equals("true")){
+		mongoNounsynset.SetEvaluated();
+		}
+		mongoNounsynset.SetEvaluatedBy(evaluatedBy);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoNounsynset;
 
@@ -263,6 +279,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		// hjhjb
 		String userName = verbSynset.getUserName();
+		
+		String comment = verbSynset.getComment();
+		String rating = verbSynset.getRating();
+		String evaluated = verbSynset.getEvaluated();
+		String evaluatedBy = verbSynset.getEvaluatedBy();
 		long con = 123456;
 		Long ewnid = verbSynset.getOffset();
 		List<SinhalaWordNetWord> words = verbSynset.getWords();
@@ -297,6 +318,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (derivationType.equalsIgnoreCase("තත්භව")) {
 						tempSynId = 2;
+					}
+					else if (derivationType.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 
 					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
@@ -370,6 +394,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
+					}
+					else if (usage.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
@@ -484,6 +511,13 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		MongoSinhalaVerb mongoVerbsynset = new MongoSinhalaVerb(ewnid,
 				wordList, sencePointerList, verbSynset.getDefinition() + "|"
 						+ verbSynset.getExample(),userName);
+		
+		mongoVerbsynset.setComment(comment);
+		mongoVerbsynset.setRating(rating);
+		if(evaluated.equals("true")){
+		mongoVerbsynset.SetEvaluated();
+		}
+		mongoVerbsynset.SetEvaluatedBy(evaluatedBy);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoVerbsynset;
 
@@ -500,6 +534,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		// hjhjb
 		String userName = adjSynset.getUserName();
+		String comment = adjSynset.getComment();
+		String rating = adjSynset.getRating();
+		String evaluated = adjSynset.getEvaluated();
+		String evaluatedBy = adjSynset.getEvaluatedBy();
 		long con = 123456;
 		Long ewnid = adjSynset.getOffset();
 		List<SinhalaWordNetWord> words = adjSynset.getWords();
@@ -534,6 +572,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (derivationType.equalsIgnoreCase("තත්භව")) {
 						tempSynId = 2;
+					}
+					else if (derivationType.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 
 					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
@@ -607,6 +648,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						tempSynId = 1;
 					} else if (usage.equalsIgnoreCase("වාචික")) {
 						tempSynId = 2;
+					}
+					else if (usage.equalsIgnoreCase("නොදනී")) {
+						tempSynId = 3;
 					}
 					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
 							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
@@ -721,16 +765,31 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		MongoSinhalaAdjective mongoAdjsynset = new MongoSinhalaAdjective(ewnid,
 				wordList, sencePointerList, adjSynset.getDefinition() + "|"
 						+ adjSynset.getExample(),userName);
+		
+		
+		mongoAdjsynset.setComment(comment);
+		mongoAdjsynset.setRating(rating);
+		if(evaluated.equals("true")){
+			mongoAdjsynset.SetEvaluated();
+		}
+		mongoAdjsynset.SetEvaluatedBy(evaluatedBy);
 		// System.out.println("ssssssssss"+mongoNounsynset);
 		return mongoAdjsynset;
 
 	}
 	
 
-	public NounSynset OverWriteByMongo(NounSynset nounSynset) {
+	public NounSynset OverWriteByMongo(NounSynset nounSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
-		MongoSinhalaNoun mongoNoun = mongoDBhandler.findBySynsetId(nounSynset
-				.getOffset());
+		MongoSinhalaNoun mongoNoun = null;
+		if(mongoId!=null && mongoId!=""){
+			mongoNoun = mongoDBhandler.findBySynsetMongoId(mongoId);
+		}
+		else{
+			mongoNoun = mongoDBhandler.findBySynsetId(nounSynset
+					.getOffset());
+			
+		}
 
 		if (mongoNoun != null) {
 			List<MongoSinhalaWord> mongoWords = mongoNoun.getWords();
@@ -789,6 +848,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 							pointerWordUse.setLemmaFromMongo("වාචික");
 							// tempWord.getUsage().setLemmaFromMongo("වාචික");
 						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordUse.setLemmaFromMongo("නොදනී");
+							// tempWord.getUsage().setLemmaFromMongo("වාචික");
+						}
 						tempWord.setUsage(pointerWordUse);
 					} else if (wordPointers.get(j).getPointerType()
 							.equals(MongoSinhalaPointerTyps.DERIVATION_TYPE)) {
@@ -800,6 +864,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						} else if (wordPointers.get(j).getSynsetId() == 2) {
 							// System.out.println("in side if");
 							pointerWordDeri.setLemmaFromMongo("තත්භව");
+							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordDeri.setLemmaFromMongo("නොදනී");
 							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
 						}
 						tempWord.setDerivationType(pointerWordDeri);
@@ -876,6 +945,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						nounSynset.getOffset(), "", "", updatedUiWords,
 						genderWord);
 			}
+			tempNoun.setCommentByMongo(mongoNoun.getComment());
+			tempNoun.setRating(mongoNoun.getRating());
+			//System.out.println(mongoNoun.getEWNId()+"id"+mongoNoun.getRating()+"rating"+tempNoun.getRating());
+			tempNoun.setUserName(mongoNoun.getUserName());
 			return tempNoun;
 
 		} else {
@@ -884,11 +957,16 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		}
 	}
 	
-	public VerbSynset OverWriteByMongo(VerbSynset verbSynset) {
+	public VerbSynset OverWriteByMongo(VerbSynset verbSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
-		MongoSinhalaVerb mongoVerb = mongoDBhandler.findVerbBySynsetId(verbSynset
-				.getOffset());
-
+		MongoSinhalaVerb mongoVerb=null;
+		if(mongoId!=null && mongoId!=""){
+			mongoVerb = mongoDBhandler.findVerbByMongoSynsetId(mongoId);
+		}
+		else{
+			mongoVerb = mongoDBhandler.findVerbBySynsetId(verbSynset
+					.getOffset());
+			}
 		if (mongoVerb != null) {
 			List<MongoSinhalaWord> mongoWords = mongoVerb.getWords();
 			// List<SinhalaWordNetWord> uiWords = nounSynset.getWords();
@@ -946,6 +1024,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 							pointerWordUse.setLemmaFromMongo("වාචික");
 							// tempWord.getUsage().setLemmaFromMongo("වාචික");
 						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordUse.setLemmaFromMongo("නොදනී");
+							// tempWord.getUsage().setLemmaFromMongo("වාචික");
+						}
 						tempWord.setUsage(pointerWordUse);
 					} else if (wordPointers.get(j).getPointerType()
 							.equals(MongoSinhalaPointerTyps.DERIVATION_TYPE)) {
@@ -957,6 +1040,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						} else if (wordPointers.get(j).getSynsetId() == 2) {
 							// System.out.println("in side if");
 							pointerWordDeri.setLemmaFromMongo("තත්භව");
+							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordDeri.setLemmaFromMongo("නොදනී");
 							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
 						}
 						tempWord.setDerivationType(pointerWordDeri);
@@ -1033,6 +1121,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						verbSynset.getOffset(), "", "", updatedUiWords,
 						genderWord);
 			}
+			
+			tempVerb.setCommentByMongo(mongoVerb.getComment());
+			tempVerb.setRating(mongoVerb.getRating());
+			tempVerb.setUserName(mongoVerb.getUserName());
 			return tempVerb;
 
 		} else {
@@ -1042,11 +1134,16 @@ public class SinhalaSynsetMongoSynsetConvertor {
 	}
 	
 	
-	public AdjectiveSynset OverWriteByMongo(AdjectiveSynset adjSynset) {
+	public AdjectiveSynset OverWriteByMongo(AdjectiveSynset adjSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
-		MongoSinhalaAdjective mongoAdj = mongoDBhandler.findAdjBySynsetId(adjSynset
-				.getOffset());
-
+		MongoSinhalaAdjective mongoAdj = null;
+		if(mongoId!=null && mongoId!=""){
+			mongoAdj = mongoDBhandler.findAdjByMongoSynsetId(mongoId);
+		}
+		else{
+			mongoAdj = mongoDBhandler.findAdjBySynsetId(adjSynset
+					.getOffset());
+			}
 		if (mongoAdj != null) {
 			List<MongoSinhalaWord> mongoWords = mongoAdj.getWords();
 			// List<SinhalaWordNetWord> uiWords = nounSynset.getWords();
@@ -1104,6 +1201,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 							pointerWordUse.setLemmaFromMongo("වාචික");
 							// tempWord.getUsage().setLemmaFromMongo("වාචික");
 						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordUse.setLemmaFromMongo("නොදනී");
+							// tempWord.getUsage().setLemmaFromMongo("වාචික");
+						}
 						tempWord.setUsage(pointerWordUse);
 					} else if (wordPointers.get(j).getPointerType()
 							.equals(MongoSinhalaPointerTyps.DERIVATION_TYPE)) {
@@ -1115,6 +1217,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						} else if (wordPointers.get(j).getSynsetId() == 2) {
 							// System.out.println("in side if");
 							pointerWordDeri.setLemmaFromMongo("තත්භව");
+							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
+						}
+						else if (wordPointers.get(j).getSynsetId() == 3) {
+							// System.out.println("in side if");
+							pointerWordDeri.setLemmaFromMongo("නොදනී");
 							// tempWord.getOrigin().setLemmaFromMongo("තත්භව");
 						}
 						tempWord.setDerivationType(pointerWordDeri);
@@ -1191,6 +1298,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 						adjSynset.getOffset(), "", "", updatedUiWords,
 						genderWord);
 			}
+			tempAdj.setCommentByMongo(mongoAdj.getComment());
+			tempAdj.setRating(mongoAdj.getRating());
+			tempAdj.setUserName(mongoAdj.getUserName());
+			
 			return tempAdj;
 
 		} else {

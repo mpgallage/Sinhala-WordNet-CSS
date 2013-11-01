@@ -8,6 +8,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Edit Synset</title>
+
 <link rel="stylesheet" type="text/css" href="theme/css/style.css">
 <link rel="stylesheet" type="text/css" href="theme/css/jquery-ui.css">
 <link rel="shortcut icon" href="theme/images/wordnet1.jpg" />
@@ -15,6 +16,7 @@
 <script type="text/javascript" src="theme/js/expand_collapse.js"></script>
 <script type="text/javascript" src="theme/js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="theme/js/jquery-ui.js"></script>
+
 <script type="text/javascript">
 	var counter = ${synset.getWords().size()};
 </script>
@@ -38,6 +40,16 @@ $(function() {
 	};
 });
 </script>
+
+<link rel="stylesheet" href="theme/star-rating/jquery.rating.css">
+<script type="text/javascript" src="theme/star-rating/jquery.js"></script>
+<script type="text/javascript" src="theme/star-rating/jquery.rating.js"></script>
+<script type="text/javascript" src="theme/star-rating/jquery.form.js"></script>
+<script type="text/javascript" src="theme/star-rating/jquery.rating.pack.js"></script>
+<script type="text/javascript" src="theme/star-rating/jquery.Metadata.js"></script>
+
+
+
 </head>
 <body>
     <div class="top_div">
@@ -52,6 +64,11 @@ $(function() {
 					</c:set>
                     <td>You are logged in as <b><sec:authentication
                             property="principal.username" /></b>
+                            <sec:authorize access="hasRole('ROLE_EVALUATOR')">
+ 										<td><input type="button" class="button" value="Evaluater Mode"
+									onclick="window.location.href='EvaluaterMode?action=ShowEvaluater&type=<c:out value="${type}"/>&mode=notevaluated'" />
+								</td>
+							</sec:authorize>
                 </sec:authorize>
                 <td><a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
                 </td>
@@ -136,7 +153,10 @@ $(function() {
 														path="words[${loop.index}].derivationType.lemma"
 														value="තත්සම" />තත්සම<br> <form:radiobutton
 														path="words[${loop.index}].derivationType.lemma"
-														value="තත්භව" />තත්භව<br>
+														value="තත්භව" />තත්භව<br><form:radiobutton
+														path="words[${loop.index}].derivationType.lemma"
+														value="නොදනී" />නොදනී<br>
+														
 											</tr>
 											<tr>
 												<td><label>භාවිතය</label></td>
@@ -144,6 +164,8 @@ $(function() {
 														path="words[${loop.index}].usage.lemma" value="වාචික" />වාචික<br>
 													<form:radiobutton path="words[${loop.index}].usage.lemma"
 														value="ලිඛිත" />ලිඛිත<br>
+														<form:radiobutton path="words[${loop.index}].usage.lemma"
+														value="නොදනී" />නොදනී<br>
 											</tr>
 											<tr>
 												<td><label>විරුද්ධ පදය</label></td>
@@ -186,12 +208,64 @@ $(function() {
 										<form:radiobutton path="gender.lemma" value="නොසලකා හරින්න" />නොසලකා
 										හරින්න</td>
 								</tr>
+								
+								
+								
+								
+								
+								
+								
+								
+								<sec:authorize access="hasRole('ROLE_EVALUATOR')">
+								<tr>
+ 										<td><label>comment :</label></td>
+									<td><form:textarea path="comment" rows="5" cols="30" /></td>
+								</tr>
+								<tr>
+									<td><label>Rating</label></td>
+								<td><input path="rating" type="radio" name="rating" value="1" class="star">
+            						<input path="rating" type="radio" name="rating" value="2" class="star">
+            						<input path="rating" type="radio" name="rating" value="3" class="star">
+           							<input path="rating" type="radio" name="rating" value="4" class="star">
+            						<input path="rating" type="radio" name="rating" value="5" class="star">
+            						<input path="rating" type="radio" name="rating" value="6" class="star">
+            						<input path="rating" type="radio" name="rating" value="7" class="star">
+            						<input path="rating" type="radio" name="rating" value="8" class="star">
+           							<input path="rating" type="radio" name="rating" value="9" class="star">
+            						<input path="rating" type="radio" name="rating" value="10" class="star"></td>
+            					</tr>
+            					<tr>
+								<td>
+								<form:hidden path="evaluated" value ="true" />
+								</td>
+								</tr>
 								<tr>
 								<td>
-								<form:hidden path="userName" value ="${username}" />
+								<form:hidden path="evaluatedBy" value ="${username}" />
                             
 								</td>
 								</tr>
+								
+								<c:set var="evaluater">
+								<sec:authentication property="principal.username" /> 
+								</c:set>
+									</sec:authorize>
+								
+								<c:choose>
+                					<c:when test="${evaluater != username || userName == ''}">
+                    					<tr>
+										<td>
+											<form:hidden path="userName" value ="${username}" />
+                            
+										</td>
+										</tr>
+                					</c:when>
+                					<c:otherwise>
+                    						<form:hidden path="userName" />
+                					</c:otherwise>
+          						</c:choose>
+							
+								
 							</tbody>
 						</table>
 					</div>

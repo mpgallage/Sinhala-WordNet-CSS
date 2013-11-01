@@ -17,7 +17,11 @@ public class SinhalaWordNetSynset {
 	protected long offset;
 	protected String definition;
 	protected String example;
-	protected String userName;
+	protected String userName="";
+	protected String comment="";
+	protected String rating="";
+	protected String evaluated = "false" ;
+	protected String evaluatedBy="";
 	protected SinhalaWordNetWord gender;
 	protected List<SinhalaWordNetWord> words;
 	
@@ -61,13 +65,70 @@ public class SinhalaWordNetSynset {
 	public void setId(String id) {
 		this.id = id;
 	}
+	public void setEvaluated(String evaluated) {
+		// TODO Auto-generated method stub
+		this.evaluated = evaluated;
+	}
+	public String getEvaluated() {
+		// TODO Auto-generated method stub
+		return evaluated;
+	}
+
+	public void setEvaluatedBy(String evaluatedBy) {
+		// TODO Auto-generated method stub
+		this.evaluatedBy = evaluatedBy;
+	}
+	public String getEvaluatedBy() {
+		// TODO Auto-generated method stub
+		return evaluatedBy;
+	}
 	public String getUserName() {
 		return userName;
 	}
-
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		
+		byte ptext[] =null;
+		//byte ptext1[] =null;
+		String value=null;
+		//lemma.getBytes()
+		try {
+			//ptext = lemma.getBytes();
+			ptext = comment.getBytes("ISO8859_1");
+			value = new String(ptext, Charset.forName("UTF-8"));
+			//value = new String(ptext, "UTF-8");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		if(value != null){
+		this.comment = value;
+		}
+		else{
+			this.comment =comment;
+		}
+		
+		
+		
+	}
+	
+	public void setCommentByMongo(String comment){
+		this.comment =comment;
+	}
+	
+	public String getRating() {
+		return rating;
+	}
+	public void setRating(String rating) {
+		this.rating = rating;
+	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
+	
 
 	public long getOffset() {
 		return offset;

@@ -8,6 +8,14 @@ body {
     background-repeat: repeat;
     background-position: top right;
 }
+#loginpanal {
+	background-color: #8892B2;
+	background-repeat: repeat;
+	width:300px;
+	height:228px;
+	margin:150px auto;
+	border-radius:8px;
+    }
 
 #warp {
 	background-color: #8892B2;
@@ -583,3 +591,34 @@ rgba
 .top_div table h3{
     margin-left: 30%;
 }
+
+    
+#username{
+	margin-left:40px;
+	width:150px;
+	height:30px;
+	background-color:#fff;
+    border: 1px solid #999;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
+    outline: none;
+	border-radius:4px;
+	}
+#password{
+    margin-left:40px;
+	width:150px;
+	height:30px;
+	background-color:#fff;
+    border: 1px solid #999;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
+    outline: none;
+	border-radius:4px;
+	}  
+#loghead{
+	width:280px;
+	height:40px;
+	float:left;
+	margin-top:10px;
+	margin-left:10px;
+	background-color:#255C90;
+	border-radius:5px;
+	}	

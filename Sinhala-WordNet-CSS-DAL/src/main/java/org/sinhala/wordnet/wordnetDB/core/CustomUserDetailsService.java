@@ -27,16 +27,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		User user = getUserDetail(username);
-		if (user.isVerified()) {
-			org.springframework.security.core.userdetails.User userDetail = new org.springframework.security.core.userdetails.User(
-					user.getUsername(), user.getPassword(), true, true, true,
-					true, getAuthorities(user.getRole()));
-			return userDetail;
-		} else {
-			return new org.springframework.security.core.userdetails.User(
-					user.getUsername(), user.getPassword(), false, true, true,
-					true, getAuthorities(user.getRole()));
-		}
+		org.springframework.security.core.userdetails.User userDetail = new org.springframework.security.core.userdetails.User(
+				user.getUsername(), user.getPassword(), true, true, true, true,
+				getAuthorities(user.getRole()));
+		return userDetail;
+
 	}
 
 	@Autowired
@@ -65,8 +60,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		User user = mongoOperation.findOne(new Query(Criteria.where("username")
-				.is(username)), User.class);
-		System.out.println(user.toString());
+				.is(username).and("verified").is(true)), User.class);
+		if (user == null) {
+			return new User();
+		}
 		return user;
 	}
 
@@ -87,20 +84,21 @@ public class CustomUserDetailsService implements UserDetailsService {
 				.getBean("mongoTemplate");
 		mongoOperation.save(user);
 	}
-	
+
 	public void confirmUser(User user) {
 		user.setVerified(true);
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
-		
+
 		Query query = new Query();
 		query.addCriteria(Criteria.where("key").is(user.getKey()));
 		Update update = new Update();
 		update.set("verified", true);
-		
-		mongoOperation.findAndModify(query, update, new FindAndModifyOptions().returnNew(true), User.class);
+
+		mongoOperation.findAndModify(query, update,
+				new FindAndModifyOptions().returnNew(true), User.class);
 	}
 
 	public boolean isUsernameExist(String username) {

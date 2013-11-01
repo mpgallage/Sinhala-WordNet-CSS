@@ -1,7 +1,17 @@
 package org.sinhala.wordnet.wordnetDB.core;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TimeZone;
 
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.POS;
@@ -11,6 +21,7 @@ import net.didion.jwnl.dictionary.Dictionary;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.mapreduce.GroupBy;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
@@ -31,6 +42,8 @@ import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWord;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWordPointer;
 
+import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
+
 public class SynsetMongoDbHandler {
 
 	public void addNounSynset(NounSynset nounSynset) {
@@ -42,7 +55,11 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		MongoSinhalaNoun mongoNounsynset = ssmsc.converttoMongoNoun(nounSynset);
-
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+		Date date = new Date();
+		//Date formatteddate = dateFormat.format(date);
+		mongoNounsynset.setDate(date);
 
 		mongoOperation.save(mongoNounsynset);
 
@@ -59,7 +76,11 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		MongoSinhalaVerb mongoVerbsynset = ssmsc.converttoMongoVerb(verbSynset);
-
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+		Date date = new Date();
+		//Date formatteddate = dateFormat.format(date);
+		mongoVerbsynset.setDate(date);
 
 		mongoOperation.save(mongoVerbsynset);
 
@@ -75,7 +96,12 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		MongoSinhalaAdjective mongoAdjsynset = ssmsc.converttoMongoAdj(adjSynset);
-
+		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+		Date date = new Date();
+		//Date formatteddate = dateFormat.format(date);
+		mongoAdjsynset.setDate(date);
 
 		mongoOperation.save(mongoAdjsynset);
 
@@ -116,7 +142,59 @@ public class SynsetMongoDbHandler {
 
 		}
 	}
+	
+	public MongoSinhalaNoun findBySynsetMongoId(String findId) {
 
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));
+		MongoSinhalaNoun foundSynset = null;
+		List<MongoSinhalaNoun> collection = mongoOperation.find(
+				searchSynsetQuery1, MongoSinhalaNoun.class);
+		if (collection.size() > 0) {
+			foundSynset = collection.get(collection.size() - 1);
+		}
+		return foundSynset;
+	}
+	public MongoSinhalaVerb findVerbByMongoSynsetId(String findId) {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));
+		MongoSinhalaVerb foundSynset = null;
+		List<MongoSinhalaVerb> collection = mongoOperation.find(
+				searchSynsetQuery1, MongoSinhalaVerb.class);
+		if (collection.size() > 0) {
+			foundSynset = collection.get(collection.size() - 1);
+		}
+		return foundSynset;
+	}
+	public MongoSinhalaAdjective findAdjByMongoSynsetId(String findId) {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));
+		MongoSinhalaAdjective foundSynset = null;
+		List<MongoSinhalaAdjective> collection = mongoOperation.find(
+				searchSynsetQuery1, MongoSinhalaAdjective.class);
+		if (collection.size() > 0) {
+			foundSynset = collection.get(collection.size() - 1);
+		}
+		return foundSynset;
+	}
+	
 	public MongoSinhalaNoun findBySynsetId(Long findId) {
 
 		@SuppressWarnings("resource")
@@ -331,11 +409,271 @@ public class SynsetMongoDbHandler {
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+		List<MongoSinhalaNoun> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaNoun> findAllEvaluatedNoun() {
 
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+		List<MongoSinhalaNoun> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaNoun> findAllEditedNoun() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		
 		List<MongoSinhalaNoun> collection = mongoOperation
 				.findAll(MongoSinhalaNoun.class);
 		
 		return collection;
 	}
+	
+	public List<MongoSinhalaVerb> findAllNotEvaluatedVerb() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+		List<MongoSinhalaVerb> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaVerb> findAllEvaluatedVerb() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+		List<MongoSinhalaVerb> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaVerb> findAlleditedVerb() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+
+		List<MongoSinhalaVerb> collection = mongoOperation
+				.findAll(MongoSinhalaVerb.class);
+		
+		return collection;
+	}
+	
+	public List<MongoSinhalaAdjective> findAllNotEvaluatedAdj() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
+
+		List<MongoSinhalaAdjective> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+		
+		return collection;
+	}
+	public List<MongoSinhalaAdjective> findAllEvaluatedAdj() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+		List<MongoSinhalaAdjective> collection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+		
+		return collection;
+	}
+	
+	
+	
+	
+	public List<MongoSinhalaAdjective> findAllEditedAdj() {
+
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		
+		List<MongoSinhalaAdjective> collection = mongoOperation
+				.findAll(MongoSinhalaAdjective.class);
+		
+		return collection;
+	}
+	
+	
+	public List<MongoSinhalaNoun> findNounSynsetByLemma(String word, POS pos){
+		List<MongoSinhalaSynset> collection;
+		List<MongoSinhalaNoun> nounCollection = null;
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
+		if(pos.equals(POS.NOUN)){
+			collection = new ArrayList<MongoSinhalaSynset>();
+			nounCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+		}
+		
+		return nounCollection;
+	}
+	
+	public Collection<MongoSinhalaVerb> findVerbSynsetByLemma(String word, POS pos){
+		List<MongoSinhalaSynset> collection;
+		List<MongoSinhalaVerb> verbCollection = null;
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		
+		
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
+		if(pos.equals(POS.VERB)){
+			collection = new ArrayList<MongoSinhalaSynset>();
+			Criteria cr = new Criteria(word);
+			GroupBy gb = new GroupBy("EWNID");
+			//verbCollection = mongoOperation.group(c, "id", gb, MongoSinhalaVerb.class)
+			verbCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
+		}
+		HashMap<Long,MongoSinhalaVerb> hm = new HashMap<Long,MongoSinhalaVerb>();
+		for (MongoSinhalaVerb s : verbCollection) {
+
+			
+			hm.put(s.getEWNId(), s);
+
+		}
+		
+		Collection<MongoSinhalaVerb> newverbCollection = hm.values();
+		 
+		
+		return newverbCollection;
+	}
+	
+	public Collection<MongoSinhalaAdjective> findAdjSynsetByLemma(String word, POS pos){
+		List<MongoSinhalaSynset> collection;
+		List<MongoSinhalaAdjective> adjCollection = null;
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
+		if(pos.equals(POS.ADJECTIVE)){
+			collection = new ArrayList<MongoSinhalaSynset>();
+			adjCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+		}
+		
+		HashMap<Long,MongoSinhalaAdjective> hm = new HashMap<Long,MongoSinhalaAdjective>();
+		for (MongoSinhalaAdjective s : adjCollection) {
+
+			
+			hm.put(s.getEWNId(), s);
+
+		}
+		
+		Collection<MongoSinhalaAdjective> newadjCollection = hm.values();
+		return newadjCollection;
+	}
+	
+	public HashMap<Long,Long> findSynsetIDByLemma(String word, POS pos){
+		
+		Collection<Long> ewnidList =null;
+		HashMap<Long,Long> hm = new HashMap<Long,Long>();
+		
+		@SuppressWarnings("resource")
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
+		if(pos.equals(POS.NOUN)){
+			List<MongoSinhalaNoun> nounCollection = null;
+			
+			nounCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+			Set<Long> st = new HashSet<Long>();
+			st.clear();
+			
+			for (MongoSinhalaNoun s : nounCollection) {	
+				System.out.println("val"+s.getEWNId());
+				Long id = s.getEWNId();
+				hm.put(id, id);
+				st.add(id);
+				}
+			
+			ewnidList = hm.values();
+			Iterator iter = hm.entrySet().iterator();
+			 
+			while (iter.hasNext()) {
+				Map.Entry mEntry = (Map.Entry) iter.next();
+				System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
+			}
+			
+		}
+		if(pos.equals(POS.VERB)){
+			List<MongoSinhalaVerb> verbCollection = null;
+			
+			verbCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
+			
+			
+			for (MongoSinhalaVerb s : verbCollection) {	
+				hm.put(s.getEWNId(), s.getEWNId());
+				}
+			
+			ewnidList = hm.values();
+		}
+		if(pos.equals(POS.ADJECTIVE)){
+			List<MongoSinhalaAdjective> adjCollection = null;
+			
+			adjCollection = mongoOperation
+				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+			
+			
+			for (MongoSinhalaAdjective s : adjCollection) {	
+				hm.put(s.getEWNId(), s.getEWNId());
+				}
+			
+			ewnidList = hm.values();
+			
+		}
+		
+		
+		
+		return hm;
+	}
+	
+	
 	
 }
