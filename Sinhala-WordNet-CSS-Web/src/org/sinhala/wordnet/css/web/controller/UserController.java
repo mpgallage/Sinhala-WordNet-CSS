@@ -33,6 +33,12 @@ public class UserController {
 			model.addAttribute("user", user);
 			return "signup";
 		}
+		
+		if ("".equals(user.getPassword()) || user.getPassword() == null) {
+			model.addAttribute("error", "Password Cannot be empty.");
+			model.addAttribute("user", user);
+			return "signup";
+		}
 
 		if (cuds.isEmailExist(user.getEmail())) {
 			model.addAttribute("error", "Email already exist");
@@ -49,7 +55,7 @@ public class UserController {
 		String from = "no-reply@wordnet.lk";
 		String to = user.getEmail();
 		String subject = "Wordnet.lk account verification";
-		String content = "<p>Thank you for registering on woordnet.lk. Please click the link below to confirm your account.</p><br><br>"
+		String content = "<p>Thank you for registering on woordnet.lk. Please click the link below to confirm your account.</p><br>"
 				+ "<p><a href=\"http://www.wordnet.lk/crowdsource/Verify?key=" + key + "\" >" + "http://www.wordnet.lk/crowdsource/Verify?key=" + key + "</a></p>";
 		
 		MailHandler.sendMail(to, from, subject, content);

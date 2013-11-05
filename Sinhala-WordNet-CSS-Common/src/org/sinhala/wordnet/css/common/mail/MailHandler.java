@@ -17,7 +17,7 @@ public class MailHandler {
 	public static void sendMail(String to, String from, String subject, String content) {
 
 		// Assuming you are sending email from localhost
-		String host = "localhost";
+		String host = "wordnet.lk";
 
 		// Get system properties
 		Properties properties = System.getProperties();

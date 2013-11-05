@@ -21,8 +21,8 @@ public class WordNetDictionary {
 			try {
 				JWNL.initialize(new FileInputStream(
 						"/home/maal/Sinhala-WordNet-CSS/Resources/config/file_properties.xml"));
-				/*JWNL.initialize(new FileInputStream(
-					"/home/malaka/Resources/config/file_properties.xml"));*/
+				JWNL.initialize(new FileInputStream(
+					"/home/malaka/Resources/config/file_properties.xml"));
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block

@@ -1,5 +1,8 @@
 package org.sinhala.wordnet.wordnetDB.core;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,16 +30,22 @@ public class CustomUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String username)
 			throws UsernameNotFoundException {
 		User user = getUserDetail(username);
-		if(user != null){
-		org.springframework.security.core.userdetails.User userDetail = new org.springframework.security.core.userdetails.User(
-				user.getUsername(), user.getPassword(), true, true, true, true,
-				getAuthorities(user.getRole()));
-		return userDetail;
-		}
-		else{
-			return new org.springframework.security.core.userdetails.User(
-					"user", "pass", false, true, true, true,
+		if (user != null) {
+			if (user.isVerified()) {
+				org.springframework.security.core.userdetails.User userDetail = new org.springframework.security.core.userdetails.User(
+						user.getUsername(), user.getPassword(), true, true,
+						true, true, getAuthorities(user.getRole()));
+				return userDetail;
+			} else {
+				return new org.springframework.security.core.userdetails.User(
+						user.getUsername(), user.getPassword(), false, true,
+						true, true, getAuthorities(user.getRole()));
+			}
+		} else {
+			org.springframework.security.core.userdetails.User userDetail = new org.springframework.security.core.userdetails.User(
+					username, "dummyPassword", true, true, true, true,
 					getAuthorities(0));
+			return userDetail;
 		}
 
 	}
@@ -69,7 +78,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 		User user = mongoOperation.findOne(new Query(Criteria.where("username")
 				.is(username).and("verified").is(true)), User.class);
 		if (user == null) {
-			return user;
+			User userNotVerified = mongoOperation.findOne(new Query(Criteria
+					.where("username").is(username)), User.class);
+			if (userNotVerified == null) {
+				return null;
+			}
+			return userNotVerified;
 		}
 		return user;
 	}
@@ -89,6 +103,25 @@ public class CustomUserDetailsService implements UserDetailsService {
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
+
+		try {
+			MessageDigest digest = MessageDigest.getInstance("SHA-256");
+			digest.update(user.getPassword().getBytes("UTF-8"));
+			byte[] hash = digest.digest();
+			
+			StringBuffer sb = new StringBuffer();
+	        for (int i = 0; i < hash.length; i++) {
+	         sb.append(Integer.toString((hash[i] & 0xff) + 0x100, 16).substring(1));
+	        }
+	        
+	        user.setPassword(sb.toString());
+	        
+		} catch (NoSuchAlgorithmException ex) {
+			ex.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		mongoOperation.save(user);
 	}
 
