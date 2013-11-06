@@ -46,30 +46,26 @@ import org.sinhala.wordnet.wordnetDB.model.User;
 import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
 
 public class SynsetMongoDbHandler {
-	
-	
-	
-	//add synset function add synsets to mongo DB
+
+	// add synset function add synsets to mongo DB
 	public void addSynset(SinhalaWordNetSynset synset) {
-		
+
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
-		
-			MongoSinhalaSynset mongosynset = ssmsc.converttoMongoSynset(synset); // convert Sinhala Synset to MongoDB conpatible synset
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-			dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
-			Date date = new Date();
-			mongosynset.setDate(date);
-			mongoOperation.save(mongosynset);									// Save Synset in MongoDB
-			System.out.println("saved");
-		
+
+		MongoSinhalaSynset mongosynset = ssmsc.converttoMongoSynset(synset); // convert Sinhala Synset to MongoDB conpatible synset
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+		Date date = new Date();
+		mongosynset.setDate(date);
+		mongoOperation.save(mongosynset); // Save Synset in MongoDB
+		System.out.println("saved");
+
 	}
-	
-	
-	
+
 	// Root is a specific type of synset so add root will add a synset to root collection
 	public void addRoot(String lemma, String userName) {
 
@@ -80,15 +76,14 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 		List<MongoSinhalaWord> wordList = new ArrayList<MongoSinhalaWord>();
-		wordList.add(new MongoSinhalaWord(lemma, "0", null));									// setting words
-		MongoSinhalaRoot root = new MongoSinhalaRoot(wordList, "",userName);					// set root Synset
+		wordList.add(new MongoSinhalaWord(lemma, "0", null)); // setting words
+		MongoSinhalaRoot root = new MongoSinhalaRoot(wordList, "", userName); // set root Synset
 		MongoSinhalaRoot anyRoot = findRootByLemma(lemma);
-		if(anyRoot == null){																	// if same root not avalable 
-		mongoOperation.save(root);
+		if (anyRoot == null) { // if same root not avalable
+			mongoOperation.save(root);
 		}
 	}
 
-	
 	// finding a synset by its MongoDB ID
 	public MongoSinhalaSynset findBySynsetMongoId(String findId, POS pos) {
 
@@ -98,35 +93,32 @@ public class SynsetMongoDbHandler {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 
-		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId));					// MongoDB filter
+		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId)); // MongoDB filter
 		MongoSinhalaSynset foundSynset = null;
-		if(pos.equals(POS.NOUN)){																// if we need noun synset
-		List<MongoSinhalaNoun> collection = mongoOperation.find(
-				searchSynsetQuery1, MongoSinhalaNoun.class);
-		if (collection.size() > 0) {
-			foundSynset = collection.get(collection.size() - 1);
-		}
-		}
-		else if(pos.equals(POS.VERB)){															// if we need verb
+		if (pos.equals(POS.NOUN)) { // if we need noun synset
+			List<MongoSinhalaNoun> collection = mongoOperation.find(
+					searchSynsetQuery1, MongoSinhalaNoun.class);
+			if (collection.size() > 0) {
+				foundSynset = collection.get(collection.size() - 1);
+			}
+		} else if (pos.equals(POS.VERB)) { // if we need verb
 			List<MongoSinhalaVerb> collection = mongoOperation.find(
 					searchSynsetQuery1, MongoSinhalaVerb.class);
 			if (collection.size() > 0) {
 				foundSynset = collection.get(collection.size() - 1);
 			}
-			}
-		else if(pos.equals(POS.ADJECTIVE)){														// if we need Adjective
+		} else if (pos.equals(POS.ADJECTIVE)) { // if we need Adjective
 			List<MongoSinhalaAdjective> collection = mongoOperation.find(
 					searchSynsetQuery1, MongoSinhalaAdjective.class);
 			if (collection.size() > 0) {
 				foundSynset = collection.get(collection.size() - 1);
 			}
-			}
+		}
 		return foundSynset;
 	}
-	
-	
+
 	// finding a synset by its ID
-	public MongoSinhalaSynset findBySynsetId(Long findId,POS pos) {
+	public MongoSinhalaSynset findBySynsetId(Long findId, POS pos) {
 
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -136,33 +128,31 @@ public class SynsetMongoDbHandler {
 
 		Query searchSynsetQuery1 = new Query(Criteria.where("eWNId").is(findId));
 		MongoSinhalaSynset foundSynset = null;
-		if(pos.equals(POS.NOUN)){															// if we need noun
-		
-		List<MongoSinhalaNoun> collection = mongoOperation.find(
-				searchSynsetQuery1, MongoSinhalaNoun.class);
-		if (collection.size() > 0) {
-			foundSynset = collection.get(collection.size() - 1);
-		}
-		}
-		else if(pos.equals(POS.VERB)){														// if we need verb
-			
+		if (pos.equals(POS.NOUN)) { // if we need noun
+
+			List<MongoSinhalaNoun> collection = mongoOperation.find(
+					searchSynsetQuery1, MongoSinhalaNoun.class);
+			if (collection.size() > 0) {
+				foundSynset = collection.get(collection.size() - 1);
+			}
+		} else if (pos.equals(POS.VERB)) { // if we need verb
+
 			List<MongoSinhalaVerb> collection = mongoOperation.find(
 					searchSynsetQuery1, MongoSinhalaVerb.class);
 			if (collection.size() > 0) {
 				foundSynset = collection.get(collection.size() - 1);
 			}
-			}
-		else if(pos.equals(POS.ADJECTIVE)){													// if we need adjective
-			
+		} else if (pos.equals(POS.ADJECTIVE)) { // if we need adjective
+
 			List<MongoSinhalaAdjective> collection = mongoOperation.find(
 					searchSynsetQuery1, MongoSinhalaAdjective.class);
 			if (collection.size() > 0) {
 				foundSynset = collection.get(collection.size() - 1);
 			}
-			}
+		}
 		return foundSynset;
 	}
-	
+
 	// finding root by a lemma
 	public MongoSinhalaRoot findRootByLemma(String lemma) {
 
@@ -193,7 +183,7 @@ public class SynsetMongoDbHandler {
 		return foundSynset;
 	}
 
-	// finding root by its ID 
+	// finding root by its ID
 	public MongoSinhalaRoot findRootByID(String id) {
 
 		@SuppressWarnings("resource")
@@ -211,7 +201,7 @@ public class SynsetMongoDbHandler {
 		}
 		return foundSynset;
 	}
-	
+
 	// finding all root to auto completing roots
 	public List<MongoSinhalaRoot> findAllRoots() {
 
@@ -226,11 +216,10 @@ public class SynsetMongoDbHandler {
 
 		return collection;
 	}
-	
-	
-	//find synsets by pos and a request type to show in evaluator page
+
+	// find synsets by pos and a request type to show in evaluator page
 	@SuppressWarnings("null")
-	public List<MongoSinhalaSynset> findSynsets(POS pos, String type ) {
+	public List<MongoSinhalaSynset> findSynsets(POS pos, String type) {
 
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -238,117 +227,108 @@ public class SynsetMongoDbHandler {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = null;
-		if(type.equals("evaluated")){
-			searchSynsetQuery1= new Query(Criteria.where("evaluated").is(true));
-		}
-		else if(type.equals("notevaluated")){
+		if (type.equals("evaluated")) {
+			searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+		} else if (type.equals("notevaluated")) {
 			searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
-			}
-		else if(type.equals("all")){
+		} else if (type.equals("all")) {
 			searchSynsetQuery1 = new Query();
+		}
+		List<MongoSinhalaSynset> collection = new ArrayList<MongoSinhalaSynset>();
+
+		if (pos == POS.NOUN) {
+			List<MongoSinhalaNoun> nounList = mongoOperation.find(
+					searchSynsetQuery1, MongoSinhalaNoun.class);
+			for (MongoSinhalaNoun s : nounList) {
+
+				collection.add(s);
+
 			}
-		List<MongoSinhalaSynset> collection = new ArrayList<MongoSinhalaSynset>() ;
-		
-		if(pos == POS.NOUN){
-		List<MongoSinhalaNoun> nounList = mongoOperation
-				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
-		for (MongoSinhalaNoun s : nounList) {
-
-			collection.add(s);
-
-		}
-		}
-		else if(pos == POS.VERB){
-			List<MongoSinhalaVerb> verbList = mongoOperation
-					.find(searchSynsetQuery1,MongoSinhalaVerb.class);
+		} else if (pos == POS.VERB) {
+			List<MongoSinhalaVerb> verbList = mongoOperation.find(
+					searchSynsetQuery1, MongoSinhalaVerb.class);
 			for (MongoSinhalaVerb s : verbList) {
 
 				collection.add(s);
 
 			}
-			
-			}
-		else if(pos == POS.ADJECTIVE){
-			List<MongoSinhalaAdjective> adjList = mongoOperation
-					.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
+
+		} else if (pos == POS.ADJECTIVE) {
+			List<MongoSinhalaAdjective> adjList = mongoOperation.find(
+					searchSynsetQuery1, MongoSinhalaAdjective.class);
 			for (MongoSinhalaAdjective s : adjList) {
 
 				collection.add(s);
 
 			}
-			}
+		}
 		return collection;
 	}
 
-	//finding synsets by lemma and pos to impliment search through synsets in croudsourcing system
-	public HashMap<Long,Long> findSynsetIDByLemma(String word, POS pos){
-		
-		Collection<Long> ewnidList =null;
-		HashMap<Long,Long> hm = new HashMap<Long,Long>();
-		
+	// finding synsets by lemma and pos to impliment search through synsets in croudsourcing system
+	public HashMap<Long, Long> findSynsetIDByLemma(String word, POS pos) {
+
+		Collection<Long> ewnidList = null;
+		HashMap<Long, Long> hm = new HashMap<Long, Long>();
+
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
-		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma").regex(word));
-		if(pos.equals(POS.NOUN)){
+		Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma")
+				.regex(word));
+		if (pos.equals(POS.NOUN)) {
 			List<MongoSinhalaNoun> nounCollection = null;
-			
-			nounCollection = mongoOperation
-				.find(searchSynsetQuery1,MongoSinhalaNoun.class);
+
+			nounCollection = mongoOperation.find(searchSynsetQuery1,
+					MongoSinhalaNoun.class);
 			Set<Long> st = new HashSet<Long>();
 			st.clear();
-			
-			for (MongoSinhalaNoun s : nounCollection) {	
-				System.out.println("val"+s.getEWNId());
+
+			for (MongoSinhalaNoun s : nounCollection) {
+				System.out.println("val" + s.getEWNId());
 				Long id = s.getEWNId();
 				hm.put(id, id);
 				st.add(id);
-				}
-			
+			}
+
 			ewnidList = hm.values();
 			Iterator iter = hm.entrySet().iterator();
-			 
+
 			while (iter.hasNext()) {
 				Map.Entry mEntry = (Map.Entry) iter.next();
 				System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
 			}
-			
+
 		}
-		if(pos.equals(POS.VERB)){
+		if (pos.equals(POS.VERB)) {
 			List<MongoSinhalaVerb> verbCollection = null;
-			
-			verbCollection = mongoOperation
-				.find(searchSynsetQuery1,MongoSinhalaVerb.class);
-			
-			
-			for (MongoSinhalaVerb s : verbCollection) {	
+
+			verbCollection = mongoOperation.find(searchSynsetQuery1,
+					MongoSinhalaVerb.class);
+
+			for (MongoSinhalaVerb s : verbCollection) {
 				hm.put(s.getEWNId(), s.getEWNId());
-				}
-			
+			}
+
 			ewnidList = hm.values();
 		}
-		if(pos.equals(POS.ADJECTIVE)){
+		if (pos.equals(POS.ADJECTIVE)) {
 			List<MongoSinhalaAdjective> adjCollection = null;
-			
-			adjCollection = mongoOperation
-				.find(searchSynsetQuery1,MongoSinhalaAdjective.class);
-			
-			
-			for (MongoSinhalaAdjective s : adjCollection) {	
+
+			adjCollection = mongoOperation.find(searchSynsetQuery1,
+					MongoSinhalaAdjective.class);
+
+			for (MongoSinhalaAdjective s : adjCollection) {
 				hm.put(s.getEWNId(), s.getEWNId());
-				}
-			
+			}
+
 			ewnidList = hm.values();
-			
+
 		}
-		
-		
-		
+
 		return hm;
 	}
-	
-	
-	
+
 }
