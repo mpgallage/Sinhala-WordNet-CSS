@@ -19,10 +19,12 @@ public class WordNetDictionary {
 			return dict;
 		} else {
 			try {
-				JWNL.initialize(new FileInputStream(
+				/*JWNL.initialize(new FileInputStream(
 						"/home/maal/Sinhala-WordNet-CSS/Resources/config/file_properties.xml"));
 				JWNL.initialize(new FileInputStream(
-					"/home/malaka/Resources/config/file_properties.xml"));
+					"/home/malaka/Resources/config/file_properties.xml"));*/
+				JWNL.initialize(new FileInputStream(
+						"C:\\Users\\Buddhika\\git\\Sinhala-WordNet-CSS\\Resources\\config\\file_properties.xml"));
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
