@@ -68,7 +68,7 @@ public class InsertNewSynsetController {
 		
 
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		synsetdb.addNounSynset(synset);
+		synsetdb.addSynset(synset);
 		// App app = new App();
 		// synsetdb.test();
 

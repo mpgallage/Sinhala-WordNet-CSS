@@ -103,7 +103,7 @@ public class EditAdjSynsetController {
 		
 		AdjectiveSynset aSynset = (AdjectiveSynset)synset;
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		synsetdb.addAdjSynset(aSynset);
+		synsetdb.addSynset(aSynset);
 		// App app = new App();
 		// synsetdb.test();
 

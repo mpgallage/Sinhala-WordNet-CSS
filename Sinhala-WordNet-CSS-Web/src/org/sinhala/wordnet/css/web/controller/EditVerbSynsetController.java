@@ -104,7 +104,7 @@ public class EditVerbSynsetController {
 		
 		VerbSynset vSynset = (VerbSynset)synset;
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		synsetdb.addVerbSynset(vSynset);
+		synsetdb.addSynset(vSynset);
 		// App app = new App();
 		// synsetdb.test();
 

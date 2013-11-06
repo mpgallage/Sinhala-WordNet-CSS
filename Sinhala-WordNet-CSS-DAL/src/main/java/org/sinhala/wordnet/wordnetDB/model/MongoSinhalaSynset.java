@@ -32,13 +32,14 @@ public interface MongoSinhalaSynset{
 	public void SetEvaluated();
 	public void setDate(Date date);
 	
-	public void getRelatedSynsets(MongoSinhalaPointerTyps relation);
-	
 	
 	
 	
 
 	
 	public String toString();
+	public void setComment(String comment);
+	public void setRating(String rating);
+	public void SetEvaluatedBy(String evaluatedBy);
 
 }

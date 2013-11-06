@@ -152,7 +152,7 @@ public class EditSynsetsController {
 		System.out.println(synset.getEvaluated()+"rating");
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		//System.out.println("user name"+nSynset.getUserName());
-		synsetdb.addNounSynset(nSynset);
+		synsetdb.addSynset(nSynset);
 		//String rating = nSynset.getRating();
 		
 		// App app = new App();

@@ -35,13 +35,15 @@ public class App {
 		}
 		*/
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		Long offset = (long) 29714;
 		
-		Collection<MongoSinhalaNoun> collection = synsetdb.findNounSynsetByLemma("ම", POS.NOUN);
 		
-		for (MongoSinhalaNoun noun : collection) {
-			System.out.println("sysnet"+noun.toString());
-		}
+		//Long offset = (long) 29714;
+		
+		//Collection<MongoSinhalaNoun> collection = synsetdb.findNounSynsetByLemma("ම", POS.NOUN);
+		
+		//for (MongoSinhalaNoun noun : collection) {
+		//	System.out.println("sysnet"+noun.toString());
+		//}
 		
 		//synsetdb.update(offset);
 		//SinhalaSynset sinhalasynset = synsetdb.findBylemma("ත�?ත්ත�?123456");

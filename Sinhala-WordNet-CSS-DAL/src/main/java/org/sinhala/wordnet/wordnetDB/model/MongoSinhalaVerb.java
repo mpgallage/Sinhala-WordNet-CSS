@@ -125,12 +125,7 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 		this.gloss = gloss;
 	}
 
-	@Override
-	public void getRelatedSynsets(MongoSinhalaPointerTyps relation) {
-		// TODO Auto-generated method stub
-		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		synsetdb.findRelatedSynsetById(this.id, relation);
-	}
+	
 
 	@Override
 	public String getUserName() {

@@ -76,12 +76,7 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 		this.gloss = gloss;
 	}
 
-	@Override
-	public void getRelatedSynsets(MongoSinhalaPointerTyps relation) {
-		// TODO Auto-generated method stub
-		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		synsetdb.findRelatedSynsetById(this.id, relation);
-	}
+	
 
 	@Override
 	public List<MongoSinhalaSencePointer> getSencePointers() {
@@ -159,6 +154,24 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 	public void setDate(Date date) {
 		// TODO Auto-generated method stub
 		this.date = date;
+		
+	}
+
+	@Override
+	public void setComment(String comment) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setRating(String rating) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void SetEvaluatedBy(String evaluatedBy) {
+		// TODO Auto-generated method stub
 		
 	}
 

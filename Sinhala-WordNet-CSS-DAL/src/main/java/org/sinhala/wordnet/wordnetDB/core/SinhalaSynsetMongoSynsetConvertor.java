@@ -3,6 +3,8 @@ package org.sinhala.wordnet.wordnetDB.core;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.didion.jwnl.data.POS;
+
 import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
@@ -13,560 +15,54 @@ import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSencePointer;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSynset;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWord;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWordPointer;
 
 public class SinhalaSynsetMongoSynsetConvertor {
 
-	public MongoSinhalaNoun converttoMongoNoun(NounSynset nounSynset) {
+	
+	// function to convert Synset into mongoDB format
+	public MongoSinhalaSynset converttoMongoSynset(SinhalaWordNetSynset Synset) {
 
 		SinhalaWordNetWord sinhalaWordNetword = null;
-		// List<MongoSinhalaWordPointer> wordPointerList = new
-		// ArrayList<MongoSinhalaWordPointer>();
+		
 		List<MongoSinhalaWord> wordList = new ArrayList<MongoSinhalaWord>();
 		List<MongoSinhalaSencePointer> sencePointerList = new ArrayList<MongoSinhalaSencePointer>();
 
-		// hjhjb
-		String userName = nounSynset.getUserName();
-		String comment = nounSynset.getComment();
-		String rating = nounSynset.getRating();
-		String evaluated = nounSynset.getEvaluated();
-		String evaluatedBy = nounSynset.getEvaluatedBy();
+		
+		String userName = Synset.getUserName();
+		String comment = Synset.getComment();
+		String rating = Synset.getRating();
+		String evaluated = Synset.getEvaluated();
+		String evaluatedBy = Synset.getEvaluatedBy();
 		long con = 123456;
-		Long ewnid = nounSynset.getOffset();
-		List<SinhalaWordNetWord> words = nounSynset.getWords();
+		Long ewnid = Synset.getOffset();
+		List<SinhalaWordNetWord> words = Synset.getWords();
 
 		for (int i = 0; i < words.size(); i++) {
 			List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
 			String lemma = words.get(i).getLemma();
 			sinhalaWordNetword = null;
 			// try{
-			sinhalaWordNetword = words.get(i).getAntonym();
+			sinhalaWordNetword = words.get(i).getAntonym();													// get antonym
 
-			if (sinhalaWordNetword != null) {
+			if (sinhalaWordNetword != null) {																// antonym handle part
 
 				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer("n",
 						con, sinhalaWordNetword.getLemma(),
 						MongoSinhalaPointerTyps.ANTONYM);
 				wordPointerList.add(wordPointer1);
-				// System.out.println(sinhalaWordNetword+"anto"+wordPointer1);
-			}
-			// }
-			// catch(Exception e){
-			// System.out.println(e );
-			// }
-			sinhalaWordNetword = null;
-			long tempSynId = 0;
-			try {
-				sinhalaWordNetword = words.get(i).getDerivationType();// words.get(i).getDerivationType();
-				// System.out.println(sinhalaWordNetword+"devi");
-				if (sinhalaWordNetword != null) {
-					String derivationType = sinhalaWordNetword.getLemma();
-					if (derivationType.equalsIgnoreCase("තත්සම")) {
-						tempSynId = 1;
-					} else if (derivationType.equalsIgnoreCase("තත්භව")) {
-						tempSynId = 2;
-					}
-					else if (derivationType.equalsIgnoreCase("නොදනී")) {
-						tempSynId = 3;
-					}
-
-					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
-							tempSynId, "0",
-							MongoSinhalaPointerTyps.DERIVATION_TYPE);
-					wordPointerList.add(wordPointer2);
-					// System.out.println("devi"+wordPointer2);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			sinhalaWordNetword = null;
-			tempSynId = 0;
-			try {
-				sinhalaWordNetword = words.get(i).getOrigin();
-				if (sinhalaWordNetword.getId() != null) {
-
-					String origin = sinhalaWordNetword.getLemma();
-					// System.out.println("හින්දි"+origin);
-					if (origin.equalsIgnoreCase("නොදනී")) {
-						tempSynId = 1;
-					} else if (origin.equalsIgnoreCase("හින්දි")) {
-						// System.out.println("got to hindi");
-						tempSynId = 2;
-					} else if (origin.equalsIgnoreCase("දෙමළ")) {
-						tempSynId = 3;
-					} else if (origin.equalsIgnoreCase("ඉංග්‍රීසි")) {
-						tempSynId = 4;
-					} else if (origin.equalsIgnoreCase("පෘතුග්‍රීසි")) {
-						tempSynId = 5;
-					} else if (origin.equalsIgnoreCase("ලංදේසි")) {
-						tempSynId = 6;
-					} else if (origin.equalsIgnoreCase("පාලි")) {
-						tempSynId = 7;
-					} else if (origin.equalsIgnoreCase("සංස්කෘත")) {
-						tempSynId = 8;
-					}
-					MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer("o",
-							tempSynId, "0", MongoSinhalaPointerTyps.ORIGIN);
-					wordPointerList.add(wordPointer3);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			sinhalaWordNetword = null;
-			try {
-				sinhalaWordNetword = words.get(i).getRoot();
-				if (sinhalaWordNetword.getId() != null) {
-						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
-						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer("r",
-								dbHandler.findRootByLemma(
-										sinhalaWordNetword.getLemma()).getId(),
-								"0", MongoSinhalaPointerTyps.ROOT);
-						wordPointerList.add(wordPointer4);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			sinhalaWordNetword = null;
-			tempSynId = 0;
-			try {
-				sinhalaWordNetword = words.get(i).getUsage();
-				if (sinhalaWordNetword.getId() != null) {
-					String usage = sinhalaWordNetword.getLemma();
-					if (usage.equalsIgnoreCase("ලිඛිත")) {
-						tempSynId = 1;
-					} else if (usage.equalsIgnoreCase("වාචික")) {
-						tempSynId = 2;
-					}
-					else if (usage.equalsIgnoreCase("නොදනී")) {
-						tempSynId = 3;
-					}
-					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
-							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
-					wordPointerList.add(wordPointer5);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			sinhalaWordNetword = null;
-			// System.out.println("word ponter list"+1+"-"+wordPointerList);
-			MongoSinhalaWord word1 = new MongoSinhalaWord(lemma, words.get(i)
-					.getId(), wordPointerList);
-			// System.out.println("word"+1+"-"+word1);
-			wordList.add(word1);
-			// wordPointerList=null;
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> holoSynsets = null; // nounSynset.getHolonyms();
-			// System.out.println("holo"+holoSynsets);
-			for (int i = 0; i < holoSynsets.size(); i++) {
-				Long holoSynsetID = holoSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
-						holoSynsetID, MongoSinhalaPointerTyps.PART_HOLONYM);
-				sencePointerList.add(sencePointer);
-			}
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> hypernymSynsets = null; // nounSynset.getHypernyms();
-			// System.out.println("hyper"+hypernymSynsets);
-			for (int i = 0; i < hypernymSynsets.size(); i++) {
-				Long hypernymSynsetID = hypernymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
-						hypernymSynsetID, MongoSinhalaPointerTyps.HYPERNYM);
-				sencePointerList.add(sencePointer);
-			}
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> hyponymSynsets = null;// nounSynset.getHyponyms();
-			// System.out.println(hyponymSynsets.size()+"hypon"+hyponymSynsets);
-			for (int i = 0; i < hyponymSynsets.size(); i++) {
-				Long hyponymSynsetID = hyponymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
-						hyponymSynsetID, MongoSinhalaPointerTyps.HYPONYM);
-				sencePointerList.add(sencePointer);
-				// System.out.println("hypon added"+sencePointer);
-			}
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> attributeSynsets = null; // nounSynset.getAttributes();
-			// System.out.println("attri"+attributeSynsets);
-			for (int i = 0; i < attributeSynsets.size(); i++) {
-				Long attributeSynsetID = attributeSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
-						attributeSynsetID, MongoSinhalaPointerTyps.ATTRIBUTE);
-				sencePointerList.add(sencePointer);
-			}
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> meronymSynsets = null;// /nounSynset.getMeronyms();
-			// System.out.println("mero"+meronymSynsets);
-			for (int i = 0; i < meronymSynsets.size(); i++) {
-				Long meronymSynsetID = meronymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
-						meronymSynsetID, MongoSinhalaPointerTyps.PART_MERONYM);
-				sencePointerList.add(sencePointer);
-			}
-
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-		try {
-			SinhalaWordNetWord gender = nounSynset.getGender();
-			long tempSynId = 0;
-			// System.out.println("mero"+meronymSynsets);
-			if (gender != null) {
-				String genderLemm = gender.getLemma();
-				if (genderLemm.equalsIgnoreCase("පුරුෂ")) {
-					tempSynId = 1;
-				} else if (genderLemm.equalsIgnoreCase("ස්ත්‍රී")) {
-					tempSynId = 2;
-				} else if (genderLemm.equalsIgnoreCase("නොසලකා හරින්න")) {
-					tempSynId = 3;
-				}
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("g",
-						tempSynId, MongoSinhalaPointerTyps.GENDER);
-				sencePointerList.add(sencePointer);
-			}
-
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-		MongoSinhalaNoun mongoNounsynset = new MongoSinhalaNoun(ewnid,
-				wordList, sencePointerList, nounSynset.getDefinition() + "|"
-						+ nounSynset.getExample(),userName);
-		mongoNounsynset.setComment(comment);
-		mongoNounsynset.setRating(rating);
-		if(evaluated.equals("true")){
-		mongoNounsynset.SetEvaluated();
-		}
-		mongoNounsynset.SetEvaluatedBy(evaluatedBy);
-		// System.out.println("ssssssssss"+mongoNounsynset);
-		return mongoNounsynset;
-
-	}
-	
-	
-	
-	public MongoSinhalaVerb converttoMongoVerb(VerbSynset verbSynset) {
-
-		SinhalaWordNetWord sinhalaWordNetword = null;
-		// List<MongoSinhalaWordPointer> wordPointerList = new
-		// ArrayList<MongoSinhalaWordPointer>();
-		List<MongoSinhalaWord> wordList = new ArrayList<MongoSinhalaWord>();
-		List<MongoSinhalaSencePointer> sencePointerList = new ArrayList<MongoSinhalaSencePointer>();
-
-		// hjhjb
-		String userName = verbSynset.getUserName();
-		
-		String comment = verbSynset.getComment();
-		String rating = verbSynset.getRating();
-		String evaluated = verbSynset.getEvaluated();
-		String evaluatedBy = verbSynset.getEvaluatedBy();
-		long con = 123456;
-		Long ewnid = verbSynset.getOffset();
-		List<SinhalaWordNetWord> words = verbSynset.getWords();
-
-		for (int i = 0; i < words.size(); i++) {
-			List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
-			String lemma = words.get(i).getLemma();
-			sinhalaWordNetword = null;
-			// try{
-			sinhalaWordNetword = words.get(i).getAntonym();
-
-			if (sinhalaWordNetword != null) {
-
-				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer("v",
-						con, sinhalaWordNetword.getLemma(),
-						MongoSinhalaPointerTyps.ANTONYM);
-				wordPointerList.add(wordPointer1);
-				// System.out.println(sinhalaWordNetword+"anto"+wordPointer1);
-			}
-			// }
-			// catch(Exception e){
-			// System.out.println(e );
-			// }
-			sinhalaWordNetword = null;
-			long tempSynId = 0;
-			try {
-				sinhalaWordNetword = words.get(i).getDerivationType();// words.get(i).getDerivationType();
-				// System.out.println(sinhalaWordNetword+"devi");
-				if (sinhalaWordNetword != null) {
-					String derivationType = sinhalaWordNetword.getLemma();
-					if (derivationType.equalsIgnoreCase("තත්සම")) {
-						tempSynId = 1;
-					} else if (derivationType.equalsIgnoreCase("තත්භව")) {
-						tempSynId = 2;
-					}
-					else if (derivationType.equalsIgnoreCase("නොදනී")) {
-						tempSynId = 3;
-					}
-
-					MongoSinhalaWordPointer wordPointer2 = new MongoSinhalaWordPointer("d",
-							tempSynId, "0",
-							MongoSinhalaPointerTyps.DERIVATION_TYPE);
-					wordPointerList.add(wordPointer2);
-					// System.out.println("devi"+wordPointer2);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			sinhalaWordNetword = null;
-			tempSynId = 0;
-			try {
-				sinhalaWordNetword = words.get(i).getOrigin();
-				if (sinhalaWordNetword.getId() != null) {
-
-					String origin = sinhalaWordNetword.getLemma();
-					// System.out.println("හින්දි"+origin);
-					if (origin.equalsIgnoreCase("නොදනී")) {
-						tempSynId = 1;
-					} else if (origin.equalsIgnoreCase("හින්දි")) {
-						// System.out.println("got to hindi");
-						tempSynId = 2;
-					} else if (origin.equalsIgnoreCase("දෙමළ")) {
-						tempSynId = 3;
-					} else if (origin.equalsIgnoreCase("ඉංග්‍රීසි")) {
-						tempSynId = 4;
-					} else if (origin.equalsIgnoreCase("පෘතුග්‍රීසි")) {
-						tempSynId = 5;
-					} else if (origin.equalsIgnoreCase("ලංදේසි")) {
-						tempSynId = 6;
-					} else if (origin.equalsIgnoreCase("පාලි")) {
-						tempSynId = 7;
-					} else if (origin.equalsIgnoreCase("සංස්කෘත")) {
-						tempSynId = 8;
-					}
-					MongoSinhalaWordPointer wordPointer3 = new MongoSinhalaWordPointer("o",
-							tempSynId, "0", MongoSinhalaPointerTyps.ORIGIN);
-					wordPointerList.add(wordPointer3);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			sinhalaWordNetword = null;
-			try {
-				sinhalaWordNetword = words.get(i).getRoot();
-				if (sinhalaWordNetword.getId() != null) {
-
 				
-						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
-						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer("r",
-								dbHandler.findRootByLemma(
-										sinhalaWordNetword.getLemma()).getId(),
-								"0", MongoSinhalaPointerTyps.ROOT);
-						wordPointerList.add(wordPointer4);
-					
-
-				}
-			} catch (Exception e) {
-				System.out.println(e);
 			}
-			sinhalaWordNetword = null;
-			tempSynId = 0;
-			try {
-				sinhalaWordNetword = words.get(i).getUsage();
-				if (sinhalaWordNetword.getId() != null) {
-					String usage = sinhalaWordNetword.getLemma();
-					if (usage.equalsIgnoreCase("ලිඛිත")) {
-						tempSynId = 1;
-					} else if (usage.equalsIgnoreCase("වාචික")) {
-						tempSynId = 2;
-					}
-					else if (usage.equalsIgnoreCase("නොදනී")) {
-						tempSynId = 3;
-					}
-					MongoSinhalaWordPointer wordPointer5 = new MongoSinhalaWordPointer("u",
-							tempSynId, "0", MongoSinhalaPointerTyps.USAGE);
-					wordPointerList.add(wordPointer5);
-				}
-			} catch (Exception e) {
-				System.out.println(e);
-			}
-			sinhalaWordNetword = null;
-			// System.out.println("word ponter list"+1+"-"+wordPointerList);
-			MongoSinhalaWord word1 = new MongoSinhalaWord(lemma, words.get(i)
-					.getId(), wordPointerList);
-			// System.out.println("word"+1+"-"+word1);
-			wordList.add(word1);
-			// wordPointerList=null;
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> holoSynsets = null; // nounSynset.getHolonyms();
-			// System.out.println("holo"+holoSynsets);
-			for (int i = 0; i < holoSynsets.size(); i++) {
-				Long holoSynsetID = holoSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
-						holoSynsetID, MongoSinhalaPointerTyps.PART_HOLONYM);
-				sencePointerList.add(sencePointer);
-			}
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> hypernymSynsets = null; // nounSynset.getHypernyms();
-			// System.out.println("hyper"+hypernymSynsets);
-			for (int i = 0; i < hypernymSynsets.size(); i++) {
-				Long hypernymSynsetID = hypernymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
-						hypernymSynsetID, MongoSinhalaPointerTyps.HYPERNYM);
-				sencePointerList.add(sencePointer);
-			}
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> hyponymSynsets = null;// nounSynset.getHyponyms();
-			// System.out.println(hyponymSynsets.size()+"hypon"+hyponymSynsets);
-			for (int i = 0; i < hyponymSynsets.size(); i++) {
-				Long hyponymSynsetID = hyponymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
-						hyponymSynsetID, MongoSinhalaPointerTyps.HYPONYM);
-				sencePointerList.add(sencePointer);
-				// System.out.println("hypon added"+sencePointer);
-			}
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> attributeSynsets = null; // nounSynset.getAttributes();
-			// System.out.println("attri"+attributeSynsets);
-			for (int i = 0; i < attributeSynsets.size(); i++) {
-				Long attributeSynsetID = attributeSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
-						attributeSynsetID, MongoSinhalaPointerTyps.ATTRIBUTE);
-				sencePointerList.add(sencePointer);
-			}
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-
-		try {
-			List<SinhalaWordNetSynset> meronymSynsets = null;// /nounSynset.getMeronyms();
-			// System.out.println("mero"+meronymSynsets);
-			for (int i = 0; i < meronymSynsets.size(); i++) {
-				Long meronymSynsetID = meronymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("v",
-						meronymSynsetID, MongoSinhalaPointerTyps.PART_MERONYM);
-				sencePointerList.add(sencePointer);
-			}
-
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-		try {
-			SinhalaWordNetWord gender = verbSynset.getGender();
-			long tempSynId = 0;
-			// System.out.println("mero"+meronymSynsets);
-			if (gender != null) {
-				String genderLemm = gender.getLemma();
-				if (genderLemm.equalsIgnoreCase("පුරුෂ")) {
-					tempSynId = 1;
-				} else if (genderLemm.equalsIgnoreCase("ස්ත්‍රී")) {
-					tempSynId = 2;
-				} else if (genderLemm.equalsIgnoreCase("නොසලකා හරින්න")) {
-					tempSynId = 3;
-				}
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("g",
-						tempSynId, MongoSinhalaPointerTyps.GENDER);
-				sencePointerList.add(sencePointer);
-			}
-
-		} catch (Exception e) {
-			System.out.println("ee" + e);
-
-		}
-		MongoSinhalaVerb mongoVerbsynset = new MongoSinhalaVerb(ewnid,
-				wordList, sencePointerList, verbSynset.getDefinition() + "|"
-						+ verbSynset.getExample(),userName);
-		
-		mongoVerbsynset.setComment(comment);
-		mongoVerbsynset.setRating(rating);
-		if(evaluated.equals("true")){
-		mongoVerbsynset.SetEvaluated();
-		}
-		mongoVerbsynset.SetEvaluatedBy(evaluatedBy);
-		// System.out.println("ssssssssss"+mongoNounsynset);
-		return mongoVerbsynset;
-
-	}
-	
-	
-	public MongoSinhalaAdjective converttoMongoAdj(AdjectiveSynset adjSynset) {
-
-		SinhalaWordNetWord sinhalaWordNetword = null;
-		// List<MongoSinhalaWordPointer> wordPointerList = new
-		// ArrayList<MongoSinhalaWordPointer>();
-		List<MongoSinhalaWord> wordList = new ArrayList<MongoSinhalaWord>();
-		List<MongoSinhalaSencePointer> sencePointerList = new ArrayList<MongoSinhalaSencePointer>();
-
-		// hjhjb
-		String userName = adjSynset.getUserName();
-		String comment = adjSynset.getComment();
-		String rating = adjSynset.getRating();
-		String evaluated = adjSynset.getEvaluated();
-		String evaluatedBy = adjSynset.getEvaluatedBy();
-		long con = 123456;
-		Long ewnid = adjSynset.getOffset();
-		List<SinhalaWordNetWord> words = adjSynset.getWords();
-
-		for (int i = 0; i < words.size(); i++) {
-			List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
-			String lemma = words.get(i).getLemma();
-			sinhalaWordNetword = null;
-			// try{
-			sinhalaWordNetword = words.get(i).getAntonym();
-
-			if (sinhalaWordNetword != null) {
-
-				MongoSinhalaWordPointer wordPointer1 = new MongoSinhalaWordPointer("adj",
-						con, sinhalaWordNetword.getLemma(),
-						MongoSinhalaPointerTyps.ANTONYM);
-				wordPointerList.add(wordPointer1);
-				// System.out.println(sinhalaWordNetword+"anto"+wordPointer1);
-			}
-			// }
-			// catch(Exception e){
-			// System.out.println(e );
-			// }
+			
 			sinhalaWordNetword = null;
 			long tempSynId = 0;
 			try {
-				sinhalaWordNetword = words.get(i).getDerivationType();// words.get(i).getDerivationType();
-				// System.out.println(sinhalaWordNetword+"devi");
-				if (sinhalaWordNetword != null) {
+				sinhalaWordNetword = words.get(i).getDerivationType();										// get derivationType
+				
+				if (sinhalaWordNetword != null) {															// derivationtype handle part
 					String derivationType = sinhalaWordNetword.getLemma();
 					if (derivationType.equalsIgnoreCase("තත්සම")) {
 						tempSynId = 1;
@@ -581,7 +77,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 							tempSynId, "0",
 							MongoSinhalaPointerTyps.DERIVATION_TYPE);
 					wordPointerList.add(wordPointer2);
-					// System.out.println("devi"+wordPointer2);
+					
 				}
 			} catch (Exception e) {
 				System.out.println(e);
@@ -589,15 +85,15 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			sinhalaWordNetword = null;
 			tempSynId = 0;
 			try {
-				sinhalaWordNetword = words.get(i).getOrigin();
-				if (sinhalaWordNetword.getId() != null) {
+				sinhalaWordNetword = words.get(i).getOrigin();												// get origin
+				if (sinhalaWordNetword.getId() != null) {													// origin handler part
 
 					String origin = sinhalaWordNetword.getLemma();
-					// System.out.println("හින්දි"+origin);
+					
 					if (origin.equalsIgnoreCase("නොදනී")) {
 						tempSynId = 1;
 					} else if (origin.equalsIgnoreCase("හින්දි")) {
-						// System.out.println("got to hindi");
+						
 						tempSynId = 2;
 					} else if (origin.equalsIgnoreCase("දෙමළ")) {
 						tempSynId = 3;
@@ -621,10 +117,8 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			}
 			sinhalaWordNetword = null;
 			try {
-				sinhalaWordNetword = words.get(i).getRoot();
-				if (sinhalaWordNetword.getId() != null) {
-
-				
+				sinhalaWordNetword = words.get(i).getRoot();												// get root
+				if (sinhalaWordNetword.getId() != null) {													// root handler part
 						SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 						dbHandler.addRoot(sinhalaWordNetword.getLemma(),userName);
 						MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer("r",
@@ -632,8 +126,6 @@ public class SinhalaSynsetMongoSynsetConvertor {
 										sinhalaWordNetword.getLemma()).getId(),
 								"0", MongoSinhalaPointerTyps.ROOT);
 						wordPointerList.add(wordPointer4);
-					
-
 				}
 			} catch (Exception e) {
 				System.out.println(e);
@@ -660,21 +152,21 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				System.out.println(e);
 			}
 			sinhalaWordNetword = null;
-			// System.out.println("word ponter list"+1+"-"+wordPointerList);
+			
 			MongoSinhalaWord word1 = new MongoSinhalaWord(lemma, words.get(i)
 					.getId(), wordPointerList);
-			// System.out.println("word"+1+"-"+word1);
+			
 			wordList.add(word1);
-			// wordPointerList=null;
+			
 
 		}
 
 		try {
 			List<SinhalaWordNetSynset> holoSynsets = null; // nounSynset.getHolonyms();
-			// System.out.println("holo"+holoSynsets);
+			
 			for (int i = 0; i < holoSynsets.size(); i++) {
 				Long holoSynsetID = holoSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						holoSynsetID, MongoSinhalaPointerTyps.PART_HOLONYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -685,10 +177,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		try {
 			List<SinhalaWordNetSynset> hypernymSynsets = null; // nounSynset.getHypernyms();
-			// System.out.println("hyper"+hypernymSynsets);
+			
 			for (int i = 0; i < hypernymSynsets.size(); i++) {
 				Long hypernymSynsetID = hypernymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						hypernymSynsetID, MongoSinhalaPointerTyps.HYPERNYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -699,13 +191,13 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		try {
 			List<SinhalaWordNetSynset> hyponymSynsets = null;// nounSynset.getHyponyms();
-			// System.out.println(hyponymSynsets.size()+"hypon"+hyponymSynsets);
+			
 			for (int i = 0; i < hyponymSynsets.size(); i++) {
 				Long hyponymSynsetID = hyponymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						hyponymSynsetID, MongoSinhalaPointerTyps.HYPONYM);
 				sencePointerList.add(sencePointer);
-				// System.out.println("hypon added"+sencePointer);
+				
 			}
 		} catch (Exception e) {
 			System.out.println("ee" + e);
@@ -714,10 +206,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		try {
 			List<SinhalaWordNetSynset> attributeSynsets = null; // nounSynset.getAttributes();
-			// System.out.println("attri"+attributeSynsets);
+			
 			for (int i = 0; i < attributeSynsets.size(); i++) {
 				Long attributeSynsetID = attributeSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						attributeSynsetID, MongoSinhalaPointerTyps.ATTRIBUTE);
 				sencePointerList.add(sencePointer);
 			}
@@ -728,10 +220,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		try {
 			List<SinhalaWordNetSynset> meronymSynsets = null;// /nounSynset.getMeronyms();
-			// System.out.println("mero"+meronymSynsets);
+			
 			for (int i = 0; i < meronymSynsets.size(); i++) {
 				Long meronymSynsetID = meronymSynsets.get(i).getOffset();
-				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("adj",
+				MongoSinhalaSencePointer sencePointer = new MongoSinhalaSencePointer("n",
 						meronymSynsetID, MongoSinhalaPointerTyps.PART_MERONYM);
 				sencePointerList.add(sencePointer);
 			}
@@ -741,9 +233,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 		}
 		try {
-			SinhalaWordNetWord gender = adjSynset.getGender();
+			SinhalaWordNetWord gender = Synset.getGender();
 			long tempSynId = 0;
-			// System.out.println("mero"+meronymSynsets);
+			
 			if (gender != null) {
 				String genderLemm = gender.getLemma();
 				if (genderLemm.equalsIgnoreCase("පුරුෂ")) {
@@ -762,32 +254,59 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			System.out.println("ee" + e);
 
 		}
-		MongoSinhalaAdjective mongoAdjsynset = new MongoSinhalaAdjective(ewnid,
-				wordList, sencePointerList, adjSynset.getDefinition() + "|"
-						+ adjSynset.getExample(),userName);
+		MongoSinhalaSynset mongoSynset = null;
 		
+		if(Synset instanceof NounSynset){																	// if noun synset
 		
-		mongoAdjsynset.setComment(comment);
-		mongoAdjsynset.setRating(rating);
+			mongoSynset = new MongoSinhalaNoun(ewnid,
+				wordList, sencePointerList, Synset.getDefinition() + "|"
+						+ Synset.getExample(),userName);
+		mongoSynset.setComment(comment);
+		mongoSynset.setRating(rating);
 		if(evaluated.equals("true")){
-			mongoAdjsynset.SetEvaluated();
+			mongoSynset.SetEvaluated();
 		}
-		mongoAdjsynset.SetEvaluatedBy(evaluatedBy);
-		// System.out.println("ssssssssss"+mongoNounsynset);
-		return mongoAdjsynset;
+		mongoSynset.SetEvaluatedBy(evaluatedBy);
+		}
+		else if(Synset instanceof VerbSynset){																// if verb synset
+			mongoSynset = new MongoSinhalaVerb(ewnid,
+					wordList, sencePointerList, Synset.getDefinition() + "|"
+							+ Synset.getExample(),userName);
+			mongoSynset.setComment(comment);
+			mongoSynset.setRating(rating);
+			if(evaluated.equals("true")){
+				mongoSynset.SetEvaluated();
+			}
+			mongoSynset.SetEvaluatedBy(evaluatedBy);
+			
+		}
+		else if(Synset instanceof AdjectiveSynset){															// if adjective synset
+			mongoSynset = new MongoSinhalaAdjective(ewnid,
+					wordList, sencePointerList, Synset.getDefinition() + "|"
+							+ Synset.getExample(),userName);
+			mongoSynset.setComment(comment);
+			mongoSynset.setRating(rating);
+			if(evaluated.equals("true")){
+				mongoSynset.SetEvaluated();
+			}
+			mongoSynset.SetEvaluatedBy(evaluatedBy);
+		}
+		
+		return mongoSynset;
 
 	}
+
 	
 
 	public NounSynset OverWriteByMongo(NounSynset nounSynset,String mongoId) {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
 		MongoSinhalaNoun mongoNoun = null;
 		if(mongoId!=null && mongoId!=""){
-			mongoNoun = mongoDBhandler.findBySynsetMongoId(mongoId);
+			mongoNoun = (MongoSinhalaNoun) mongoDBhandler.findBySynsetMongoId(mongoId,POS.NOUN);
 		}
 		else{
-			mongoNoun = mongoDBhandler.findBySynsetId(nounSynset
-					.getOffset());
+			mongoNoun = (MongoSinhalaNoun) mongoDBhandler.findBySynsetId(nounSynset
+					.getOffset(),POS.NOUN);
 			
 		}
 
@@ -961,11 +480,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
 		MongoSinhalaVerb mongoVerb=null;
 		if(mongoId!=null && mongoId!=""){
-			mongoVerb = mongoDBhandler.findVerbByMongoSynsetId(mongoId);
+			mongoVerb = (MongoSinhalaVerb) mongoDBhandler.findBySynsetMongoId(mongoId,POS.VERB);
 		}
 		else{
-			mongoVerb = mongoDBhandler.findVerbBySynsetId(verbSynset
-					.getOffset());
+			mongoVerb = (MongoSinhalaVerb) mongoDBhandler.findBySynsetId(verbSynset
+					.getOffset(),POS.VERB);
 			}
 		if (mongoVerb != null) {
 			List<MongoSinhalaWord> mongoWords = mongoVerb.getWords();
@@ -1138,11 +657,11 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		SynsetMongoDbHandler mongoDBhandler = new SynsetMongoDbHandler();
 		MongoSinhalaAdjective mongoAdj = null;
 		if(mongoId!=null && mongoId!=""){
-			mongoAdj = mongoDBhandler.findAdjByMongoSynsetId(mongoId);
+			mongoAdj = (MongoSinhalaAdjective) mongoDBhandler.findBySynsetMongoId(mongoId,POS.ADJECTIVE);
 		}
 		else{
-			mongoAdj = mongoDBhandler.findAdjBySynsetId(adjSynset
-					.getOffset());
+			mongoAdj = (MongoSinhalaAdjective) mongoDBhandler.findBySynsetId(adjSynset
+					.getOffset(),POS.ADJECTIVE);
 			}
 		if (mongoAdj != null) {
 			List<MongoSinhalaWord> mongoWords = mongoAdj.getWords();
