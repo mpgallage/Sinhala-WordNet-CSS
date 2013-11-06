@@ -41,5 +41,7 @@ public interface MongoSinhalaSynset{
 	public void setComment(String comment);
 	public void setRating(String rating);
 	public void SetEvaluatedBy(String evaluatedBy);
+	public String getRating();
+	public String getComment();
 
 }

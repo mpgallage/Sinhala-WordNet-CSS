@@ -7,28 +7,24 @@ import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-
-@Document(collection = "root")
-public class MongoSinhalaRoot implements MongoSinhalaSynset {
-	
+@Document(collection = "gender")
+public class MongoSinhalaGender  implements MongoSinhalaSynset {
 	@Id
 	private String id;
 	List<MongoSinhalaWord> words;
 	String gloss;
-	String userName;
-	Boolean evaluated = false;
-	Date date;
 	
-	public MongoSinhalaRoot(List<MongoSinhalaWord> words,String gloss,String userName) {
+	
+	public MongoSinhalaGender(List<MongoSinhalaWord> words,String gloss) {
 		super();
 		this.words = words;
 		this.gloss = gloss;
-		this.userName = userName;
+		
 	}
 
 	@Override
 	public String toString() {
-		return "Synset [id=" + id + ", userName="+userName+", words="+words+", gloss="+gloss+"]";
+		return "Synset [id=" + id + ", words="+words+", gloss="+gloss+"]";
 	}
 
 	@Override
@@ -37,11 +33,7 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 		return id;
 	}
 
-	@Override
-	public String getUserName() {
-		// TODO Auto-generated method stub
-		return userName;
-	}
+	
 	@Override
 	public List<MongoSinhalaWord> getWords() {
 		// TODO Auto-generated method stub
@@ -124,9 +116,16 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 		
 	}
 
+	
+
+	@Override
+	public String getUserName() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	@Override
 	public void setUserName(String userName) {
-		this.userName = userName;
 		// TODO Auto-generated method stub
 		
 	}
@@ -134,26 +133,24 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 	@Override
 	public Boolean getEvaluated() {
 		// TODO Auto-generated method stub
-		return evaluated;
-	}
-
-	@Override
-	public void SetEvaluated() {
-		// TODO Auto-generated method stub
-		evaluated = true; 
-		
+		return null;
 	}
 
 	@Override
 	public Date getDate() {
 		// TODO Auto-generated method stub
-		return date;
+		return null;
+	}
+
+	@Override
+	public void SetEvaluated() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
 	public void setDate(Date date) {
 		// TODO Auto-generated method stub
-		this.date = date;
 		
 	}
 

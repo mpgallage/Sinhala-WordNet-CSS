@@ -53,7 +53,7 @@ public class EditSynsetsController {
 			NounSynset castSynset = new NounSynset(synset);
 			NounSynset mongoCastSynset = new NounSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
+			mongoCastSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
 			
 			
 
@@ -101,7 +101,7 @@ public class EditSynsetsController {
 			VerbSynset castSynset = new VerbSynset(synset);
 			VerbSynset mongoCastSynset = new VerbSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
+			mongoCastSynset = (VerbSynset) mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
 			
 			
 

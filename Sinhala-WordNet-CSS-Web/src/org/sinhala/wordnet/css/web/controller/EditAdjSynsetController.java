@@ -49,7 +49,7 @@ public class EditAdjSynsetController {
 			AdjectiveSynset castSynset = new AdjectiveSynset(synset);
 			AdjectiveSynset mongoCastSynset = new AdjectiveSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			mongoCastSynset = mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
+			mongoCastSynset = (AdjectiveSynset) mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
 			
 			
 

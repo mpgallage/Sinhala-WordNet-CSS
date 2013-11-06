@@ -59,7 +59,7 @@ public class BreadCrumb {
 		NounSynset nounSynset = new NounSynset(synset);
 		SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
-		NounSynset castSynset = mongoSynsetConvertor
+		NounSynset castSynset = (NounSynset) mongoSynsetConvertor
 				.OverWriteByMongo(nounSynset,"");
 
 		String wordsAsString = castSynset.getWordsAsString();
@@ -92,7 +92,7 @@ public class BreadCrumb {
 				NounSynset nSynset = new NounSynset(s);
 
 				mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-				castSynset = mongoSynsetConvertor.OverWriteByMongo(nSynset,"");
+				castSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(nSynset,"");
 
 				String def = castSynset.getDefinition();
 				wordsAsString = castSynset.getWordsAsString();
@@ -125,7 +125,7 @@ public class BreadCrumb {
 			VerbSynset verbSynset = new VerbSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
-			VerbSynset castSynset = mongoSynsetConvertor
+			VerbSynset castSynset = (VerbSynset) mongoSynsetConvertor
 					.OverWriteByMongo(verbSynset,"");
 
 			String wordsAsString = castSynset.getWordsAsString();
@@ -158,7 +158,7 @@ public class BreadCrumb {
 					VerbSynset vSynset = new VerbSynset(s);
 
 					mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					castSynset = mongoSynsetConvertor.OverWriteByMongo(vSynset,"");
+					castSynset = (VerbSynset) mongoSynsetConvertor.OverWriteByMongo(vSynset,"");
 
 					String def = castSynset.getDefinition();
 					wordsAsString = castSynset.getWordsAsString();
@@ -190,7 +190,7 @@ public class BreadCrumb {
 				AdjectiveSynset adjSynset = new AdjectiveSynset(synset);
 				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
-				AdjectiveSynset castSynset = mongoSynsetConvertor
+				AdjectiveSynset castSynset = (AdjectiveSynset) mongoSynsetConvertor
 						.OverWriteByMongo(adjSynset,"");
 
 				String wordsAsString = castSynset.getWordsAsString();
@@ -223,7 +223,7 @@ public class BreadCrumb {
 						AdjectiveSynset aSynset = new AdjectiveSynset(s);
 
 						mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-						castSynset = mongoSynsetConvertor.OverWriteByMongo(aSynset,"");
+						castSynset = (AdjectiveSynset) mongoSynsetConvertor.OverWriteByMongo(aSynset,"");
 
 						String def = castSynset.getDefinition();
 						wordsAsString = castSynset.getWordsAsString();

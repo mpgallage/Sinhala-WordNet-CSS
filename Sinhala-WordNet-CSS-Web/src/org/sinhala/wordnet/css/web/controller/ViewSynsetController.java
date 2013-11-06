@@ -67,7 +67,7 @@ public class ViewSynsetController {
 					Synset s = (Synset) target;
 					NounSynset tempNoun = new NounSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
+					NounSynset castSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
 					//NounSynset castSynset = new NounSynset();
 					nounsynsetArr[0] = tempNoun;
 					nounsynsetArr[1] = castSynset;
@@ -87,7 +87,7 @@ public class ViewSynsetController {
 					Synset s = (Synset) target;
 					NounSynset tempNoun = new NounSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					NounSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
+					NounSynset castSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
 					//NounSynset castSynset = new NounSynset();
 					nounsynsetArr[0] = tempNoun;
 					nounsynsetArr[1] = castSynset;
@@ -98,7 +98,7 @@ public class ViewSynsetController {
 
 			NounSynset nSynset = new NounSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			NounSynset castMainSynset = mongoSynsetConvertor.OverWriteByMongo(nSynset,"");
+			NounSynset castMainSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(nSynset,"");
 			
 			//System.out.println("*******"+list.size());
 			model.addAttribute("hyponymsList", list);
@@ -154,7 +154,7 @@ public class ViewSynsetController {
 					Synset s = (Synset) target;
 					VerbSynset tempVerb = new VerbSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb,"");
+					VerbSynset castSynset = (VerbSynset) mongoSynsetConvertor.OverWriteByMongo(tempVerb,"");
 					//NounSynset castSynset = new NounSynset();
 					verbsynsetArr[0] = tempVerb;
 					verbsynsetArr[1] = castSynset;
@@ -174,7 +174,7 @@ public class ViewSynsetController {
 					Synset s = (Synset) target;
 					VerbSynset tempVerb = new VerbSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					VerbSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempVerb,"");
+					VerbSynset castSynset = (VerbSynset) mongoSynsetConvertor.OverWriteByMongo(tempVerb,"");
 					//NounSynset castSynset = new NounSynset();
 					verbsynsetArr[0] = tempVerb;
 					verbsynsetArr[1] = castSynset;
@@ -185,7 +185,7 @@ public class ViewSynsetController {
 
 			VerbSynset vSynset = new VerbSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			VerbSynset castMainSynset = mongoSynsetConvertor.OverWriteByMongo(vSynset,"");
+			VerbSynset castMainSynset = (VerbSynset) mongoSynsetConvertor.OverWriteByMongo(vSynset,"");
 			
 			//System.out.println("*******"+list.size());
 			model.addAttribute("hyponymsList", list);
@@ -240,7 +240,7 @@ public class ViewSynsetController {
 					Synset s = (Synset) target;
 					AdjectiveSynset tempAdj = new AdjectiveSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					AdjectiveSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempAdj,"");
+					AdjectiveSynset castSynset = (AdjectiveSynset) mongoSynsetConvertor.OverWriteByMongo(tempAdj,"");
 					//NounSynset castSynset = new NounSynset();
 					adjsynsetArr[0] = tempAdj;
 					adjsynsetArr[1] = castSynset;
@@ -260,7 +260,7 @@ public class ViewSynsetController {
 					Synset s = (Synset) target;
 					AdjectiveSynset tempAdj = new AdjectiveSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					AdjectiveSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempAdj,"");
+					AdjectiveSynset castSynset = (AdjectiveSynset) mongoSynsetConvertor.OverWriteByMongo(tempAdj,"");
 					//NounSynset castSynset = new NounSynset();
 					adjsynsetArr[0] = tempAdj;
 					adjsynsetArr[1] = castSynset;
@@ -271,7 +271,7 @@ public class ViewSynsetController {
 
 			AdjectiveSynset aSynset = new AdjectiveSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			AdjectiveSynset castMainSynset = mongoSynsetConvertor.OverWriteByMongo(aSynset,"");
+			AdjectiveSynset castMainSynset = (AdjectiveSynset) mongoSynsetConvertor.OverWriteByMongo(aSynset,"");
 			
 			//System.out.println("*******"+list.size());
 			model.addAttribute("hyponymsList", list);
