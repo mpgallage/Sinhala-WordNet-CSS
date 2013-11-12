@@ -94,7 +94,7 @@ public class MongoSinhalaNoun implements MongoSinhalaSynset {
 		for(MongoSinhalaWord w : this.getWords()){
 			out += w.getLemma() + ", ";
 		}
-		
+		out = out.substring(0, out.length()-1);
 		return out;
 	}
 
