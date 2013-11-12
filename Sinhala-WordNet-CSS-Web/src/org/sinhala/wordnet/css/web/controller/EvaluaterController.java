@@ -44,6 +44,7 @@ public class EvaluaterController {
 		
 		model.addAttribute("synsetList", list);
 		model.addAttribute("type", type);
+		model.addAttribute("mode", mode);
 		return "Evaluater";
 	}
 	
