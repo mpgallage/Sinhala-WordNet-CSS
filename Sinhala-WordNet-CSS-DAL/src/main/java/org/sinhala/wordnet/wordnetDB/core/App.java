@@ -35,7 +35,7 @@ public class App {
 		}
 		*/
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		
+		synsetdb.addGenders();
 		
 		//Long offset = (long) 29714;
 		

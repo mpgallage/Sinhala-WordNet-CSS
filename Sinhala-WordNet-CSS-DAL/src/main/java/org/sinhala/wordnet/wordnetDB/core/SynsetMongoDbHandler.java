@@ -33,6 +33,7 @@ import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.wordnetDB.config.SpringMongoConfig;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdjective;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaGender;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
@@ -331,4 +332,77 @@ public class SynsetMongoDbHandler {
 		return hm;
 	}
 
+	// finding synsets by lemma and pos to impliment search through synsets in croudsourcing system
+		public HashMap<Long, MongoSinhalaSynset> findSynsetsByLemma(String word, POS pos) {
+
+			Collection<Long> ewnidList = null;
+			HashMap<Long, MongoSinhalaSynset> hm = new HashMap<Long, MongoSinhalaSynset>();
+
+			@SuppressWarnings("resource")
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(
+					SpringMongoConfig.class);
+			MongoOperations mongoOperation = (MongoOperations) ctx
+					.getBean("mongoTemplate");
+			Query searchSynsetQuery1 = new Query(Criteria.where("words.lemma")
+					.regex(word));
+			if (pos.equals(POS.NOUN)) {
+				List<MongoSinhalaNoun> nounCollection = null;
+
+				nounCollection = mongoOperation.find(searchSynsetQuery1,
+						MongoSinhalaNoun.class);
+				Set<Long> st = new HashSet<Long>();
+				st.clear();
+
+				for (MongoSinhalaSynset s : nounCollection) {
+					System.out.println("val" + s.getEWNId());
+					Long id = s.getEWNId();
+					hm.put(id, s);
+					st.add(id);
+				}
+
+				
+
+			}
+			if (pos.equals(POS.VERB)) {
+				List<MongoSinhalaVerb> verbCollection = null;
+
+				verbCollection = mongoOperation.find(searchSynsetQuery1,
+						MongoSinhalaVerb.class);
+
+				for (MongoSinhalaSynset s : verbCollection) {
+					hm.put(s.getEWNId(), s);
+				}
+
+				
+			}
+			if (pos.equals(POS.ADJECTIVE)) {
+				List<MongoSinhalaAdjective> adjCollection = null;
+
+				adjCollection = mongoOperation.find(searchSynsetQuery1,
+						MongoSinhalaAdjective.class);
+
+				for (MongoSinhalaSynset s : adjCollection) {
+					hm.put(s.getEWNId(), s);
+				}
+
+				
+
+			}
+
+			return hm;
+		}
+	
+	public void addGenders(){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
+		MongoSinhalaWord word = new MongoSinhalaWord("නොසලකා හරින්න", "0", wordPointerList);
+		List<MongoSinhalaWord> words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		MongoSinhalaGender gender = new MongoSinhalaGender(words, "neglect");
+		mongoOperation.save(gender);
+	}
+	
 }
