@@ -299,7 +299,7 @@ public class SynsetMongoDbHandler {
 
 			while (iter.hasNext()) {
 				Map.Entry mEntry = (Map.Entry) iter.next();
-				System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
+				//System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
 			}
 
 		}

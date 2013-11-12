@@ -1,7 +1,10 @@
 package org.sinhala.wordnet.wordnetDB.core;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.POS;
@@ -12,6 +15,7 @@ import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSynset;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 
 
@@ -35,7 +39,13 @@ public class App {
 		}
 		*/
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		synsetdb.addGenders();
+		HashMap<Long, MongoSinhalaSynset> hm = synsetdb.findSynsetsByLemma("ම", POS.NOUN);
+		Iterator iter = hm.entrySet().iterator();
+
+		while (iter.hasNext()) {
+			Map.Entry mEntry = (Map.Entry) iter.next();
+			System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
+		}
 		
 		//Long offset = (long) 29714;
 		
