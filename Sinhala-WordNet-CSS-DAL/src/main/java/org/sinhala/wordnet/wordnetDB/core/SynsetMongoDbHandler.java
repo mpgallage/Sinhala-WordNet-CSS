@@ -284,23 +284,16 @@ public class SynsetMongoDbHandler {
 
 			nounCollection = mongoOperation.find(searchSynsetQuery1,
 					MongoSinhalaNoun.class);
-			Set<Long> st = new HashSet<Long>();
-			st.clear();
+			
 
 			for (MongoSinhalaNoun s : nounCollection) {
-				System.out.println("val" + s.getEWNId());
+				
 				Long id = s.getEWNId();
 				hm.put(id, id);
-				st.add(id);
+				
 			}
 
-			ewnidList = hm.values();
-			Iterator iter = hm.entrySet().iterator();
-
-			while (iter.hasNext()) {
-				Map.Entry mEntry = (Map.Entry) iter.next();
-				//System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
-			}
+			
 
 		}
 		if (pos.equals(POS.VERB)) {
@@ -350,14 +343,13 @@ public class SynsetMongoDbHandler {
 
 				nounCollection = mongoOperation.find(searchSynsetQuery1,
 						MongoSinhalaNoun.class);
-				Set<Long> st = new HashSet<Long>();
-				st.clear();
+				
+			
 
 				for (MongoSinhalaSynset s : nounCollection) {
-					System.out.println("val" + s.getEWNId());
 					Long id = s.getEWNId();
 					hm.put(id, s);
-					st.add(id);
+					
 				}
 
 				
