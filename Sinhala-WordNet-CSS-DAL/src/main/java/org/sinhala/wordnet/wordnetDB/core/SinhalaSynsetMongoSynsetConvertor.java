@@ -26,10 +26,10 @@ public class SinhalaSynsetMongoSynsetConvertor {
 	public MongoSinhalaSynset converttoMongoSynset(SinhalaWordNetSynset Synset) {
 
 		SinhalaWordNetWord sinhalaWordNetword = null;
-
+		SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 		List<MongoSinhalaWord> wordList = new ArrayList<MongoSinhalaWord>();
 		List<MongoSinhalaSencePointer> sencePointerList = new ArrayList<MongoSinhalaSencePointer>();
-
+		
 		String userName = Synset.getUserName();
 		String comment = Synset.getComment();
 		String rating = Synset.getRating();
@@ -116,7 +116,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			try {
 				sinhalaWordNetword = words.get(i).getRoot(); // get root
 				if (sinhalaWordNetword.getId() != null) { // root handler part
-					SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+					
 					dbHandler.addRoot(sinhalaWordNetword.getLemma(), userName);
 					MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
 							"r", dbHandler.findRootByLemma(
@@ -254,7 +254,16 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		MongoSinhalaSynset mongoSynset = null;
 
 		if (Synset instanceof NounSynset) { // if noun synset
-
+			MongoSinhalaNoun tempsyn = (MongoSinhalaNoun) dbHandler.findBySynsetId(Synset.getOffset(), POS.NOUN);
+			if(tempsyn != null){
+				List<MongoSinhalaSencePointer> tempSencePointer = new ArrayList<MongoSinhalaSencePointer>();
+				tempSencePointer = tempsyn.getSencePointers();
+				for(int i=0;i<tempSencePointer.size();i++){
+					if(tempSencePointer.get(i).getPointerType()!=MongoSinhalaPointerTyps.GENDER){
+						sencePointerList.add(tempSencePointer.get(i));
+					}
+				}
+			}
 			mongoSynset = new MongoSinhalaNoun(ewnid, wordList,
 					sencePointerList, Synset.getDefinition() + "|"
 							+ Synset.getExample(), userName);
@@ -265,6 +274,17 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			}
 			mongoSynset.SetEvaluatedBy(evaluatedBy);
 		} else if (Synset instanceof VerbSynset) { // if verb synset
+			
+			MongoSinhalaVerb tempsyn = (MongoSinhalaVerb) dbHandler.findBySynsetId(Synset.getOffset(), POS.VERB);
+			if(tempsyn != null){
+				List<MongoSinhalaSencePointer> tempSencePointer = new ArrayList<MongoSinhalaSencePointer>();
+				tempSencePointer = tempsyn.getSencePointers();
+				for(int i=0;i<tempSencePointer.size();i++){
+					if(tempSencePointer.get(i).getPointerType()!=MongoSinhalaPointerTyps.GENDER){
+						sencePointerList.add(tempSencePointer.get(i));
+					}
+				}
+			}
 			mongoSynset = new MongoSinhalaVerb(ewnid, wordList,
 					sencePointerList, Synset.getDefinition() + "|"
 							+ Synset.getExample(), userName);
@@ -276,6 +296,17 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			mongoSynset.SetEvaluatedBy(evaluatedBy);
 
 		} else if (Synset instanceof AdjectiveSynset) { // if adjective synset
+			
+			MongoSinhalaAdjective tempsyn = (MongoSinhalaAdjective) dbHandler.findBySynsetId(Synset.getOffset(), POS.ADJECTIVE);
+			if(tempsyn != null){
+				List<MongoSinhalaSencePointer> tempSencePointer = new ArrayList<MongoSinhalaSencePointer>();
+				tempSencePointer = tempsyn.getSencePointers();
+				for(int i=0;i<tempSencePointer.size();i++){
+					if(tempSencePointer.get(i).getPointerType()!=MongoSinhalaPointerTyps.GENDER){
+						sencePointerList.add(tempSencePointer.get(i));
+					}
+				}
+			}
 			mongoSynset = new MongoSinhalaAdjective(ewnid, wordList,
 					sencePointerList, Synset.getDefinition() + "|"
 							+ Synset.getExample(), userName);
