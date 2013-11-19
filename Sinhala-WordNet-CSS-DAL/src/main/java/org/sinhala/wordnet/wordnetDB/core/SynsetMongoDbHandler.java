@@ -36,10 +36,12 @@ import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdjective;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaDerivationType;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaGender;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaOrigin;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSencePointer;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSynset;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaUsage;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaVerb;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWord;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWordPointer;
@@ -418,6 +420,53 @@ public class SynsetMongoDbHandler {
 		words.add(word);
 		deri = new MongoSinhalaDerivationType(words, "");
 		mongoOperation.save(deri);
+	}
+	public void addOrigin(){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
+		MongoSinhalaWord word = new MongoSinhalaWord("නොදනී", "0", wordPointerList);
+		List<MongoSinhalaWord> words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		MongoSinhalaOrigin origin = new MongoSinhalaOrigin(words, "");
+		mongoOperation.save(origin);
+		word = new MongoSinhalaWord("හින්දි", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		origin = new MongoSinhalaOrigin(words, "");
+		mongoOperation.save(origin);
+		word = new MongoSinhalaWord("දෙමළ", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		origin = new MongoSinhalaOrigin(words, "");
+		mongoOperation.save(origin);
+		word = new MongoSinhalaWord("ඉංග්‍රීසි", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		origin = new MongoSinhalaOrigin(words, "");
+		mongoOperation.save(origin);
+		word = new MongoSinhalaWord("පෘතුග්‍රීසි", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		origin = new MongoSinhalaOrigin(words, "");
+		mongoOperation.save(origin);
+		word = new MongoSinhalaWord("ලංදේසි", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		origin = new MongoSinhalaOrigin(words, "");
+		mongoOperation.save(origin);
+		word = new MongoSinhalaWord("පාලි", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		origin = new MongoSinhalaOrigin(words, "");
+		mongoOperation.save(origin);
+		word = new MongoSinhalaWord("සංස්කෘත", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		origin = new MongoSinhalaOrigin(words, "");
+		mongoOperation.save(origin);
 	}
 	
 }
