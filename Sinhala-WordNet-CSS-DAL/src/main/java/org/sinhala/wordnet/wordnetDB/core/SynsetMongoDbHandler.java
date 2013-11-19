@@ -33,6 +33,7 @@ import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.wordnetDB.config.SpringMongoConfig;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdjective;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaDerivationType;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaGender;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
@@ -395,6 +396,28 @@ public class SynsetMongoDbHandler {
 		words.add(word);
 		MongoSinhalaGender gender = new MongoSinhalaGender(words, "neglect");
 		mongoOperation.save(gender);
+	}
+	public void addDerivationTypes(){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
+		MongoSinhalaWord word = new MongoSinhalaWord("තත්සම", "0", wordPointerList);
+		List<MongoSinhalaWord> words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		MongoSinhalaDerivationType deri = new MongoSinhalaDerivationType(words, "");
+		mongoOperation.save(deri);
+		word = new MongoSinhalaWord("තත්භව", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		deri = new MongoSinhalaDerivationType(words, "");
+		mongoOperation.save(deri);
+		word = new MongoSinhalaWord("නොදනී", "0", wordPointerList);
+		words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		deri = new MongoSinhalaDerivationType(words, "");
+		mongoOperation.save(deri);
 	}
 	
 }

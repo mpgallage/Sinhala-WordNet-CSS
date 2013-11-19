@@ -39,13 +39,14 @@ public class App {
 		}
 		*/
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		HashMap<Long, MongoSinhalaSynset> hm = synsetdb.findSynsetsByLemma("ම", POS.NOUN);
+		synsetdb.addDerivationTypes();
+		/*HashMap<Long, MongoSinhalaSynset> hm = synsetdb.findSynsetsByLemma("ම", POS.NOUN);
 		Iterator iter = hm.entrySet().iterator();
 
 		while (iter.hasNext()) {
 			Map.Entry mEntry = (Map.Entry) iter.next();
 			System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
-		}
+		}*/
 		
 		//Long offset = (long) 29714;
 		
