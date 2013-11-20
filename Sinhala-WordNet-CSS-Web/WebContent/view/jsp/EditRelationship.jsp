@@ -695,12 +695,22 @@
 							<tr>
 								<td><div class="data">Hypernym (* is a kindof...) :</div></td>
 								<td><input name="tags" id="hypernym" value=""></td>
+								<td><select id="hypernySuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${hypernymSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
 						<c:if test="${type == 'noun'}">
 							<tr>
 								<td><div class="data">Hyponym (... is a kind of *) :</div></td>
 								<td><input name="tags" id="hyponym" value=""></td>
+								<td><select id="hyponymSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${hyponymSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
 						<c:if test="${type == 'noun'}">
