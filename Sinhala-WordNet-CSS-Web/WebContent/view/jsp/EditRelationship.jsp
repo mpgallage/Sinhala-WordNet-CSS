@@ -691,107 +691,129 @@
 
 				<table>
 					<tbody>
-
-						<tr>
-							<td><div class="data">Hypernym (* is a kindof...) :</div></td>
-							<td><input name="tags" id="hypernym" value="මිනිසා"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Hyponym (... is a kind of *) :</div></td>
-							<td><input name="tags" id="hyponym" value="පුංචි අම්මා"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Holonym (* is a part of...) :</div></td>
-							<td><input name="tags" id="holonym" value="පවුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Meronym (parts of *) :</div></td>
-							<td><input name="tags" id="meronym" value="අත, කකුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Attribute :</div></td>
-							<td><input name="tags" id="attribute" value="අත, කකුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Troponym :</div></td>
-							<td><input name="tags" id="troponym" value="අත, කකුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Entailment :</div></td>
-							<td><input name="tags" id="entailment" value="අත, කකුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Cause :</div></td>
-							<td><input name="tags" id="cause" value="අත, කකුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Also See :</div></td>
-							<td><input name="tags" id="alsosee" value="අත, කකුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Similar :</div></td>
-							<td><input name="tags" id="similar" value="අත, කකුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Relational Adj.:</div></td>
-							<td><input name="tags" id="relationaladj" value="අත, කකුල"></td>
-						</tr>
-						<tr>
-							<td><div class="data">Derived from :</div></td>
-							<td><input name="tags" id="derivedfrom" value="අත, කකුල"></td>
-						</tr>
-
+						<c:if test="${(type == 'noun')  || (type == 'verb')}">
+							<tr>
+								<td><div class="data">Hypernym (* is a kindof...) :</div></td>
+								<td><input name="tags" id="hypernym" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'noun'}">
+							<tr>
+								<td><div class="data">Hyponym (... is a kind of *) :</div></td>
+								<td><input name="tags" id="hyponym" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'noun'}">
+							<tr>
+								<td><div class="data">Holonym (* is a part of...) :</div></td>
+								<td><input name="tags" id="holonym" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'noun'}">
+							<tr>
+								<td><div class="data">Meronym (parts of *) :</div></td>
+								<td><input name="tags" id="meronym" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${(type == 'noun')  || (type == 'adj')}">
+							<tr>
+								<td><div class="data">Attribute :</div></td>
+								<td><input name="tags" id="attribute" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'verb'}">
+							<tr>
+								<td><div class="data">Troponym :</div></td>
+								<td><input name="tags" id="troponym" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'verb'}">
+							<tr>
+								<td><div class="data">Entailment :</div></td>
+								<td><input name="tags" id="entailment" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'verb'}">
+							<tr>
+								<td><div class="data">Cause :</div></td>
+								<td><input name="tags" id="cause" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${(type == 'adj')  || (type == 'verb')}">
+							<tr>
+								<td><div class="data">Also See :</div></td>
+								<td><input name="tags" id="alsosee" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'adj'}">
+							<tr>
+								<td><div class="data">Similar :</div></td>
+								<td><input name="tags" id="similar" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'adj'}">
+							<tr>
+								<td><div class="data">Relational Adj.:</div></td>
+								<td><input name="tags" id="relationaladj" value=""></td>
+							</tr>
+						</c:if>
+						<c:if test="${type == 'adv'}">
+							<tr>
+								<td><div class="data">Derived from :</div></td>
+								<td><input name="tags" id="derivedfrom" value=""></td>
+							</tr>
+						</c:if>
 					</tbody>
 				</table>
 
 				<form:form method="POST" modelAttribute="tagModel" action="EditRelationship">
 					<p>
-						<form:input type="text" id="synsetId" path="synsetId" value="${synset.offset}" />
+						<form:input type="hidden" id="synsetId" path="synsetId" value="${synset.offset}" />
 					</p>
 					<p>
-						<form:input type="text" id="type" path="synsetType" value="${type}" />
+						<form:input type="hidden" id="type" path="synsetType" value="${type}" />
 					</p>
 					<p>
-						<form:input type="text" id="hypernymTags" path="hypernymJsonString" />
+						<form:input type="hidden" id="hypernymTags" path="hypernymJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="hyponymTags" path="hyponymJsonString" />
+						<form:input type="hidden" id="hyponymTags" path="hyponymJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="holonymTags" path="holonymJsonString" />
+						<form:input type="hidden" id="holonymTags" path="holonymJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="meronymTags" path="meronymJsonString" />
+						<form:input type="hidden" id="meronymTags" path="meronymJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="attributeTags" path="attributeJsonString" />
+						<form:input type="hidden" id="attributeTags" path="attributeJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="troponymTags" path="troponymJsonString" />
+						<form:input type="hidden" id="troponymTags" path="troponymJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="entailmentTags" path="entailmentJsonString" />
+						<form:input type="hidden" id="entailmentTags" path="entailmentJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="causeTags" path="causeJsonString" />
+						<form:input type="hidden" id="causeTags" path="causeJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="alsoseeTags" path="alsoseeJsonString" />
+						<form:input type="hidden" id="alsoseeTags" path="alsoseeJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="similarTags" path="similarJsonString" />
+						<form:input type="hidden" id="similarTags" path="similarJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="relationaladjTags" path="relationaladjJsonString" />
+						<form:input type="hidden" id="relationaladjTags" path="relationaladjJsonString" />
 					</p>
 					<p>
-						<form:input type="text" id="derivedfromTags" path="derivedfromJsonString" />
+						<form:input type="hidden" id="derivedfromTags" path="derivedfromJsonString" />
 					</p>
-
-
+					<p>
 					<div class="button_div">
-						<input type="submit" value="සුරකින්න" class="button" />
+						&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="සුරකින්න" class="button" />
 					</div>
+					</p>
 
 				</form:form>
 			</div>
