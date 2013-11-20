@@ -19,6 +19,7 @@ import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.css.web.model.TagModel;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,22 +30,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/EditRelationship")
 public class EditRelationshipController {
-
-	/*
-	 * @RequestMapping(method = RequestMethod.GET, params = {
-	 * "action=EditRelationship", "type=noun" }) public String
-	 * editRelationship(@RequestParam(value = "id", required = false) String id,
-	 * ModelMap model, @RequestParam(value = "type", required = false) String
-	 * type) {
-	 * 
-	 * BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.NOUN);
-	 * model.addAttribute("breadCrumb", breadCrumb); TagModel tagModel = new
-	 * TagModel(); model.addAttribute("tagModel", tagModel);
-	 * 
-	 * return "EditRelationship";
-	 * 
-	 * }
-	 */
 
 	@RequestMapping(method = RequestMethod.GET, params = { "action=EditRelationship", "type=noun" })
 	public String editNounRelationship(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "type", required = false) String type, ModelMap model) {
@@ -145,14 +130,58 @@ public class EditRelationshipController {
 	@RequestMapping(method = RequestMethod.POST)
 	public String saveTags(@ModelAttribute TagModel tagModel, ModelMap model) {
 
+		String currentSynsetType = tagModel.getSynsetType().trim();
+		String currentSynsetId = tagModel.getSynsetId().trim();
+
+		if ("noun".equals(currentSynsetType)) {
+
+			addRelation(tagModel.getHypernymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.HYPERNYM);
+			addRelation(tagModel.getHyponymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.HYPONYM);
+			// addRelation(tagModel.getMeronymJsonString(),currentSynsetId,POS.NOUN, MongoSinhalaPointerTyps.;
+			// addRelation(tagModel.getHolonymJsonString(),currentSynsetId,POS.NOUN, MongoSinhalaPointerTyps.;
+			addRelation(tagModel.getAttributeJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.ATTRIBUTE);
+
+			return editNounRelationship(currentSynsetId, currentSynsetType, model);
+
+		} else if ("verb".equals(currentSynsetType)) {
+
+			addRelation(tagModel.getHypernymJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.HYPERNYM);
+			// addRelation(tagModel.getTroponymJsonString(),currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.);
+			addRelation(tagModel.getEntailmentJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.ENTAILMENT);
+			addRelation(tagModel.getCauseJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.CAUSE);
+			addRelation(tagModel.getAlsoseeJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.SEE_ALSO);
+			return editVerbRelationship(currentSynsetId, currentSynsetType, model);
+
+		} else if ("adj".equals(currentSynsetType)) {
+
+			addRelation(tagModel.getSimilarJsonString(), currentSynsetId, POS.ADJECTIVE, MongoSinhalaPointerTyps.SIMILAR_TO);
+			// addRelation(tagModel.getRelationaladjJsonString(),currentSynsetId,POS.ADJECTIVE, MongoSinhalaPointerTyps.);
+			addRelation(tagModel.getAlsoseeJsonString(), currentSynsetId, POS.ADJECTIVE, MongoSinhalaPointerTyps.SEE_ALSO);
+			addRelation(tagModel.getAttributeJsonString(), currentSynsetId, POS.ADJECTIVE, MongoSinhalaPointerTyps.ATTRIBUTE);
+			return editAdjRelationship(currentSynsetId, currentSynsetType, model);
+
+		} else if ("adv".equals(currentSynsetType)) {
+			addRelation(tagModel.getDerivedfromJsonString(), currentSynsetId, POS.ADVERB, MongoSinhalaPointerTyps.DERIVATION_TYPE);
+			return "underConstruction";
+
+		} else {
+			return "error";
+		}
+
+	}
+
+	public void addRelation(String jsonString, String id, POS pos, MongoSinhalaPointerTyps pointerType) {
+
 		byte[] ptext = null;
 		try {
-			ptext = tagModel.gethypernymJsonString().getBytes("ISO8859_1");
+			ptext = jsonString.getBytes("ISO8859_1");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String value = new String(ptext, Charset.forName("UTF-8"));
+
+		System.out.println(value);
 
 		JsonFactory factory = new JsonFactory();
 		JsonParser jParser;
@@ -174,27 +203,6 @@ public class EditRelationshipController {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
-
-		System.out.println(value);
-		System.out.println(tagModel.getSynsetId());
-
-		String currentSynsetType = tagModel.getSynsetType().trim();
-
-		if ("noun".equals(currentSynsetType)) {
-			return editNounRelationship(tagModel.getSynsetId().trim(), currentSynsetType, model);
-
-		} else if ("verb".equals(currentSynsetType)) {
-			return editVerbRelationship(tagModel.getSynsetId().trim(), currentSynsetType, model);
-
-		} else if ("adj".equals(currentSynsetType)) {
-			return editAdjRelationship(tagModel.getSynsetId().trim(), currentSynsetType, model);
-
-		} else if ("adv".equals(currentSynsetType)) {
-			return "underConstruction";
-
-		} else {
-			return "error";
 		}
 
 	}
