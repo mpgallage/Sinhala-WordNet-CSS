@@ -78,6 +78,21 @@ ul,li {
 	float:left;
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
 }
+
+
+.discript_wide{
+	width:920px;
+	height:auto;
+	margin:10px 10px 10px 10px;
+	/*background-image:url(../img/calldetailback.jpg)*/
+	
+	background-color:#CFD3E0;
+	border-radius:6px;
+	float:left;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);
+}
+
+
 .graph{
 	width:400px;
 	height:400px;

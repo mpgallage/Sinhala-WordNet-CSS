@@ -139,7 +139,7 @@
 									onclick="window.location.href='EditSynsets${type}?action=ShowEditSynset&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
 								</td>
 								<td><input type="button" class="button" value="Relations"
-									onclick="window.location.href='EditRelationship?action=ShowEditRelationship&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
+									onclick="window.location.href='EditRelationship?action=EditRelationship&type=<c:out value="${type}"/>&id=<c:out value="${synset[0].getOffset()}"/>'" />
 								</td>
 							</tr>
 						</c:forEach>
