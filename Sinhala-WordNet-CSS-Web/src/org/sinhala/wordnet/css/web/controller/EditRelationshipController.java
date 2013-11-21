@@ -251,16 +251,16 @@ public class EditRelationshipController {
 					// remove ')' character at the end
 					tagParts[1] = tagParts[1].substring(0, tagParts[1].length() - 1);
 					String[] tagPartsIdPos = tagParts[1].split(",");
-					System.out.println(tagPartsIdPos[0]+" nos "+tagPartsIdPos[1]);
+					System.out.println(tagPartsIdPos[0]);
 					long rid = Long.parseLong(tagPartsIdPos[0]);
 					ids.add(rid);
 					poses.add(tagPartsIdPos[1]);
 				}
 			}
 			Long lid = Long.parseLong(id);
-			System.out.println(lid+" ptype "+pointerType+" pointers "+ids.toString()+" pos "+poses.toString());
-			SynsetMongoDbHandler bdHandler = new SynsetMongoDbHandler();
 			
+			SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+			dbHandler.addSencePointers(lid, pos, pointerType, ids, poses);
 			
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -21,7 +21,7 @@ public class MongoSinhalaSencePointer {
 	public void setSynsetId(Long synsetId) {
 		this.synsetId = synsetId;
 	}
-	public void setPointedFole(String pointedFile) {
+	public void setPointedFile(String pointedFile) {
 		this.pointedFile = pointedFile;
 	}
 	

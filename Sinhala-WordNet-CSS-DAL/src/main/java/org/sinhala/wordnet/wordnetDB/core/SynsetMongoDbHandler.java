@@ -388,8 +388,46 @@ public class SynsetMongoDbHandler {
 		}
 		
 		
-	public void addSencePointers(Long id,POS pos,MongoSinhalaPointerTyps pType,){
+	public void addSencePointers(Long id,POS pos,MongoSinhalaPointerTyps pType,List<Long> ids,List<String> poses){
 		
+		System.out.println("id "+id+" pos "+pos+" ptype "+pType+" pointers "+ids.toString()+" pos "+poses.toString());
+		SynsetMongoDbHandler dbHandler =  new SynsetMongoDbHandler();
+		MongoSinhalaSynset latestSynset = dbHandler.findBySynsetId(id, pos);
+		
+		List<MongoSinhalaSencePointer> sPointerList = latestSynset.getSencePointers();
+		List<MongoSinhalaSencePointer> newsPointerList = new ArrayList<MongoSinhalaSencePointer>();
+		for(int i = 0 ;i<sPointerList.size();i++){
+			if(sPointerList.get(i).getPointerType() == MongoSinhalaPointerTyps.GENDER){
+				newsPointerList.add(sPointerList.get(i));
+			}
+		}
+		
+		for(int i=0;i<ids.size();i++){
+		MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer();
+		sPointer.setPointerType(pType);
+		sPointer.setSynsetId(ids.get(i));
+		System.out.println("pos "+poses.get(i));
+		if(poses.get(i) == "noun"){
+		sPointer.setPointedFile("n");
+		}
+		else if(poses.get(i) == "verb"){
+			sPointer.setPointedFile("v");
+		}
+		else if(poses.get(i) == "adj"){
+			sPointer.setPointedFile("adj");
+		}
+		else if(poses.get(i) == "adv"){
+			sPointer.setPointedFile("adv");
+		}
+		newsPointerList.add(sPointer);
+		}
+		latestSynset.SetSencePointers(newsPointerList);
+		latestSynset.setId(null);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		mongoOperation.save(latestSynset);
 	}
 	
 	public void addGenders(){
