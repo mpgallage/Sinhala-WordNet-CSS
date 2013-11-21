@@ -386,6 +386,11 @@ public class SynsetMongoDbHandler {
 
 			return hm;
 		}
+		
+		
+	public void addSencePointers(Long id,POS pos,MongoSinhalaPointerTyps pType,){
+		
+	}
 	
 	public void addGenders(){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
