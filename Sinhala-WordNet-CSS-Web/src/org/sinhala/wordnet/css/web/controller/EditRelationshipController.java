@@ -8,7 +8,11 @@ import java.util.List;
 
 import net.didion.jwnl.JWNLException;
 import net.didion.jwnl.data.POS;
+import net.didion.jwnl.data.PointerTarget;
+import net.didion.jwnl.data.PointerUtils;
 import net.didion.jwnl.data.Synset;
+import net.didion.jwnl.data.list.PointerTargetNode;
+import net.didion.jwnl.data.list.PointerTargetNodeList;
 import net.didion.jwnl.dictionary.Dictionary;
 
 import org.codehaus.jackson.JsonFactory;
@@ -17,6 +21,7 @@ import org.codehaus.jackson.JsonToken;
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
+import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.css.web.model.TagModel;
@@ -48,6 +53,48 @@ public class EditRelationshipController {
 				e.printStackTrace();
 			}
 
+			PointerUtils pointerUtils = PointerUtils.getInstance();
+			PointerTargetNodeList hyponymSuggestionPointerList = null;
+			PointerTargetNodeList hypernymSuggestionPointerList = null;
+			try {
+				hyponymSuggestionPointerList = pointerUtils.getDirectHyponyms(synset);
+				hypernymSuggestionPointerList = pointerUtils.getDirectHypernyms(synset);
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			List<SinhalaWordNetSynset> hyponymSuggestionList = new ArrayList<SinhalaWordNetSynset>();
+			List<SinhalaWordNetSynset> hypernymSuggestionList = new ArrayList<SinhalaWordNetSynset>();
+
+			if (hyponymSuggestionPointerList.size() > 0) {
+
+				for (int i = 0; i < hyponymSuggestionPointerList.size(); i++) {
+					PointerTargetNode node = (PointerTargetNode) hyponymSuggestionPointerList.get(i);
+					PointerTarget target = node.getPointerTarget();
+					Synset s = (Synset) target;
+					NounSynset tempNoun = new NounSynset(s);
+					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					SinhalaWordNetSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun, "");
+					hyponymSuggestionList.add(castSynset);
+				}
+
+			}
+
+			if (hypernymSuggestionPointerList.size() > 0) {
+
+				for (int i = 0; i < hypernymSuggestionPointerList.size(); i++) {
+					PointerTargetNode node = (PointerTargetNode) hypernymSuggestionPointerList.get(i);
+					PointerTarget target = node.getPointerTarget();
+					Synset s = (Synset) target;
+					NounSynset tempNoun = new NounSynset(s);
+					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					NounSynset castSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(tempNoun, "");
+					hypernymSuggestionList.add(castSynset);
+				}
+
+			}
+
 			NounSynset nSynset = new NounSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 			NounSynset castMainSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(nSynset, "");
@@ -55,6 +102,8 @@ public class EditRelationshipController {
 			model.addAttribute("synset", castMainSynset);
 			model.addAttribute("type", type);
 			model.addAttribute("breadCrumb", breadCrumb);
+			model.addAttribute("hyponymSuggestionList", hyponymSuggestionList);
+			model.addAttribute("hypernymSuggestionList", hypernymSuggestionList);
 
 			TagModel tagModel = new TagModel();
 			model.addAttribute("tagModel", tagModel);
