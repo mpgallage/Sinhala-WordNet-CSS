@@ -59,8 +59,12 @@
 				<script type="text/javascript">
 					hypernymJsonArray = [];
 					hyponymJsonArray = [];
-					holonymJsonArray = [];
-					meronymJsonArray = [];
+					memberHolonymJsonArray = [];
+					substanceHolonymJsonArray = [];
+					partHolonymJsonArray = [];
+					memberMeronymJsonArray = [];
+					substanceMeronymJsonArray = [];
+					partMeronymJsonArray = [];
 					attributeJsonArray = [];
 					troponymJsonArray = [];
 					entailmentJsonArray = [];
@@ -176,7 +180,7 @@
 
 						});
 
-						$('#holonym').tagit({
+						$('#memberHolonym').tagit({
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -201,32 +205,32 @@
 							onTagAdded : function(event, tag) {
 
 								item = {};
-								item["tag"] = $('#holonym').tagit("tagLabel", tag);
-								holonymJsonArray.push(item);
-								console.log(holonymJsonArray);
-								document.getElementById("holonymTags").value = JSON.stringify(holonymJsonArray);
+								item["tag"] = $('#memberHolonym').tagit("tagLabel", tag);
+								memberHolonymJsonArray.push(item);
+								console.log(memberHolonymJsonArray);
+								document.getElementById("memberHolonymTags").value = JSON.stringify(memberHolonymJsonArray);
 							},
 
 							onTagRemoved : function(event, tag) {
 
-								var value = $('#holonym').tagit("tagLabel", tag);
+								var value = $('#memberHolonym').tagit("tagLabel", tag);
 
 								console.log(value);
 
 								var removeIndex;
-								$.each(holonymJsonArray, function(index, result) {
+								$.each(memberHolonymJsonArray, function(index, result) {
 									if (result["tag"] == value) {
 										removeIndex = index;
 									}
 								});
-								holonymJsonArray.splice(removeIndex, 1);
-								console.log(holonymJsonArray);
-								document.getElementById("holonymTags").value = JSON.stringify(holonymJsonArray);
+								memberHolonymJsonArray.splice(removeIndex, 1);
+								console.log(memberHolonymJsonArray);
+								document.getElementById("memberHolonymTags").value = JSON.stringify(memberHolonymJsonArray);
 
 							}
 						});
 
-						$('#meronym').tagit({
+						$('#substanceHolonym').tagit({
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -251,27 +255,229 @@
 							onTagAdded : function(event, tag) {
 
 								item = {};
-								item["tag"] = $('#meronym').tagit("tagLabel", tag);
-								meronymJsonArray.push(item);
-								console.log(meronymJsonArray);
-								document.getElementById("meronymTags").value = JSON.stringify(meronymJsonArray);
+								item["tag"] = $('#substanceHolonym').tagit("tagLabel", tag);
+								substanceHolonymJsonArray.push(item);
+								console.log(substanceHolonymJsonArray);
+								document.getElementById("substanceHolonymTags").value = JSON.stringify(substanceHolonymJsonArray);
 							},
 
 							onTagRemoved : function(event, tag) {
 
-								var value = $('#meronym').tagit("tagLabel", tag);
+								var value = $('#substanceHolonym').tagit("tagLabel", tag);
 
 								console.log(value);
 
 								var removeIndex;
-								$.each(meronymJsonArray, function(index, result) {
+								$.each(substanceHolonymJsonArray, function(index, result) {
 									if (result["tag"] == value) {
 										removeIndex = index;
 									}
 								});
-								meronymJsonArray.splice(removeIndex, 1);
-								console.log(meronymJsonArray);
-								document.getElementById("meronymTags").value = JSON.stringify(meronymJsonArray);
+								substanceHolonymJsonArray.splice(removeIndex, 1);
+								console.log(substanceHolonymJsonArray);
+								document.getElementById("substanceHolonymTags").value = JSON.stringify(substanceHolonymJsonArray);
+
+							}
+						});
+
+						$('#partHolonym').tagit({
+							allowSpaces : true,
+							requireAutocomplete : true,
+							tagSource : function(request, response) {
+								$.ajax({
+									url : "RelationshipTags?action=getTags",
+									dataType : "json",
+									data : {
+										term : request.term,
+									},
+									success : function(data) {
+										response($.map(data, function(item) {
+											return {
+												label : item.word + "(" + item.def + "," + item.pos + ")",
+												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+											};
+										}));
+									}
+
+								});
+							},
+
+							onTagAdded : function(event, tag) {
+
+								item = {};
+								item["tag"] = $('#partHolonym').tagit("tagLabel", tag);
+								partHolonymJsonArray.push(item);
+								console.log(partHolonymJsonArray);
+								document.getElementById("partHolonymTags").value = JSON.stringify(partHolonymJsonArray);
+							},
+
+							onTagRemoved : function(event, tag) {
+
+								var value = $('#partHolonym').tagit("tagLabel", tag);
+
+								console.log(value);
+
+								var removeIndex;
+								$.each(partHolonymJsonArray, function(index, result) {
+									if (result["tag"] == value) {
+										removeIndex = index;
+									}
+								});
+								partHolonymJsonArray.splice(removeIndex, 1);
+								console.log(partHolonymJsonArray);
+								document.getElementById("partHolonymTags").value = JSON.stringify(partHolonymJsonArray);
+
+							}
+						});
+
+						$('#memberMeronym').tagit({
+							allowSpaces : true,
+							requireAutocomplete : true,
+							tagSource : function(request, response) {
+								$.ajax({
+									url : "RelationshipTags?action=getTags",
+									dataType : "json",
+									data : {
+										term : request.term,
+									},
+									success : function(data) {
+										response($.map(data, function(item) {
+											return {
+												label : item.word + "(" + item.def + "," + item.pos + ")",
+												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+											};
+										}));
+									}
+
+								});
+							},
+
+							onTagAdded : function(event, tag) {
+
+								item = {};
+								item["tag"] = $('#memberMeronym').tagit("tagLabel", tag);
+								memberMeronymJsonArray.push(item);
+								console.log(memberMeronymJsonArray);
+								document.getElementById("memberMeronymTags").value = JSON.stringify(memberMeronymJsonArray);
+							},
+
+							onTagRemoved : function(event, tag) {
+
+								var value = $('#memberMeronym').tagit("tagLabel", tag);
+
+								console.log(value);
+
+								var removeIndex;
+								$.each(memberMeronymJsonArray, function(index, result) {
+									if (result["tag"] == value) {
+										removeIndex = index;
+									}
+								});
+								memberMeronymJsonArray.splice(removeIndex, 1);
+								console.log(memberMeronymJsonArray);
+								document.getElementById("memberMeronymTags").value = JSON.stringify(memberMeronymJsonArray);
+
+							}
+
+						});
+
+						$('#substanceMeronym').tagit({
+							allowSpaces : true,
+							requireAutocomplete : true,
+							tagSource : function(request, response) {
+								$.ajax({
+									url : "RelationshipTags?action=getTags",
+									dataType : "json",
+									data : {
+										term : request.term,
+									},
+									success : function(data) {
+										response($.map(data, function(item) {
+											return {
+												label : item.word + "(" + item.def + "," + item.pos + ")",
+												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+											};
+										}));
+									}
+
+								});
+							},
+
+							onTagAdded : function(event, tag) {
+
+								item = {};
+								item["tag"] = $('#substanceMeronym').tagit("tagLabel", tag);
+								substanceMeronymJsonArray.push(item);
+								console.log(substanceMeronymJsonArray);
+								document.getElementById("substanceMeronymTags").value = JSON.stringify(substanceMeronymJsonArray);
+							},
+
+							onTagRemoved : function(event, tag) {
+
+								var value = $('#substanceMeronym').tagit("tagLabel", tag);
+
+								console.log(value);
+
+								var removeIndex;
+								$.each(substanceMeronymJsonArray, function(index, result) {
+									if (result["tag"] == value) {
+										removeIndex = index;
+									}
+								});
+								substanceMeronymJsonArray.splice(removeIndex, 1);
+								console.log(substanceMeronymJsonArray);
+								document.getElementById("substanceMeronymTags").value = JSON.stringify(substanceMeronymJsonArray);
+
+							}
+
+						});
+
+						$('#partMeronym').tagit({
+							allowSpaces : true,
+							requireAutocomplete : true,
+							tagSource : function(request, response) {
+								$.ajax({
+									url : "RelationshipTags?action=getTags",
+									dataType : "json",
+									data : {
+										term : request.term,
+									},
+									success : function(data) {
+										response($.map(data, function(item) {
+											return {
+												label : item.word + "(" + item.def + "," + item.pos + ")",
+												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+											};
+										}));
+									}
+
+								});
+							},
+
+							onTagAdded : function(event, tag) {
+
+								item = {};
+								item["tag"] = $('#partMeronym').tagit("tagLabel", tag);
+								partMeronymJsonArray.push(item);
+								console.log(partMeronymJsonArray);
+								document.getElementById("partMeronymTags").value = JSON.stringify(partMeronymJsonArray);
+							},
+
+							onTagRemoved : function(event, tag) {
+
+								var value = $('#partMeronym').tagit("tagLabel", tag);
+
+								console.log(value);
+
+								var removeIndex;
+								$.each(partMeronymJsonArray, function(index, result) {
+									if (result["tag"] == value) {
+										removeIndex = index;
+									}
+								});
+								partMeronymJsonArray.splice(removeIndex, 1);
+								console.log(partMeronymJsonArray);
+								document.getElementById("partMeronymTags").value = JSON.stringify(partMeronymJsonArray);
 
 							}
 
@@ -715,14 +921,30 @@
 						</c:if>
 						<c:if test="${type == 'noun'}">
 							<tr>
-								<td><div class="data">Holonym (* is a part of...) :</div></td>
-								<td><input name="tags" id="holonym" value=""></td>
+								<td><div class="data">Holonym (Member) :</div></td>
+								<td><input name="tags" id="memberHolonym" value=""></td>
+							</tr>
+							<tr>
+								<td><div class="data">Holonym (substance) :</div></td>
+								<td><input name="tags" id="substanceHolonym" value=""></td>
+							</tr>
+							<tr>
+								<td><div class="data">Holonym (Part) :</div></td>
+								<td><input name="tags" id="partHolonym" value=""></td>
 							</tr>
 						</c:if>
 						<c:if test="${type == 'noun'}">
 							<tr>
-								<td><div class="data">Meronym (parts of *) :</div></td>
-								<td><input name="tags" id="meronym" value=""></td>
+								<td><div class="data">Meronym (Member) :</div></td>
+								<td><input name="tags" id="memberMeronym" value=""></td>
+							</tr>
+							<tr>
+								<td><div class="data">Meronym (Substance) :</div></td>
+								<td><input name="tags" id="substanceMeronym" value=""></td>
+							</tr>
+							<tr>
+								<td><div class="data">Meronym (Part) :</div></td>
+								<td><input name="tags" id="partMeronym" value=""></td>
 							</tr>
 						</c:if>
 						<c:if test="${(type == 'noun')  || (type == 'adj')}">
@@ -790,10 +1012,22 @@
 						<form:input type="hidden" id="hyponymTags" path="hyponymJsonString" />
 					</p>
 					<p>
-						<form:input type="hidden" id="holonymTags" path="holonymJsonString" />
+						<form:input type="hidden" id="memberHolonymTags" path="memberHolonymJsonString" />
 					</p>
 					<p>
-						<form:input type="hidden" id="meronymTags" path="meronymJsonString" />
+						<form:input type="hidden" id="substanceHolonymTags" path="substanceHolonymJsonString" />
+					</p>
+					<p>
+						<form:input type="hidden" id="partHolonymTags" path="partHolonymJsonString" />
+					</p>
+					<p>
+						<form:input type="hidden" id="memberMeronymTags" path="memberMeronymJsonString" />
+					</p>
+					<p>
+						<form:input type="hidden" id="substanceMeronymTags" path="substanceMeronymJsonString" />
+					</p>
+					<p>
+						<form:input type="hidden" id="partMeronymTags" path="partMeronymJsonString" />
 					</p>
 					<p>
 						<form:input type="hidden" id="attributeTags" path="attributeJsonString" />

@@ -189,8 +189,12 @@ public class EditRelationshipController {
 
 			addRelation(tagModel.getHypernymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.HYPERNYM);
 			addRelation(tagModel.getHyponymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.HYPONYM);
-			// addRelation(tagModel.getMeronymJsonString(),currentSynsetId,POS.NOUN, MongoSinhalaPointerTyps.;
-			// addRelation(tagModel.getHolonymJsonString(),currentSynsetId,POS.NOUN, MongoSinhalaPointerTyps.;
+			addRelation(tagModel.getMemberMeronymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.MEMBER_MERONYM);
+			addRelation(tagModel.getSubstanceMeronymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.SUBSTANCE_MERONYM);
+			addRelation(tagModel.getPartMeronymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.PART_MERONYM);
+			addRelation(tagModel.getMemberHolonymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.MEMBER_HOLONYM);
+			addRelation(tagModel.getSubstanceHolonymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.SUBSTANCE_HOLONYM);
+			addRelation(tagModel.getPartHolonymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.PART_HOLONYM);
 			addRelation(tagModel.getAttributeJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.ATTRIBUTE);
 
 			return editNounRelationship(currentSynsetId, currentSynsetType, model);
@@ -258,10 +262,10 @@ public class EditRelationshipController {
 				}
 			}
 			Long lid = Long.parseLong(id);
-			
+
 			SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 			dbHandler.addSencePointers(lid, pos, pointerType, ids, poses);
-			
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

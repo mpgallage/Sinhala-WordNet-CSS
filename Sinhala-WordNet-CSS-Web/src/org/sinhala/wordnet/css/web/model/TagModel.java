@@ -6,8 +6,6 @@ public class TagModel {
 	private String synsetType;
 	private String hypernymJsonString;
 	private String hyponymJsonString;
-	private String holonymJsonString;
-	private String meronymJsonString;
 	private String attributeJsonString;
 	private String troponymJsonString;
 	private String entailmentJsonString;
@@ -16,6 +14,12 @@ public class TagModel {
 	private String similarJsonString;
 	private String relationaladjJsonString;
 	private String derivedfromJsonString;
+	private String memberMeronymJsonString;
+	private String substanceMeronymJsonString;
+	private String partMeronymJsonString;
+	private String memberHolonymJsonString;
+	private String substanceHolonymJsonString;
+	private String partHolonymJsonString;
 
 	public String getSynsetId() {
 		return synsetId;
@@ -55,22 +59,6 @@ public class TagModel {
 
 	public void setHyponymJsonString(String hyponymJsonString) {
 		this.hyponymJsonString = hyponymJsonString;
-	}
-
-	public String getHolonymJsonString() {
-		return holonymJsonString;
-	}
-
-	public void setHolonymJsonString(String holonymJsonString) {
-		this.holonymJsonString = holonymJsonString;
-	}
-
-	public String getMeronymJsonString() {
-		return meronymJsonString;
-	}
-
-	public void setMeronymJsonString(String meronymJsonString) {
-		this.meronymJsonString = meronymJsonString;
 	}
 
 	public String getAttributeJsonString() {
@@ -136,5 +124,55 @@ public class TagModel {
 	public void setDerivedfromJsonString(String derivedfromJsonString) {
 		this.derivedfromJsonString = derivedfromJsonString;
 	}
+
+	public String getMemberMeronymJsonString() {
+		return memberMeronymJsonString;
+	}
+
+	public void setMemberMeronymJsonString(String memberMeronymJsonString) {
+		this.memberMeronymJsonString = memberMeronymJsonString;
+	}
+
+	public String getSubstanceMeronymJsonString() {
+		return substanceMeronymJsonString;
+	}
+
+	public void setSubstanceMeronymJsonString(String substanceMeronymJsonString) {
+		this.substanceMeronymJsonString = substanceMeronymJsonString;
+	}
+
+	public String getPartMeronymJsonString() {
+		return partMeronymJsonString;
+	}
+
+	public void setPartMeronymJsonString(String partMeronymJsonString) {
+		this.partMeronymJsonString = partMeronymJsonString;
+	}
+	
+	public String getMemberHolonymJsonString() {
+		return memberHolonymJsonString;
+	}
+
+	public void setMemberHolonymJsonString(String memberHolonymJsonString) {
+		this.memberHolonymJsonString = memberHolonymJsonString;
+	}
+
+	public String getSubstanceHolonymJsonString() {
+		return substanceHolonymJsonString;
+	}
+
+	public void setSubstanceHolonymJsonString(String substanceHolonymJsonString) {
+		this.substanceHolonymJsonString = substanceHolonymJsonString;
+	}
+
+	public String getPartHolonymJsonString() {
+		return partHolonymJsonString;
+	}
+
+	public void setPartHolonymJsonString(String partHolonymJsonString) {
+		this.partHolonymJsonString = partHolonymJsonString;
+	}
+
+
 
 }
