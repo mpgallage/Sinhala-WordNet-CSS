@@ -20,7 +20,9 @@ import net.didion.jwnl.dictionary.Dictionary;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapreduce.GroupBy;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -32,11 +34,13 @@ import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.wordnetDB.config.SpringMongoConfig;
+import org.sinhala.wordnet.wordnetDB.config.SpringMongoConfig1;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdjective;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaDerivationType;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaGender;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaOrigin;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPoinertTypeSemetric;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSencePointer;
@@ -47,17 +51,20 @@ import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWord;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaWordPointer;
 import org.sinhala.wordnet.wordnetDB.model.User;
 
+import com.mongodb.Mongo;
 import com.sun.org.apache.xml.internal.resolver.helpers.PublicId;
 
 public class SynsetMongoDbHandler {
 
 	// add synset function add synsets to mongo DB
 	public void addSynset(SinhalaWordNetSynset synset) {
-
+		
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
+		
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
+		
 		SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 
 		MongoSinhalaSynset mongosynset = ssmsc.converttoMongoSynset(synset); // convert Sinhala Synset to MongoDB conpatible synset
@@ -67,7 +74,8 @@ public class SynsetMongoDbHandler {
 		mongosynset.setDate(date);
 		mongoOperation.save(mongosynset); // Save Synset in MongoDB
 		System.out.println("saved");
-
+		
+		((AbstractApplicationContext) ctx).close();
 	}
 
 	// Root is a specific type of synset so add root will add a synset to root collection
@@ -391,13 +399,22 @@ public class SynsetMongoDbHandler {
 	public void addSencePointers(Long id,POS pos,MongoSinhalaPointerTyps pType,List<Long> ids,List<String> poses){
 		
 		System.out.println("id "+id+" pos "+pos+" ptype "+pType+" pointers "+ids.toString()+" pos "+poses.toString());
-		SynsetMongoDbHandler dbHandler =  new SynsetMongoDbHandler();
-		MongoSinhalaSynset latestSynset = dbHandler.findBySynsetId(id, pos);
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
 		
+		SynsetMongoDbHandler dbHandler =  new SynsetMongoDbHandler();
+		POS symPos = null;
+		
+		MongoSinhalaSynset latestSynset = dbHandler.findBySynsetId(id, pos);
+		MongoSinhalaPoinertTypeSemetric checkSemetric = new MongoSinhalaPoinertTypeSemetric();
 		List<MongoSinhalaSencePointer> sPointerList = latestSynset.getSencePointers();
 		List<MongoSinhalaSencePointer> newsPointerList = new ArrayList<MongoSinhalaSencePointer>();
 		for(int i = 0 ;i<sPointerList.size();i++){
+			
 			if(sPointerList.get(i).getPointerType() == MongoSinhalaPointerTyps.GENDER){
+				System.out.println("test");
 				newsPointerList.add(sPointerList.get(i));
 			}
 		}
@@ -405,29 +422,69 @@ public class SynsetMongoDbHandler {
 		for(int i=0;i<ids.size();i++){
 		MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer();
 		sPointer.setPointerType(pType);
+		
+		
+		
 		sPointer.setSynsetId(ids.get(i));
-		System.out.println("pos "+poses.get(i));
-		if(poses.get(i) == "noun"){
-		sPointer.setPointedFile("n");
+		
+		if(poses.get(i).toString().equals("noun")){
+			sPointer.setPointedFile("n");
+			symPos = POS.NOUN;
 		}
-		else if(poses.get(i) == "verb"){
+		else if(poses.get(i).toString().equals("verb")){
 			sPointer.setPointedFile("v");
+			symPos = POS.VERB;
 		}
-		else if(poses.get(i) == "adj"){
+		else if(poses.get(i).toString().equals("adj")){
 			sPointer.setPointedFile("adj");
+			symPos = POS.ADJECTIVE;
 		}
-		else if(poses.get(i) == "adv"){
+		else if(poses.get(i).toString().equals("adv")){
 			sPointer.setPointedFile("adv");
+			symPos = POS.ADVERB;
 		}
 		newsPointerList.add(sPointer);
+		
+		
+		Long rSynsetId = ids.get(i);
+		MongoSinhalaPointerTyps symPointerType = checkSemetric.getSymetric(pType);
+		MongoSinhalaSynset symSynset = dbHandler.findBySynsetId(rSynsetId, symPos);
+		MongoSinhalaSencePointer symSencePointer = new MongoSinhalaSencePointer();
+		List<MongoSinhalaSencePointer> symPointerList = new ArrayList<MongoSinhalaSencePointer>();
+		symSencePointer.setPointerType(symPointerType);
+		symSencePointer.setSynsetId(id);
+		if(pos.equals(POS.NOUN)){
+			symSencePointer.setPointedFile("n");
+			
+		}
+		else if(pos.equals(POS.VERB)){
+			symSencePointer.setPointedFile("v");
+			
+		}
+		else if(pos.equals(POS.ADJECTIVE)){
+			symSencePointer.setPointedFile("adj");
+			
+		}
+		else if(pos.equals(POS.ADVERB)){
+			symSencePointer.setPointedFile("adv");
+			
+		}
+		symPointerList = symSynset.getSencePointers();
+		symPointerList.add(symSencePointer);
+		symSynset.SetSencePointers(symPointerList);
+		symSynset.setId(null);
+		mongoOperation.save(symSynset);
+		
 		}
 		latestSynset.SetSencePointers(newsPointerList);
 		latestSynset.setId(null);
-		ApplicationContext ctx = new AnnotationConfigApplicationContext(
-				SpringMongoConfig.class);
-		MongoOperations mongoOperation = (MongoOperations) ctx
-				.getBean("mongoTemplate");
+		
 		mongoOperation.save(latestSynset);
+		
+		
+		
+		
+		
 	}
 	
 	public void addGenders(){
@@ -447,6 +504,7 @@ public class SynsetMongoDbHandler {
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
+		
 		List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
 		MongoSinhalaWord word = new MongoSinhalaWord("තත්සම", "0", wordPointerList);
 		List<MongoSinhalaWord> words = new ArrayList<MongoSinhalaWord>();
