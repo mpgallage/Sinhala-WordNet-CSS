@@ -20,6 +20,7 @@ import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonToken;
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
+import org.sinhala.wordnet.css.model.wordnet.AdverbSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
@@ -53,47 +54,15 @@ public class EditRelationshipController {
 				e.printStackTrace();
 			}
 
-			PointerUtils pointerUtils = PointerUtils.getInstance();
-			PointerTargetNodeList hyponymSuggestionPointerList = null;
-			PointerTargetNodeList hypernymSuggestionPointerList = null;
-			try {
-				hyponymSuggestionPointerList = pointerUtils.getDirectHyponyms(synset);
-				hypernymSuggestionPointerList = pointerUtils.getDirectHypernyms(synset);
-			} catch (JWNLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			List<SinhalaWordNetSynset> hyponymSuggestionList = new ArrayList<SinhalaWordNetSynset>();
-			List<SinhalaWordNetSynset> hypernymSuggestionList = new ArrayList<SinhalaWordNetSynset>();
-
-			if (hyponymSuggestionPointerList.size() > 0) {
-
-				for (int i = 0; i < hyponymSuggestionPointerList.size(); i++) {
-					PointerTargetNode node = (PointerTargetNode) hyponymSuggestionPointerList.get(i);
-					PointerTarget target = node.getPointerTarget();
-					Synset s = (Synset) target;
-					NounSynset tempNoun = new NounSynset(s);
-					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					SinhalaWordNetSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempNoun, "");
-					hyponymSuggestionList.add(castSynset);
-				}
-
-			}
-
-			if (hypernymSuggestionPointerList.size() > 0) {
-
-				for (int i = 0; i < hypernymSuggestionPointerList.size(); i++) {
-					PointerTargetNode node = (PointerTargetNode) hypernymSuggestionPointerList.get(i);
-					PointerTarget target = node.getPointerTarget();
-					Synset s = (Synset) target;
-					NounSynset tempNoun = new NounSynset(s);
-					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					NounSynset castSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(tempNoun, "");
-					hypernymSuggestionList.add(castSynset);
-				}
-
-			}
+			List<SinhalaWordNetSynset> hyponymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPONYM);
+			List<SinhalaWordNetSynset> hypernymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPERNYM);
+			List<SinhalaWordNetSynset> memberHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.MEMBER_HOLONYM);
+			List<SinhalaWordNetSynset> substanceHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SUBSTANCE_HOLONYM);
+			List<SinhalaWordNetSynset> partHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_HOLONYM);
+			List<SinhalaWordNetSynset> memberMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.MEMBER_MERONYM);
+			List<SinhalaWordNetSynset> substanceMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SUBSTANCE_MERONYM);
+			List<SinhalaWordNetSynset> partMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_MERONYM);
+			List<SinhalaWordNetSynset> attributeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_MERONYM);
 
 			NounSynset nSynset = new NounSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
@@ -104,6 +73,13 @@ public class EditRelationshipController {
 			model.addAttribute("breadCrumb", breadCrumb);
 			model.addAttribute("hyponymSuggestionList", hyponymSuggestionList);
 			model.addAttribute("hypernymSuggestionList", hypernymSuggestionList);
+			model.addAttribute("memberHolonymSuggestionList", memberHolonymSuggestionList);
+			model.addAttribute("substanceHolonymSuggestionList", substanceHolonymSuggestionList);
+			model.addAttribute("partHolonymSuggestionList", partHolonymSuggestionList);
+			model.addAttribute("memberMeronymSuggestionList", memberMeronymSuggestionList);
+			model.addAttribute("substanceMeronymSuggestionList", substanceMeronymSuggestionList);
+			model.addAttribute("partMeronymSuggestionList", partMeronymSuggestionList);
+			model.addAttribute("attributeSuggestionList", attributeSuggestionList);
 
 			TagModel tagModel = new TagModel();
 			model.addAttribute("tagModel", tagModel);
@@ -270,6 +246,71 @@ public class EditRelationshipController {
 			e.printStackTrace();
 		}
 
+	}
+
+	public List<SinhalaWordNetSynset> getRelationshipPointerSynsetsList(Synset synset, MongoSinhalaPointerTyps pointerType) {
+
+		PointerUtils pointerUtils = PointerUtils.getInstance();
+		PointerTargetNodeList pointerList = new PointerTargetNodeList();
+		try {
+
+			if (MongoSinhalaPointerTyps.HYPONYM.equals(pointerType)) {
+				pointerList = pointerUtils.getDirectHyponyms(synset);
+			} else if (MongoSinhalaPointerTyps.HYPERNYM.equals(pointerType)) {
+				pointerList = pointerUtils.getDirectHypernyms(synset);
+			} else if (MongoSinhalaPointerTyps.MEMBER_HOLONYM.equals(pointerType)) {
+				pointerList = pointerUtils.getMemberHolonyms(synset);
+			} else if (MongoSinhalaPointerTyps.SUBSTANCE_HOLONYM.equals(pointerType)) {
+				pointerList = pointerUtils.getSubstanceHolonyms(synset);
+			} else if (MongoSinhalaPointerTyps.PART_HOLONYM.equals(pointerType)) {
+				pointerList = pointerUtils.getPartHolonyms(synset);
+			} else if (MongoSinhalaPointerTyps.MEMBER_MERONYM.equals(pointerType)) {
+				pointerList = pointerUtils.getMemberMeronyms(synset);
+			} else if (MongoSinhalaPointerTyps.SUBSTANCE_MERONYM.equals(pointerType)) {
+				pointerList = pointerUtils.getSubstanceMeronyms(synset);
+			} else if (MongoSinhalaPointerTyps.PART_MERONYM.equals(pointerType)) {
+				pointerList = pointerUtils.getPartMeronyms(synset);
+			} else if (MongoSinhalaPointerTyps.SEE_ALSO.equals(pointerType)) {
+				pointerList = pointerUtils.getAlsoSees(synset);
+			} else if (MongoSinhalaPointerTyps.ATTRIBUTE.equals(pointerType)) {
+				pointerList = pointerUtils.getAttributes(synset);
+			} else if (MongoSinhalaPointerTyps.ENTAILMENT.equals(pointerType)) {
+				pointerList = pointerUtils.getEntailments(synset);
+			} else if (MongoSinhalaPointerTyps.CAUSE.equals(pointerType)) {
+				pointerList = pointerUtils.getCauses(synset);
+			} else if (MongoSinhalaPointerTyps.DERIVATION.equals(pointerType)) {
+				pointerList = pointerUtils.getDerived(synset);
+			}
+
+		} catch (JWNLException e) {
+			e.printStackTrace();
+		}
+
+		List<SinhalaWordNetSynset> synsetList = new ArrayList<SinhalaWordNetSynset>();
+
+		if (pointerList.size() > 0) {
+
+			for (int i = 0; i < pointerList.size(); i++) {
+				PointerTargetNode node = (PointerTargetNode) pointerList.get(i);
+				PointerTarget target = node.getPointerTarget();
+				Synset s = (Synset) target;
+				POS pos = s.getPOS();
+				SinhalaWordNetSynset tempSynset = null;
+				if (POS.NOUN.equals(pos)) {
+					tempSynset = new NounSynset(s);
+				} else if (POS.VERB.equals(pos)) {
+					tempSynset = new VerbSynset(s);
+				} else if (POS.ADJECTIVE.equals(pos)) {
+					tempSynset = new AdjectiveSynset(s);
+				} else if (POS.ADVERB.equals(pos)) {
+					tempSynset = new AdverbSynset(s);
+				}
+				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+				SinhalaWordNetSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempSynset, "");
+				synsetList.add(castSynset);
+			}
+		}
+		return synsetList;
 	}
 
 }

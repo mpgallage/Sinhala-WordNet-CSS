@@ -18,6 +18,7 @@
 <link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/flick/jquery-ui.css">
 <link href="theme/css/jquery.tagit.css" rel="stylesheet" type="text/css">
 
+
 </head>
 <body>
 
@@ -923,34 +924,69 @@
 							<tr>
 								<td><div class="data">Holonym (Member) :</div></td>
 								<td><input name="tags" id="memberHolonym" value=""></td>
+								<td><select id="memberHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${memberHolonymSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 							<tr>
-								<td><div class="data">Holonym (substance) :</div></td>
+								<td><div class="data">Holonym (Substance) :</div></td>
 								<td><input name="tags" id="substanceHolonym" value=""></td>
+								<td><select id="substanceHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${substanceHolonymSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 							<tr>
 								<td><div class="data">Holonym (Part) :</div></td>
 								<td><input name="tags" id="partHolonym" value=""></td>
+								<td><select id="partHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${partHolonymSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
 						<c:if test="${type == 'noun'}">
 							<tr>
 								<td><div class="data">Meronym (Member) :</div></td>
 								<td><input name="tags" id="memberMeronym" value=""></td>
+								<td><select id="memberMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${memberMeronymSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 							<tr>
 								<td><div class="data">Meronym (Substance) :</div></td>
 								<td><input name="tags" id="substanceMeronym" value=""></td>
+								<td><select id="substanceMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${substanceMeronymSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 							<tr>
 								<td><div class="data">Meronym (Part) :</div></td>
 								<td><input name="tags" id="partMeronym" value=""></td>
+								<td><select id="partMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${partMeronymSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
 						<c:if test="${(type == 'noun')  || (type == 'adj')}">
 							<tr>
 								<td><div class="data">Attribute :</div></td>
 								<td><input name="tags" id="attribute" value=""></td>
+								<td><select id="attributeSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${attributeSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
 						<c:if test="${type == 'verb'}">
