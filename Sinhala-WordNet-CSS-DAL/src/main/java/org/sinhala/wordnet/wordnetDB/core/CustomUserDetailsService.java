@@ -11,6 +11,7 @@ import org.sinhala.wordnet.wordnetDB.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -81,10 +82,13 @@ public class CustomUserDetailsService implements UserDetailsService {
 			User userNotVerified = mongoOperation.findOne(new Query(Criteria
 					.where("username").is(username)), User.class);
 			if (userNotVerified == null) {
+				((AbstractApplicationContext) ctx).close();
 				return null;
 			}
+			((AbstractApplicationContext) ctx).close();
 			return userNotVerified;
 		}
+		((AbstractApplicationContext) ctx).close();
 		return user;
 	}
 
@@ -95,6 +99,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 				.getBean("mongoTemplate");
 		User user = mongoOperation.findOne(
 				new Query(Criteria.where("key").is(key)), User.class);
+		((AbstractApplicationContext) ctx).close();
 		return user;
 	}
 
@@ -123,6 +128,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			e.printStackTrace();
 		}
 		mongoOperation.save(user);
+		((AbstractApplicationContext) ctx).close();
 	}
 
 	public void confirmUser(User user) {
@@ -139,6 +145,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 		mongoOperation.findAndModify(query, update,
 				new FindAndModifyOptions().returnNew(true), User.class);
+		((AbstractApplicationContext) ctx).close();
 	}
 
 	public boolean isUsernameExist(String username) {
@@ -150,9 +157,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 				.is(username).and("verified").is(true)), User.class);
 
 		if (user == null) {
+			((AbstractApplicationContext) ctx).close();
 			return false;
 		}
-
+		((AbstractApplicationContext) ctx).close();
 		return true;
 	}
 
@@ -165,9 +173,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 				.is(email).and("verified").is(true)), User.class);
 
 		if (user == null) {
+			((AbstractApplicationContext) ctx).close();
 			return false;
 		}
-
+		((AbstractApplicationContext) ctx).close();
 		return true;
 	}
 }

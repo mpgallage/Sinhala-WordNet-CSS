@@ -93,7 +93,9 @@ public class SynsetMongoDbHandler {
 		MongoSinhalaRoot anyRoot = findRootByLemma(lemma);
 		if (anyRoot == null) { // if same root not avalable
 			mongoOperation.save(root);
+			
 		}
+		((AbstractApplicationContext) ctx).close();
 	}
 
 	// finding a synset by its MongoDB ID
@@ -126,6 +128,7 @@ public class SynsetMongoDbHandler {
 				foundSynset = collection.get(collection.size() - 1);
 			}
 		}
+		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
 	}
 
@@ -162,8 +165,10 @@ public class SynsetMongoDbHandler {
 				foundSynset = collection.get(collection.size() - 1);
 			}
 		}
+		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
 	}
+	
 
 	// finding root by a lemma
 	public MongoSinhalaRoot findRootByLemma(String lemma) {
@@ -192,6 +197,7 @@ public class SynsetMongoDbHandler {
 		if (returnList.size() > 0) {
 			foundSynset = returnList.get(returnList.size() - 1);
 		}
+		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
 	}
 
@@ -211,6 +217,7 @@ public class SynsetMongoDbHandler {
 		if (collection.size() > 0) {
 			foundSynset = collection.get(collection.size() - 1);
 		}
+		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
 	}
 
@@ -225,7 +232,7 @@ public class SynsetMongoDbHandler {
 
 		List<MongoSinhalaRoot> collection = mongoOperation
 				.findAll(MongoSinhalaRoot.class);
-
+		((AbstractApplicationContext) ctx).close();
 		return collection;
 	}
 
@@ -274,6 +281,7 @@ public class SynsetMongoDbHandler {
 
 			}
 		}
+		((AbstractApplicationContext) ctx).close();
 		return collection;
 	}
 
@@ -332,7 +340,7 @@ public class SynsetMongoDbHandler {
 			ewnidList = hm.values();
 
 		}
-
+		((AbstractApplicationContext) ctx).close();
 		return hm;
 	}
 
@@ -391,7 +399,7 @@ public class SynsetMongoDbHandler {
 				
 
 			}
-
+			((AbstractApplicationContext) ctx).close();
 			return hm;
 		}
 		
@@ -482,7 +490,7 @@ public class SynsetMongoDbHandler {
 		mongoOperation.save(latestSynset);
 		
 		
-		
+		((AbstractApplicationContext) ctx).close();
 		
 		
 	}
@@ -498,6 +506,7 @@ public class SynsetMongoDbHandler {
 		words.add(word);
 		MongoSinhalaGender gender = new MongoSinhalaGender(words, "neglect");
 		mongoOperation.save(gender);
+		((AbstractApplicationContext) ctx).close();
 	}
 	public void addDerivationTypes(){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -521,6 +530,7 @@ public class SynsetMongoDbHandler {
 		words.add(word);
 		deri = new MongoSinhalaDerivationType(words, "");
 		mongoOperation.save(deri);
+		((AbstractApplicationContext) ctx).close();
 	}
 	public void addOrigin(){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
@@ -568,6 +578,7 @@ public class SynsetMongoDbHandler {
 		words.add(word);
 		origin = new MongoSinhalaOrigin(words, "");
 		mongoOperation.save(origin);
+		((AbstractApplicationContext) ctx).close();
 	}
 	
 }
