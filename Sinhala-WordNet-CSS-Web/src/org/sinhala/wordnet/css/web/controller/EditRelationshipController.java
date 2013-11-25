@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import net.didion.jwnl.JWNLException;
@@ -29,6 +30,8 @@ import org.sinhala.wordnet.css.web.model.TagModel;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSencePointer;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSynset;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -54,6 +57,8 @@ public class EditRelationshipController {
 				e.printStackTrace();
 			}
 
+			HashMap<MongoSinhalaPointerTyps, String> existingTagStringMap = getExistingRelationshipTagStringsMap(synset);
+
 			List<SinhalaWordNetSynset> hyponymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPONYM);
 			List<SinhalaWordNetSynset> hypernymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPERNYM);
 			List<SinhalaWordNetSynset> memberHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.MEMBER_HOLONYM);
@@ -62,7 +67,10 @@ public class EditRelationshipController {
 			List<SinhalaWordNetSynset> memberMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.MEMBER_MERONYM);
 			List<SinhalaWordNetSynset> substanceMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SUBSTANCE_MERONYM);
 			List<SinhalaWordNetSynset> partMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_MERONYM);
-			List<SinhalaWordNetSynset> attributeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_MERONYM);
+			List<SinhalaWordNetSynset> attributeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ATTRIBUTE);
+			List<SinhalaWordNetSynset> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
+			// List<SinhalaWordNetSynset> usageSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.USAGE);
+			// List<SinhalaWordNetSynset> regionSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.REGION);
 
 			NounSynset nSynset = new NounSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
@@ -71,6 +79,18 @@ public class EditRelationshipController {
 			model.addAttribute("synset", castMainSynset);
 			model.addAttribute("type", type);
 			model.addAttribute("breadCrumb", breadCrumb);
+
+			model.addAttribute("existingHyponymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.HYPONYM));
+			model.addAttribute("existingHypernymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.HYPERNYM));
+			model.addAttribute("existingMemberHolonymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.MEMBER_HOLONYM));
+			model.addAttribute("existingSubstanceHolonymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.SUBSTANCE_HOLONYM));
+			model.addAttribute("existingPartHolonymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.PART_HOLONYM));
+			model.addAttribute("existingMemberMeronymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.MEMBER_MERONYM));
+			model.addAttribute("existingSubstanceMeronymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.SUBSTANCE_MERONYM));
+			model.addAttribute("existingPartMeronymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.PART_MERONYM));
+			model.addAttribute("existingAttributesAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.ATTRIBUTE));
+			model.addAttribute("existingDerivationsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.DERIVATION));
+
 			model.addAttribute("hyponymSuggestionList", hyponymSuggestionList);
 			model.addAttribute("hypernymSuggestionList", hypernymSuggestionList);
 			model.addAttribute("memberHolonymSuggestionList", memberHolonymSuggestionList);
@@ -80,6 +100,9 @@ public class EditRelationshipController {
 			model.addAttribute("substanceMeronymSuggestionList", substanceMeronymSuggestionList);
 			model.addAttribute("partMeronymSuggestionList", partMeronymSuggestionList);
 			model.addAttribute("attributeSuggestionList", attributeSuggestionList);
+			model.addAttribute("derivationSuggestionList", derivationSuggestionList);
+			// model.addAttribute("usageSuggestionList", usageSuggestionList);
+			// model.addAttribute("regionSuggestionList", regionSuggestionList);
 
 			TagModel tagModel = new TagModel();
 			model.addAttribute("tagModel", tagModel);
@@ -105,6 +128,14 @@ public class EditRelationshipController {
 				e.printStackTrace();
 			}
 
+			HashMap<MongoSinhalaPointerTyps, String> existingTagStringMap = getExistingRelationshipTagStringsMap(synset);
+
+			List<SinhalaWordNetSynset> hyponymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPONYM);
+			List<SinhalaWordNetSynset> hypernymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPERNYM);
+			List<SinhalaWordNetSynset> entailmentSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ENTAILMENT);
+			List<SinhalaWordNetSynset> causeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.CAUSE);
+			List<SinhalaWordNetSynset> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
+
 			VerbSynset vSynset = new VerbSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 			VerbSynset castMainSynset = (VerbSynset) mongoSynsetConvertor.OverWriteByMongo(vSynset, "");
@@ -112,6 +143,18 @@ public class EditRelationshipController {
 			model.addAttribute("synset", castMainSynset);
 			model.addAttribute("type", type);
 			model.addAttribute("breadCrumb", breadCrumb);
+
+			model.addAttribute("existingHyponymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.HYPONYM));
+			model.addAttribute("existingHypernymsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.HYPERNYM));
+			model.addAttribute("existingCausesAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.CAUSE));
+			model.addAttribute("existingEntailmentsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.ENTAILMENT));
+			model.addAttribute("existingDerivationsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.DERIVATION));
+
+			model.addAttribute("hyponymSuggestionList", hyponymSuggestionList);
+			model.addAttribute("hypernymSuggestionList", hypernymSuggestionList);
+			model.addAttribute("entailmentSuggestionList", entailmentSuggestionList);
+			model.addAttribute("causeSuggestionList", causeSuggestionList);
+			model.addAttribute("derivationSuggestionList", derivationSuggestionList);
 
 			TagModel tagModel = new TagModel();
 			model.addAttribute("tagModel", tagModel);
@@ -137,6 +180,12 @@ public class EditRelationshipController {
 				e.printStackTrace();
 			}
 
+			HashMap<MongoSinhalaPointerTyps, String> existingTagStringMap = getExistingRelationshipTagStringsMap(synset);
+
+			List<SinhalaWordNetSynset> similarSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SIMILAR_TO);
+			List<SinhalaWordNetSynset> attributeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ATTRIBUTE);
+			List<SinhalaWordNetSynset> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
+			
 			AdjectiveSynset aSynset = new AdjectiveSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 			AdjectiveSynset castMainSynset = (AdjectiveSynset) mongoSynsetConvertor.OverWriteByMongo(aSynset, "");
@@ -145,6 +194,15 @@ public class EditRelationshipController {
 			model.addAttribute("type", type);
 			model.addAttribute("breadCrumb", breadCrumb);
 
+			model.addAttribute("existingSimilarsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.SIMILAR_TO));
+			model.addAttribute("existingAttributesAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.ATTRIBUTE));
+			model.addAttribute("existingDerivationsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.DERIVATION));
+
+			model.addAttribute("similarSuggestionList", similarSuggestionList);
+			model.addAttribute("attributeSuggestionList", attributeSuggestionList);
+			model.addAttribute("derivationSuggestionList", derivationSuggestionList);
+			
+			
 			TagModel tagModel = new TagModel();
 			model.addAttribute("tagModel", tagModel);
 
@@ -172,28 +230,30 @@ public class EditRelationshipController {
 			addRelation(tagModel.getSubstanceHolonymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.SUBSTANCE_HOLONYM);
 			addRelation(tagModel.getPartHolonymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.PART_HOLONYM);
 			addRelation(tagModel.getAttributeJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.ATTRIBUTE);
+			addRelation(tagModel.getAttributeJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.DERIVATION);
 
 			return editNounRelationship(currentSynsetId, currentSynsetType, model);
 
 		} else if ("verb".equals(currentSynsetType)) {
 
 			addRelation(tagModel.getHypernymJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.HYPERNYM);
-			// addRelation(tagModel.getTroponymJsonString(),currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.);
+			addRelation(tagModel.getHyponymJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.HYPONYM);
+			addRelation(tagModel.getAttributeJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.DERIVATION);
 			addRelation(tagModel.getEntailmentJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.ENTAILMENT);
 			addRelation(tagModel.getCauseJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.CAUSE);
-			addRelation(tagModel.getAlsoseeJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.SEE_ALSO);
+			
 			return editVerbRelationship(currentSynsetId, currentSynsetType, model);
 
 		} else if ("adj".equals(currentSynsetType)) {
 
-			addRelation(tagModel.getSimilarJsonString(), currentSynsetId, POS.ADJECTIVE, MongoSinhalaPointerTyps.SIMILAR_TO);
-			// addRelation(tagModel.getRelationaladjJsonString(),currentSynsetId,POS.ADJECTIVE, MongoSinhalaPointerTyps.);
-			addRelation(tagModel.getAlsoseeJsonString(), currentSynsetId, POS.ADJECTIVE, MongoSinhalaPointerTyps.SEE_ALSO);
+			addRelation(tagModel.getSimilarJsonString(), currentSynsetId, POS.VERB, MongoSinhalaPointerTyps.SIMILAR_TO);
+			addRelation(tagModel.getAttributeJsonString(), currentSynsetId, POS.NOUN, MongoSinhalaPointerTyps.DERIVATION);
 			addRelation(tagModel.getAttributeJsonString(), currentSynsetId, POS.ADJECTIVE, MongoSinhalaPointerTyps.ATTRIBUTE);
+			
 			return editAdjRelationship(currentSynsetId, currentSynsetType, model);
 
 		} else if ("adv".equals(currentSynsetType)) {
-			addRelation(tagModel.getDerivedfromJsonString(), currentSynsetId, POS.ADVERB, MongoSinhalaPointerTyps.DERIVATION_TYPE);
+			addRelation(tagModel.getDerivedfromJsonString(), currentSynsetId, POS.ADVERB, MongoSinhalaPointerTyps.DERIVATION);
 			return "underConstruction";
 
 		} else {
@@ -203,7 +263,7 @@ public class EditRelationshipController {
 	}
 
 	public void addRelation(String jsonString, String id, POS pos, MongoSinhalaPointerTyps pointerType) {
-
+		
 		byte[] ptext = null;
 		try {
 			ptext = jsonString.getBytes("ISO8859_1");
@@ -211,39 +271,50 @@ public class EditRelationshipController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
 		String value = new String(ptext, Charset.forName("UTF-8"));
 
-		System.out.println(value);
+		if (value != null && !"".equals(value)) {
+			JsonFactory factory = new JsonFactory();
+			JsonParser jParser;
+			List<Long> ids = new ArrayList<Long>();
+			List<String> poses = new ArrayList<String>();
+			try {
+				jParser = factory.createJsonParser(value);
 
-		JsonFactory factory = new JsonFactory();
-		JsonParser jParser;
-		List<Long> ids = new ArrayList<Long>();
-		List<String> poses = new ArrayList<String>();
-		try {
-			jParser = factory.createJsonParser(value);
-			while (jParser.nextToken() != JsonToken.END_ARRAY) {
-				String fieldname = jParser.getCurrentName();
+				if (JsonToken.START_ARRAY.equals(jParser.nextToken())) {
+					while (jParser.nextToken() != JsonToken.END_ARRAY) {
+						String fieldname = jParser.getCurrentName();
 
-				if ("tag".equals(fieldname)) {
-					jParser.nextToken();
-					String tagString = jParser.getText();
-					String[] tagParts = tagString.split("\\(ID:");
-					// remove ')' character at the end
-					tagParts[1] = tagParts[1].substring(0, tagParts[1].length() - 1);
-					String[] tagPartsIdPos = tagParts[1].split(",");
-					System.out.println(tagPartsIdPos[0]);
-					long rid = Long.parseLong(tagPartsIdPos[0]);
-					ids.add(rid);
-					poses.add(tagPartsIdPos[1]);
+						if ("tag".equals(fieldname)) {
+							jParser.nextToken();
+							String tagString = jParser.getText();
+							String[] tagParts = tagString.split("\\(ID:");
+
+							if (tagParts.length != 2)
+								return;
+
+							tagParts[1] = tagParts[1].substring(0, tagParts[1].length() - 1); // remove ')' character at the end
+							String[] tagPartsIdPos = tagParts[1].split(",");
+
+							if (tagPartsIdPos.length != 2)
+								return;
+
+							long rid = Long.parseLong(tagPartsIdPos[0]);
+							ids.add(rid);
+							poses.add(tagPartsIdPos[1]);
+						}
+					}
+					Long lid = Long.parseLong(id);
+
+					SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+					dbHandler.addSencePointers(lid, pos, pointerType, ids, poses);
+
 				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-			Long lid = Long.parseLong(id);
 
-			SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-			dbHandler.addSencePointers(lid, pos, pointerType, ids, poses);
-
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
 	}
@@ -270,8 +341,6 @@ public class EditRelationshipController {
 				pointerList = pointerUtils.getSubstanceMeronyms(synset);
 			} else if (MongoSinhalaPointerTyps.PART_MERONYM.equals(pointerType)) {
 				pointerList = pointerUtils.getPartMeronyms(synset);
-			} else if (MongoSinhalaPointerTyps.SEE_ALSO.equals(pointerType)) {
-				pointerList = pointerUtils.getAlsoSees(synset);
 			} else if (MongoSinhalaPointerTyps.ATTRIBUTE.equals(pointerType)) {
 				pointerList = pointerUtils.getAttributes(synset);
 			} else if (MongoSinhalaPointerTyps.ENTAILMENT.equals(pointerType)) {
@@ -311,6 +380,74 @@ public class EditRelationshipController {
 			}
 		}
 		return synsetList;
+	}
+
+	private HashMap<MongoSinhalaPointerTyps, String> getExistingRelationshipTagStringsMap(Synset synset) {
+
+		HashMap<MongoSinhalaPointerTyps, String> relationshipTagStringsMap = new HashMap<MongoSinhalaPointerTyps, String>();
+		SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+		MongoSinhalaSynset mongoSinhalaSynset = dbHandler.findBySynsetId(synset.getOffset(), synset.getPOS());
+
+		if (mongoSinhalaSynset != null) {
+
+			List<MongoSinhalaSencePointer> mongoSinhalaSencePointer = mongoSinhalaSynset.getSencePointers();
+
+			for (int i = 0; i < mongoSinhalaSencePointer.size(); i++) {
+
+				SinhalaWordNetSynset mongoSynset = getOverWrittenMongoSynset(mongoSinhalaSencePointer.get(i).getSynsetId(), mongoSinhalaSencePointer.get(i).getPointedFile());
+				if (mongoSynset != null) {
+
+					MongoSinhalaPointerTyps pointerTyp = mongoSinhalaSencePointer.get(i).getPointerType();
+					String temp = relationshipTagStringsMap.remove(pointerTyp);
+
+					if (temp == null) {
+						temp = "";
+					}
+
+					if ("n".equals(mongoSinhalaSencePointer.get(i).getPointedFile())) {
+						temp = temp + mongoSynset.getWordsAsString() + "(ID:" + mongoSynset.getOffset() + ",noun)" + ";";
+					} else if ("v".equals(mongoSinhalaSencePointer.get(i).getPointedFile())) {
+						temp = temp + mongoSynset.getWordsAsString() + "(ID:" + mongoSynset.getOffset() + ",verb)" + ";";
+					} else if ("adj".equals(mongoSinhalaSencePointer.get(i).getPointedFile())) {
+						temp = temp + mongoSynset.getWordsAsString() + "(ID:" + mongoSynset.getOffset() + ",adj)" + ";";
+					}
+
+					relationshipTagStringsMap.put(pointerTyp, temp);
+				}
+
+			}
+
+		}
+
+		return relationshipTagStringsMap;
+	}
+
+	public SinhalaWordNetSynset getOverWrittenMongoSynset(Long id, String pointedFile) {
+
+		SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+		SinhalaWordNetSynset sinhalaWordNetSynset = null;
+
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset = null;
+		try {
+			if ("n".equals(pointedFile)) {
+				synset = dict.getSynsetAt(POS.NOUN, id);
+				NounSynset nSynset = new NounSynset(synset);
+				sinhalaWordNetSynset = mongoSynsetConvertor.OverWriteByMongo(nSynset, "");
+			} else if ("v".equals(pointedFile)) {
+				synset = dict.getSynsetAt(POS.VERB, id);
+				VerbSynset vSynset = new VerbSynset(synset);
+				sinhalaWordNetSynset = mongoSynsetConvertor.OverWriteByMongo(vSynset, "");
+			} else if ("adj".equals(pointedFile)) {
+				synset = dict.getSynsetAt(POS.ADJECTIVE, id);
+				AdjectiveSynset aSynset = new AdjectiveSynset(synset);
+				sinhalaWordNetSynset = mongoSynsetConvertor.OverWriteByMongo(aSynset, "");
+			}
+		} catch (NumberFormatException | JWNLException e) {
+			e.printStackTrace();
+		}
+
+		return sinhalaWordNetSynset;
 	}
 
 }
