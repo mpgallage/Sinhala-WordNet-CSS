@@ -406,7 +406,7 @@ public class SynsetMongoDbHandler {
 		
 	public void addSencePointers(Long id,POS pos,MongoSinhalaPointerTyps pType,List<Long> ids,List<String> poses){
 		
-		System.out.println("id "+id+" pos "+pos+" ptype "+pType+" pointers "+ids.toString()+" pos "+poses.toString());
+		//System.out.println("id "+id+" pos "+pos+" ptype "+pType+" pointers "+ids.toString()+" pos "+poses.toString());
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
@@ -422,7 +422,7 @@ public class SynsetMongoDbHandler {
 		for(int i = 0 ;i<sPointerList.size();i++){
 			
 			if(sPointerList.get(i).getPointerType() != pType){
-				System.out.println("test");
+				//System.out.println("test");
 				newsPointerList.add(sPointerList.get(i));
 			}
 		}
