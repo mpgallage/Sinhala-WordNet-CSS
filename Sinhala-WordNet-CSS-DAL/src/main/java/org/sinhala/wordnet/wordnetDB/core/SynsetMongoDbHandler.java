@@ -18,6 +18,7 @@ import net.didion.jwnl.data.POS;
 import net.didion.jwnl.data.Synset;
 import net.didion.jwnl.dictionary.Dictionary;
 
+import org.eclipse.jdt.internal.compiler.lookup.MostSpecificExceptionMethodBinding;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
@@ -402,7 +403,32 @@ public class SynsetMongoDbHandler {
 			((AbstractApplicationContext) ctx).close();
 			return hm;
 		}
-		
+		public void deleteRelation(Long sID,POS sPos,Long rID,String rPos, MongoSinhalaPointerTyps rPointerType ){
+			ApplicationContext ctx = new AnnotationConfigApplicationContext(
+					SpringMongoConfig.class);
+			MongoOperations mongoOperation = (MongoOperations) ctx
+					.getBean("mongoTemplate");
+			
+			SynsetMongoDbHandler dbHandler =  new SynsetMongoDbHandler();
+			MongoSinhalaSynset latestSynset = dbHandler.findBySynsetId(sID, sPos);
+			List<MongoSinhalaSencePointer> sPointerList = latestSynset.getSencePointers();
+			List<MongoSinhalaSencePointer> newsPointerList = new ArrayList<MongoSinhalaSencePointer>();
+			for(int i=0;i<sPointerList.size();i++){
+				System.out.println(sPointerList.get(i).getSynsetId()+"="+rID+"="+sPointerList.get(i).getPointerType()+"="+rPointerType+"="+sPointerList.get(i).getPointedFile()+"="+rPos);
+				if(sPointerList.get(i).getSynsetId().equals(rID) && sPointerList.get(i).getPointerType().equals(rPointerType)  && sPointerList.get(i).getPointedFile().equals(rPos)){
+					
+				}
+				else{
+					newsPointerList.add(sPointerList.get(i));
+				}
+			}
+			latestSynset.SetSencePointers(newsPointerList);
+			latestSynset.setId(null);
+			
+			mongoOperation.save(latestSynset);
+			((AbstractApplicationContext) ctx).close();
+			
+		}
 		
 	public void addSencePointers(Long id,POS pos,MongoSinhalaPointerTyps pType,List<Long> ids,List<String> poses){
 		
@@ -414,16 +440,80 @@ public class SynsetMongoDbHandler {
 		boolean check = false;
 		SynsetMongoDbHandler dbHandler =  new SynsetMongoDbHandler();
 		POS symPos = null;
-		
+		POS deletedPos = null;
+		MongoSinhalaPointerTyps detetePointer = null;
 		MongoSinhalaSynset latestSynset = dbHandler.findBySynsetId(id, pos);
+		
 		MongoSinhalaPoinertTypeSemetric checkSemetric = new MongoSinhalaPoinertTypeSemetric();
 		List<MongoSinhalaSencePointer> sPointerList = latestSynset.getSencePointers();
 		List<MongoSinhalaSencePointer> newsPointerList = new ArrayList<MongoSinhalaSencePointer>();
+		String pFile=null;
+		boolean isDelete = false;
+		
+		String symPointedFile = null;
+		if(pos.equals(POS.NOUN)){
+			symPointedFile = "n";
+		}
+		else if(pos.equals(POS.VERB)){
+			symPointedFile = "v";
+		}
+		else if(pos.equals(POS.ADJECTIVE)){
+			symPointedFile = "adj";
+		}
+		else if(pos.equals(POS.ADVERB)){
+			symPointedFile = "adv";
+		}
+		
+		
+		
 		for(int i = 0 ;i<sPointerList.size();i++){
 			
 			if(sPointerList.get(i).getPointerType() != pType){
 				//System.out.println("test");
 				newsPointerList.add(sPointerList.get(i));
+			}
+			else{
+				isDelete = true;
+			for(int n=0;n<ids.size();n++){
+				if(poses.get(n).toString().equals("noun")){
+					pFile="n";
+					
+				}
+				else if(poses.get(n).toString().equals("verb")){
+					pFile="v";
+					
+				}
+				else if(poses.get(n).toString().equals("adj")){
+					pFile="adj";
+					
+				}
+				else if(poses.get(n).toString().equals("adv")){
+					pFile="adv";
+					
+				}
+			if(sPointerList.get(i).getSynsetId().equals(ids.get(n)) && sPointerList.get(i).getPointedFile().equals(pFile) ){
+				
+				isDelete = false;
+			}
+				
+			}
+			if(sPointerList.get(i).getPointedFile().equals("n")){
+				deletedPos = POS.NOUN;
+				
+			}
+			else if(sPointerList.get(i).getPointedFile().equals("v")){
+				deletedPos = POS.VERB;
+			}
+			else if(sPointerList.get(i).getPointedFile().equals("adj")){
+				deletedPos = POS.ADJECTIVE;
+			}
+			else if(sPointerList.get(i).getPointedFile().equals("adv")){
+				deletedPos = POS.ADVERB;
+			}
+			detetePointer = checkSemetric.getSymetric(sPointerList.get(i).getPointerType());
+			if(isDelete){
+			dbHandler.deleteRelation(sPointerList.get(i).getSynsetId(),deletedPos,id,symPointedFile,detetePointer);
+			}
 			}
 		}
 		
@@ -462,27 +552,12 @@ public class SynsetMongoDbHandler {
 		List<MongoSinhalaSencePointer> symPointerList = new ArrayList<MongoSinhalaSencePointer>();
 		symSencePointer.setPointerType(symPointerType);
 		symSencePointer.setSynsetId(id);
-		String symPointedFile = null;
-		if(pos.equals(POS.NOUN)){
-			symSencePointer.setPointedFile("n");
-			
-		}
-		else if(pos.equals(POS.VERB)){
-			symSencePointer.setPointedFile("v");
-			
-		}
-		else if(pos.equals(POS.ADJECTIVE)){
-			symSencePointer.setPointedFile("adj");
-			
-		}
-		else if(pos.equals(POS.ADVERB)){
-			symSencePointer.setPointedFile("adv");
-			
-		}
+
+		symSencePointer.setPointedFile(symPointedFile);
 		symPointerList = symSynset.getSencePointers();
 		check = false;
 		for(int k=0;k<symPointerList.size();k++){
-			if(id==symPointerList.get(k).getSynsetId() && symPointedFile == symPointerList.get(k).getPointedFile() && symPointerType == symPointerList.get(k).getPointerType()){
+			if(symPointerList.get(k).getSynsetId().equals(id)  && symPointerList.get(k).getPointedFile().equals(symPointedFile) && symPointerList.get(k).getPointerType().equals(symPointerType)){
 				check = true;
 			}
 			
