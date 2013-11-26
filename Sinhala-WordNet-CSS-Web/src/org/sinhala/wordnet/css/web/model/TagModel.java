@@ -7,10 +7,9 @@ public class TagModel {
 	private String hypernymJsonString;
 	private String hyponymJsonString;
 	private String attributeJsonString;
-	private String troponymJsonString;
+	private String derivationJsonString;
 	private String entailmentJsonString;
 	private String causeJsonString;
-	private String alsoseeJsonString;
 	private String similarJsonString;
 	private String relationaladjJsonString;
 	private String derivedfromJsonString;
@@ -20,6 +19,8 @@ public class TagModel {
 	private String memberHolonymJsonString;
 	private String substanceHolonymJsonString;
 	private String partHolonymJsonString;
+	private String regionJsonString;
+	private String usageJsonString;
 
 	public String getSynsetId() {
 		return synsetId;
@@ -69,12 +70,12 @@ public class TagModel {
 		this.attributeJsonString = attributeJsonString;
 	}
 
-	public String getTroponymJsonString() {
-		return troponymJsonString;
+	public String getderivationJsonString() {
+		return derivationJsonString;
 	}
 
-	public void setTroponymJsonString(String troponymJsonString) {
-		this.troponymJsonString = troponymJsonString;
+	public void setderivationJsonString(String derivationJsonString) {
+		this.derivationJsonString = derivationJsonString;
 	}
 
 	public String getEntailmentJsonString() {
@@ -91,14 +92,6 @@ public class TagModel {
 
 	public void setCauseJsonString(String causeJsonString) {
 		this.causeJsonString = causeJsonString;
-	}
-
-	public String getAlsoseeJsonString() {
-		return alsoseeJsonString;
-	}
-
-	public void setAlsoseeJsonString(String alsoseeJsonString) {
-		this.alsoseeJsonString = alsoseeJsonString;
 	}
 
 	public String getSimilarJsonString() {
@@ -148,7 +141,7 @@ public class TagModel {
 	public void setPartMeronymJsonString(String partMeronymJsonString) {
 		this.partMeronymJsonString = partMeronymJsonString;
 	}
-	
+
 	public String getMemberHolonymJsonString() {
 		return memberHolonymJsonString;
 	}
@@ -172,7 +165,23 @@ public class TagModel {
 	public void setPartHolonymJsonString(String partHolonymJsonString) {
 		this.partHolonymJsonString = partHolonymJsonString;
 	}
+	
+	public String getRegionJsonString() {
+		return regionJsonString;
+	}
 
+	public void setRegionJsonString(String regionJsonString) {
+		this.regionJsonString = regionJsonString;
+	}
 
+	public String getUsageJsonString() {
+		return usageJsonString;
+	}
+
+	public void setUsageJsonString(String usageJsonString) {
+		this.usageJsonString = usageJsonString;
+	}
+
+	
 
 }

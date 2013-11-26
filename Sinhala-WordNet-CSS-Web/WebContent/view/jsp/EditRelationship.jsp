@@ -67,19 +67,19 @@
 					substanceMeronymJsonArray = [];
 					partMeronymJsonArray = [];
 					attributeJsonArray = [];
-					troponymJsonArray = [];
+					derivationJsonArray = [];
 					entailmentJsonArray = [];
 					causeJsonArray = [];
-					alsoseeJsonArray = [];
 					similarJsonArray = [];
-					relationaladjJsonArray = [];
-					derivedfromJsonArray = [];
+					usageJsonArray = [];
+					regionJsonArray = [];
 
 					$(function() {
 
 						// singleFieldTags2 is an INPUT element, rather than a UL as in the other 
 						// examples, so it automatically defaults to singleField.
 						$('#hypernym').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -131,6 +131,7 @@
 						});
 
 						$('#hyponym').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -182,6 +183,7 @@
 						});
 
 						$('#memberHolonym').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -232,6 +234,7 @@
 						});
 
 						$('#substanceHolonym').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -282,6 +285,7 @@
 						});
 
 						$('#partHolonym').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -332,6 +336,7 @@
 						});
 
 						$('#memberMeronym').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -383,6 +388,7 @@
 						});
 
 						$('#substanceMeronym').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -434,6 +440,7 @@
 						});
 
 						$('#partMeronym').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -485,6 +492,7 @@
 						});
 
 						$('#attribute').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -535,7 +543,8 @@
 
 						});
 
-						$('#troponym').tagit({
+						$('#derivation').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -560,33 +569,34 @@
 							onTagAdded : function(event, tag) {
 
 								item = {};
-								item["tag"] = $('#troponym').tagit("tagLabel", tag);
-								troponymJsonArray.push(item);
-								console.log(troponymJsonArray);
-								document.getElementById("troponymTags").value = JSON.stringify(troponymJsonArray);
+								item["tag"] = $('#derivation').tagit("tagLabel", tag);
+								derivationJsonArray.push(item);
+								console.log(derivationJsonArray);
+								document.getElementById("derivationTags").value = JSON.stringify(derivationJsonArray);
 							},
 
 							onTagRemoved : function(event, tag) {
 
-								var value = $('#troponym').tagit("tagLabel", tag);
+								var value = $('#derivation').tagit("tagLabel", tag);
 
 								console.log(value);
 
 								var removeIndex;
-								$.each(troponymJsonArray, function(index, result) {
+								$.each(derivationJsonArray, function(index, result) {
 									if (result["tag"] == value) {
 										removeIndex = index;
 									}
 								});
-								troponymJsonArray.splice(removeIndex, 1);
-								console.log(troponymJsonArray);
-								document.getElementById("troponymTags").value = JSON.stringify(troponymJsonArray);
+								derivationJsonArray.splice(removeIndex, 1);
+								console.log(derivationJsonArray);
+								document.getElementById("derivationTags").value = JSON.stringify(derivationJsonArray);
 
 							}
 
 						});
 
 						$('#entailment').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -638,6 +648,7 @@
 						});
 
 						$('#cause').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -688,58 +699,9 @@
 
 						});
 
-						$('#alsosee').tagit({
-							allowSpaces : true,
-							requireAutocomplete : true,
-							tagSource : function(request, response) {
-								$.ajax({
-									url : "RelationshipTags?action=getTags",
-									dataType : "json",
-									data : {
-										term : request.term,
-									},
-									success : function(data) {
-										response($.map(data, function(item) {
-											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
-											};
-										}));
-									}
-
-								});
-							},
-
-							onTagAdded : function(event, tag) {
-
-								item = {};
-								item["tag"] = $('#alsosee').tagit("tagLabel", tag);
-								alsoseeJsonArray.push(item);
-								console.log(alsoseeJsonArray);
-								document.getElementById("alsoseeTags").value = JSON.stringify(alsoseeJsonArray);
-							},
-
-							onTagRemoved : function(event, tag) {
-
-								var value = $('#alsosee').tagit("tagLabel", tag);
-
-								console.log(value);
-
-								var removeIndex;
-								$.each(alsoseeJsonArray, function(index, result) {
-									if (result["tag"] == value) {
-										removeIndex = index;
-									}
-								});
-								alsoseeJsonArray.splice(removeIndex, 1);
-								console.log(alsoseeJsonArray);
-								document.getElementById("alsoseeTags").value = JSON.stringify(alsoseeJsonArray);
-
-							}
-
-						});
-
+						
 						$('#similar').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -790,7 +752,8 @@
 
 						});
 
-						$('#relationaladj').tagit({
+						$('#usage').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -815,33 +778,34 @@
 							onTagAdded : function(event, tag) {
 
 								item = {};
-								item["tag"] = $('#relationaladj').tagit("tagLabel", tag);
-								relationaladjJsonArray.push(item);
-								console.log(relationaladjJsonArray);
-								document.getElementById("relationaladjTags").value = JSON.stringify(relationaladjJsonArray);
+								item["tag"] = $('#usage').tagit("tagLabel", tag);
+								usageJsonArray.push(item);
+								console.log(usageJsonArray);
+								document.getElementById("usageTags").value = JSON.stringify(usageJsonArray);
 							},
 
 							onTagRemoved : function(event, tag) {
 
-								var value = $('#relationaladj').tagit("tagLabel", tag);
+								var value = $('#usage').tagit("tagLabel", tag);
 
 								console.log(value);
 
 								var removeIndex;
-								$.each(relationaladjJsonArray, function(index, result) {
+								$.each(usageJsonArray, function(index, result) {
 									if (result["tag"] == value) {
 										removeIndex = index;
 									}
 								});
-								relationaladjJsonArray.splice(removeIndex, 1);
-								console.log(relationaladjJsonArray);
-								document.getElementById("relationaladjTags").value = JSON.stringify(relationaladjJsonArray);
+								usageJsonArray.splice(removeIndex, 1);
+								console.log(usageJsonArray);
+								document.getElementById("usageTags").value = JSON.stringify(usageJsonArray);
 
 							}
 
 						});
 
-						$('#derivedfrom').tagit({
+						$('#region').tagit({
+							singleFieldDelimiter : ";",
 							allowSpaces : true,
 							requireAutocomplete : true,
 							tagSource : function(request, response) {
@@ -866,27 +830,27 @@
 							onTagAdded : function(event, tag) {
 
 								item = {};
-								item["tag"] = $('#derivedfrom').tagit("tagLabel", tag);
-								derivedfromJsonArray.push(item);
-								console.log(derivedfromJsonArray);
-								document.getElementById("derivedfromTags").value = JSON.stringify(derivedfromJsonArray);
+								item["tag"] = $('#region').tagit("tagLabel", tag);
+								regionJsonArray.push(item);
+								console.log(regionJsonArray);
+								document.getElementById("regionTags").value = JSON.stringify(regionJsonArray);
 							},
 
 							onTagRemoved : function(event, tag) {
 
-								var value = $('#derivedfrom').tagit("tagLabel", tag);
+								var value = $('#region').tagit("tagLabel", tag);
 
 								console.log(value);
 
 								var removeIndex;
-								$.each(derivedfromJsonArray, function(index, result) {
+								$.each(regionJsonArray, function(index, result) {
 									if (result["tag"] == value) {
 										removeIndex = index;
 									}
 								});
-								derivedfromJsonArray.splice(removeIndex, 1);
-								console.log(derivedfromJsonArray);
-								document.getElementById("derivedfromTags").value = JSON.stringify(derivedfromJsonArray);
+								regionJsonArray.splice(removeIndex, 1);
+								console.log(regionJsonArray);
+								document.getElementById("regionTags").value = JSON.stringify(regionJsonArray);
 
 							}
 
@@ -901,7 +865,7 @@
 						<c:if test="${(type == 'noun')  || (type == 'verb')}">
 							<tr>
 								<td><div class="data">Hypernym (* is a kindof...) :</div></td>
-								<td><input name="tags" id="hypernym" value=""></td>
+								<td><input name="tags" id="hypernym" value="${existingHypernymsAsString}"></td>
 								<td><select id="hypernySuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${hypernymSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -909,10 +873,10 @@
 								</select></td>
 							</tr>
 						</c:if>
-						<c:if test="${type == 'noun'}">
+						<c:if test="${type == 'noun' || (type == 'verb')}">
 							<tr>
 								<td><div class="data">Hyponym (... is a kind of *) :</div></td>
-								<td><input name="tags" id="hyponym" value=""></td>
+								<td><input name="tags" id="hyponym" value="${existingHyponymsAsString}"></td>
 								<td><select id="hyponymSuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${hyponymSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -923,7 +887,7 @@
 						<c:if test="${type == 'noun'}">
 							<tr>
 								<td><div class="data">Holonym (Member) :</div></td>
-								<td><input name="tags" id="memberHolonym" value=""></td>
+								<td><input name="tags" id="memberHolonym" value="${existingMemberHolonymsAsString}"></td>
 								<td><select id="memberHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${memberHolonymSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -932,7 +896,7 @@
 							</tr>
 							<tr>
 								<td><div class="data">Holonym (Substance) :</div></td>
-								<td><input name="tags" id="substanceHolonym" value=""></td>
+								<td><input name="tags" id="substanceHolonym" value="${existingSubstanceHolonymsAsString}"></td>
 								<td><select id="substanceHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${substanceHolonymSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -941,7 +905,7 @@
 							</tr>
 							<tr>
 								<td><div class="data">Holonym (Part) :</div></td>
-								<td><input name="tags" id="partHolonym" value=""></td>
+								<td><input name="tags" id="partHolonym" value="${existingPartHolonymsAsString}"></td>
 								<td><select id="partHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${partHolonymSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -952,7 +916,7 @@
 						<c:if test="${type == 'noun'}">
 							<tr>
 								<td><div class="data">Meronym (Member) :</div></td>
-								<td><input name="tags" id="memberMeronym" value=""></td>
+								<td><input name="tags" id="memberMeronym" value="${existingMemberMeronymsAsString}"></td>
 								<td><select id="memberMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${memberMeronymSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -961,7 +925,7 @@
 							</tr>
 							<tr>
 								<td><div class="data">Meronym (Substance) :</div></td>
-								<td><input name="tags" id="substanceMeronym" value=""></td>
+								<td><input name="tags" id="substanceMeronym" value="${existingSubstanceMeronymsAsString}"></td>
 								<td><select id="substanceMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${substanceMeronymSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -970,7 +934,7 @@
 							</tr>
 							<tr>
 								<td><div class="data">Meronym (Part) :</div></td>
-								<td><input name="tags" id="partMeronym" value=""></td>
+								<td><input name="tags" id="partMeronym" value="${existingPartMeronymsAsString}"></td>
 								<td><select id="partMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${partMeronymSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -981,7 +945,7 @@
 						<c:if test="${(type == 'noun')  || (type == 'adj')}">
 							<tr>
 								<td><div class="data">Attribute :</div></td>
-								<td><input name="tags" id="attribute" value=""></td>
+								<td><input name="tags" id="attribute" value="${existingAttributesAsString}"></td>
 								<td><select id="attributeSuggestions" size="1" style="width: 200px" multiple="multiple">
 										<c:forEach var="suggestion" items="${attributeSuggestionList}">
 											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
@@ -989,46 +953,71 @@
 								</select></td>
 							</tr>
 						</c:if>
-						<c:if test="${type == 'verb'}">
+						<c:if test="${(type == 'noun')  || type == 'verb' || (type == 'adj')}">
 							<tr>
-								<td><div class="data">Troponym :</div></td>
-								<td><input name="tags" id="troponym" value=""></td>
+								<td><div class="data">Derivation :</div></td>
+								<td><input name="tags" id="derivation" value="${existingDerivationsAsString}"></td>
+								<td><select id="derivationSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${derivationSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
 						<c:if test="${type == 'verb'}">
 							<tr>
 								<td><div class="data">Entailment :</div></td>
-								<td><input name="tags" id="entailment" value=""></td>
+								<td><input name="tags" id="entailment" value="${existingEntailmentsAsString}"></td>
+								<td><select id="entailmentSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${entailmentSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
 						<c:if test="${type == 'verb'}">
 							<tr>
 								<td><div class="data">Cause :</div></td>
-								<td><input name="tags" id="cause" value=""></td>
+								<td><input name="tags" id="cause" value="${existingCausesAsString}"></td>
+								<td><select id="causeSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${causeSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
-						<c:if test="${(type == 'adj')  || (type == 'verb')}">
-							<tr>
-								<td><div class="data">Also See :</div></td>
-								<td><input name="tags" id="alsosee" value=""></td>
-							</tr>
-						</c:if>
+
 						<c:if test="${type == 'adj'}">
 							<tr>
 								<td><div class="data">Similar :</div></td>
-								<td><input name="tags" id="similar" value=""></td>
+								<td><input name="tags" id="similar" value="${existingSimilarsAsString}"></td>
+								<td><select id="similarSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${similarSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
-						<c:if test="${type == 'adj'}">
+						<c:if test="${false}">
 							<tr>
-								<td><div class="data">Relational Adj.:</div></td>
-								<td><input name="tags" id="relationaladj" value=""></td>
+								<td><div class="data">Usage :</div></td>
+								<td><input name="tags" id="usage" value="${existingUsagesAsString}"></td>
+								<td><select id="usageSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${usageSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
-						<c:if test="${type == 'adv'}">
+						<c:if test="${false}">
 							<tr>
-								<td><div class="data">Derived from :</div></td>
-								<td><input name="tags" id="derivedfrom" value=""></td>
+								<td><div class="data">Region :</div></td>
+								<td><input name="tags" id="region" value="${existingSimilarsAsString}"></td>
+								<td><select id="regionSuggestions" size="1" style="width: 200px" multiple="multiple">
+										<c:forEach var="suggestion" items="${regionSuggestionList}">
+											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+										</c:forEach>
+								</select></td>
 							</tr>
 						</c:if>
 					</tbody>
@@ -1069,7 +1058,7 @@
 						<form:input type="hidden" id="attributeTags" path="attributeJsonString" />
 					</p>
 					<p>
-						<form:input type="hidden" id="troponymTags" path="troponymJsonString" />
+						<form:input type="hidden" id="derivationTags" path="derivationJsonString" />
 					</p>
 					<p>
 						<form:input type="hidden" id="entailmentTags" path="entailmentJsonString" />
@@ -1078,16 +1067,13 @@
 						<form:input type="hidden" id="causeTags" path="causeJsonString" />
 					</p>
 					<p>
-						<form:input type="hidden" id="alsoseeTags" path="alsoseeJsonString" />
-					</p>
-					<p>
 						<form:input type="hidden" id="similarTags" path="similarJsonString" />
 					</p>
 					<p>
-						<form:input type="hidden" id="relationaladjTags" path="relationaladjJsonString" />
+						<form:input type="hidden" id="usageTags" path="usageJsonString" />
 					</p>
 					<p>
-						<form:input type="hidden" id="derivedfromTags" path="derivedfromJsonString" />
+						<form:input type="hidden" id="regionTags" path="regionJsonString" />
 					</p>
 					<p>
 					<div class="button_div">
