@@ -59,18 +59,18 @@ public class EditRelationshipController {
 
 			HashMap<MongoSinhalaPointerTyps, String> existingTagStringMap = getExistingRelationshipTagStringsMap(synset);
 
-			List<SinhalaWordNetSynset> hyponymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPONYM);
-			List<SinhalaWordNetSynset> hypernymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPERNYM);
-			List<SinhalaWordNetSynset> memberHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.MEMBER_HOLONYM);
-			List<SinhalaWordNetSynset> substanceHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SUBSTANCE_HOLONYM);
-			List<SinhalaWordNetSynset> partHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_HOLONYM);
-			List<SinhalaWordNetSynset> memberMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.MEMBER_MERONYM);
-			List<SinhalaWordNetSynset> substanceMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SUBSTANCE_MERONYM);
-			List<SinhalaWordNetSynset> partMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_MERONYM);
-			List<SinhalaWordNetSynset> attributeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ATTRIBUTE);
-			List<SinhalaWordNetSynset> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
-			// List<SinhalaWordNetSynset> usageSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.USAGE);
-			// List<SinhalaWordNetSynset> regionSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.REGION);
+			List<String[]> hyponymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPONYM);
+			List<String[]> hypernymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPERNYM);
+			List<String[]> memberHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.MEMBER_HOLONYM);
+			List<String[]> substanceHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SUBSTANCE_HOLONYM);
+			List<String[]> partHolonymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_HOLONYM);
+			List<String[]> memberMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.MEMBER_MERONYM);
+			List<String[]> substanceMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SUBSTANCE_MERONYM);
+			List<String[]> partMeronymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.PART_MERONYM);
+			List<String[]> attributeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ATTRIBUTE);
+			List<String[]> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
+			// List<String[]> usageSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.USAGE);
+			// List<String[]> regionSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.REGION);
 
 			NounSynset nSynset = new NounSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
@@ -130,11 +130,11 @@ public class EditRelationshipController {
 
 			HashMap<MongoSinhalaPointerTyps, String> existingTagStringMap = getExistingRelationshipTagStringsMap(synset);
 
-			List<SinhalaWordNetSynset> hyponymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPONYM);
-			List<SinhalaWordNetSynset> hypernymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPERNYM);
-			List<SinhalaWordNetSynset> entailmentSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ENTAILMENT);
-			List<SinhalaWordNetSynset> causeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.CAUSE);
-			List<SinhalaWordNetSynset> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
+			List<String[]> hyponymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPONYM);
+			List<String[]> hypernymSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.HYPERNYM);
+			List<String[]> entailmentSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ENTAILMENT);
+			List<String[]> causeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.CAUSE);
+			List<String[]> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
 
 			VerbSynset vSynset = new VerbSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
@@ -182,9 +182,9 @@ public class EditRelationshipController {
 
 			HashMap<MongoSinhalaPointerTyps, String> existingTagStringMap = getExistingRelationshipTagStringsMap(synset);
 
-			List<SinhalaWordNetSynset> similarSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SIMILAR_TO);
-			List<SinhalaWordNetSynset> attributeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ATTRIBUTE);
-			List<SinhalaWordNetSynset> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
+			List<String[]> similarSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SIMILAR_TO);
+			List<String[]> attributeSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.ATTRIBUTE);
+			List<String[]> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.DERIVATION);
 			
 			AdjectiveSynset aSynset = new AdjectiveSynset(synset);
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
@@ -300,9 +300,9 @@ public class EditRelationshipController {
 							if (tagPartsIdPos.length != 2)
 								return;
 
-							long rid = Long.parseLong(tagPartsIdPos[0]);
+							long rid = Long.parseLong(tagPartsIdPos[0].trim());
 							ids.add(rid);
-							poses.add(tagPartsIdPos[1]);
+							poses.add(tagPartsIdPos[1].trim());
 						}
 					}
 					Long lid = Long.parseLong(id);
@@ -319,7 +319,7 @@ public class EditRelationshipController {
 
 	}
 
-	public List<SinhalaWordNetSynset> getRelationshipPointerSynsetsList(Synset synset, MongoSinhalaPointerTyps pointerType) {
+	public List<String[]> getRelationshipPointerSynsetsList(Synset synset, MongoSinhalaPointerTyps pointerType) {
 
 		PointerUtils pointerUtils = PointerUtils.getInstance();
 		PointerTargetNodeList pointerList = new PointerTargetNodeList();
@@ -355,7 +355,7 @@ public class EditRelationshipController {
 			e.printStackTrace();
 		}
 
-		List<SinhalaWordNetSynset> synsetList = new ArrayList<SinhalaWordNetSynset>();
+		List<String[]> synsetList = new ArrayList<String[]>();
 
 		if (pointerList.size() > 0) {
 
@@ -376,7 +376,14 @@ public class EditRelationshipController {
 				}
 				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 				SinhalaWordNetSynset castSynset = mongoSynsetConvertor.OverWriteByMongo(tempSynset, "");
-				synsetList.add(castSynset);
+				
+				String[] array = new String[3];
+				
+				array[0] = castSynset.getWordsAsString();
+				array[1] = castSynset.getDefinition();
+				array[2] = pos.getLabel();
+				
+				synsetList.add(array);
 			}
 		}
 		return synsetList;

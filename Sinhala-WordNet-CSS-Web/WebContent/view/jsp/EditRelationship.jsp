@@ -92,8 +92,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -144,8 +144,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -196,8 +196,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -247,8 +247,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -298,8 +298,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -349,8 +349,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -401,8 +401,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -453,8 +453,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -505,8 +505,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -557,8 +557,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -609,8 +609,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -661,8 +661,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -699,7 +699,6 @@
 
 						});
 
-						
 						$('#similar').tagit({
 							singleFieldDelimiter : ";",
 							allowSpaces : true,
@@ -714,8 +713,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -766,8 +765,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -818,8 +817,8 @@
 									success : function(data) {
 										response($.map(data, function(item) {
 											return {
-												label : item.word + "(" + item.def + "," + item.pos + ")",
-												value : item.word + "(ID:" + item.id + "," + item.pos + ")",
+												label : item.word + " (" + item.def + ", " + item.pos + ")",
+												value : item.word + " (ID:" + item.id + ", " + item.pos + ")",
 											};
 										}));
 									}
@@ -861,25 +860,39 @@
 
 
 				<table>
+					<colgroup>
+						<col span="1" style="width: 20%;">
+						<col span="1" style="width: 55%;">
+						<col span="1" style="width: 25%;">
+					</colgroup>
 					<tbody>
+
+						<tr>
+							<td></td>
+							<td></td>
+							<td>Suggestions from English WordNet</td>
+						</tr>
 						<c:if test="${(type == 'noun')  || (type == 'verb')}">
 							<tr>
-								<td><div class="data">Hypernym (* is a kindof...) :</div></td>
+								<td><div class="data">
+										Hypernym :
+										</p>
+									</div></td>
 								<td><input name="tags" id="hypernym" value="${existingHypernymsAsString}"></td>
-								<td><select id="hypernySuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="hypernySuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${hypernymSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
 						</c:if>
 						<c:if test="${type == 'noun' || (type == 'verb')}">
 							<tr>
-								<td><div class="data">Hyponym (... is a kind of *) :</div></td>
+								<td><div class="data">Hyponym :</div></td>
 								<td><input name="tags" id="hyponym" value="${existingHyponymsAsString}"></td>
-								<td><select id="hyponymSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="hyponymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${hyponymSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -888,27 +901,27 @@
 							<tr>
 								<td><div class="data">Holonym (Member) :</div></td>
 								<td><input name="tags" id="memberHolonym" value="${existingMemberHolonymsAsString}"></td>
-								<td><select id="memberHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="memberHolonymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${memberHolonymSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
 							<tr>
 								<td><div class="data">Holonym (Substance) :</div></td>
 								<td><input name="tags" id="substanceHolonym" value="${existingSubstanceHolonymsAsString}"></td>
-								<td><select id="substanceHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="substanceHolonymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${substanceHolonymSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
 							<tr>
 								<td><div class="data">Holonym (Part) :</div></td>
 								<td><input name="tags" id="partHolonym" value="${existingPartHolonymsAsString}"></td>
-								<td><select id="partHolonymSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="partHolonymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${partHolonymSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -917,27 +930,27 @@
 							<tr>
 								<td><div class="data">Meronym (Member) :</div></td>
 								<td><input name="tags" id="memberMeronym" value="${existingMemberMeronymsAsString}"></td>
-								<td><select id="memberMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="memberMeronymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${memberMeronymSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
 							<tr>
 								<td><div class="data">Meronym (Substance) :</div></td>
 								<td><input name="tags" id="substanceMeronym" value="${existingSubstanceMeronymsAsString}"></td>
-								<td><select id="substanceMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="substanceMeronymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${substanceMeronymSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
 							<tr>
 								<td><div class="data">Meronym (Part) :</div></td>
 								<td><input name="tags" id="partMeronym" value="${existingPartMeronymsAsString}"></td>
-								<td><select id="partMeronymSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="partMeronymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${partMeronymSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -946,9 +959,9 @@
 							<tr>
 								<td><div class="data">Attribute :</div></td>
 								<td><input name="tags" id="attribute" value="${existingAttributesAsString}"></td>
-								<td><select id="attributeSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="attributeSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${attributeSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -957,9 +970,9 @@
 							<tr>
 								<td><div class="data">Derivation :</div></td>
 								<td><input name="tags" id="derivation" value="${existingDerivationsAsString}"></td>
-								<td><select id="derivationSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="derivationSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${derivationSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -968,9 +981,9 @@
 							<tr>
 								<td><div class="data">Entailment :</div></td>
 								<td><input name="tags" id="entailment" value="${existingEntailmentsAsString}"></td>
-								<td><select id="entailmentSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="entailmentSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${entailmentSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -979,9 +992,9 @@
 							<tr>
 								<td><div class="data">Cause :</div></td>
 								<td><input name="tags" id="cause" value="${existingCausesAsString}"></td>
-								<td><select id="causeSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="causeSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${causeSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -991,9 +1004,9 @@
 							<tr>
 								<td><div class="data">Similar :</div></td>
 								<td><input name="tags" id="similar" value="${existingSimilarsAsString}"></td>
-								<td><select id="similarSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="similarSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${similarSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -1002,9 +1015,9 @@
 							<tr>
 								<td><div class="data">Usage :</div></td>
 								<td><input name="tags" id="usage" value="${existingUsagesAsString}"></td>
-								<td><select id="usageSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="usageSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${usageSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -1013,9 +1026,9 @@
 							<tr>
 								<td><div class="data">Region :</div></td>
 								<td><input name="tags" id="region" value="${existingSimilarsAsString}"></td>
-								<td><select id="regionSuggestions" size="1" style="width: 200px" multiple="multiple">
+								<td><select id="regionSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${regionSuggestionList}">
-											<option value=${suggestion.getOffset() }>${suggestion.getWordsAsString()}</option>
+											<option title="${suggestion[0]} (${suggestion[1]}, ${suggestion[2]})">${suggestion[0]} (${suggestion[2]})</option>
 										</c:forEach>
 								</select></td>
 							</tr>
@@ -1076,8 +1089,8 @@
 						<form:input type="hidden" id="regionTags" path="regionJsonString" />
 					</p>
 					<p>
-					<div class="button_div">
-						&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="සුරකින්න" class="button" />
+					<div class="button_div" align="right">
+						<input type="submit" value="සුරකින්න" class="button" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
 					</p>
 
