@@ -414,7 +414,7 @@ public class SynsetMongoDbHandler {
 			List<MongoSinhalaSencePointer> sPointerList = latestSynset.getSencePointers();
 			List<MongoSinhalaSencePointer> newsPointerList = new ArrayList<MongoSinhalaSencePointer>();
 			for(int i=0;i<sPointerList.size();i++){
-				System.out.println(sPointerList.get(i).getSynsetId()+"="+rID+"="+sPointerList.get(i).getPointerType()+"="+rPointerType+"="+sPointerList.get(i).getPointedFile()+"="+rPos);
+				//System.out.println(sPointerList.get(i).getSynsetId()+"="+rID+"="+sPointerList.get(i).getPointerType()+"="+rPointerType+"="+sPointerList.get(i).getPointedFile()+"="+rPos);
 				if(sPointerList.get(i).getSynsetId().equals(rID) && sPointerList.get(i).getPointerType().equals(rPointerType)  && sPointerList.get(i).getPointedFile().equals(rPos)){
 					
 				}
