@@ -411,7 +411,7 @@ public class SynsetMongoDbHandler {
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
-		
+		boolean check = false;
 		SynsetMongoDbHandler dbHandler =  new SynsetMongoDbHandler();
 		POS symPos = null;
 		
@@ -421,7 +421,7 @@ public class SynsetMongoDbHandler {
 		List<MongoSinhalaSencePointer> newsPointerList = new ArrayList<MongoSinhalaSencePointer>();
 		for(int i = 0 ;i<sPointerList.size();i++){
 			
-			if(sPointerList.get(i).getPointerType() == MongoSinhalaPointerTyps.GENDER){
+			if(sPointerList.get(i).getPointerType() != pType){
 				System.out.println("test");
 				newsPointerList.add(sPointerList.get(i));
 			}
@@ -456,11 +456,13 @@ public class SynsetMongoDbHandler {
 		
 		Long rSynsetId = ids.get(i);
 		MongoSinhalaPointerTyps symPointerType = checkSemetric.getSymetric(pType);
+		if(symPointerType!= null){
 		MongoSinhalaSynset symSynset = dbHandler.findBySynsetId(rSynsetId, symPos);
 		MongoSinhalaSencePointer symSencePointer = new MongoSinhalaSencePointer();
 		List<MongoSinhalaSencePointer> symPointerList = new ArrayList<MongoSinhalaSencePointer>();
 		symSencePointer.setPointerType(symPointerType);
 		symSencePointer.setSynsetId(id);
+		String symPointedFile = null;
 		if(pos.equals(POS.NOUN)){
 			symSencePointer.setPointedFile("n");
 			
@@ -478,11 +480,21 @@ public class SynsetMongoDbHandler {
 			
 		}
 		symPointerList = symSynset.getSencePointers();
-		symPointerList.add(symSencePointer);
+		check = false;
+		for(int k=0;k<symPointerList.size();k++){
+			if(id==symPointerList.get(k).getSynsetId() && symPointedFile == symPointerList.get(k).getPointedFile() && symPointerType == symPointerList.get(k).getPointerType()){
+				check = true;
+			}
+			
+		}
+		if(!check){
+			symPointerList.add(symSencePointer);
+		}
+		
 		symSynset.SetSencePointers(symPointerList);
 		symSynset.setId(null);
 		mongoOperation.save(symSynset);
-		
+		}
 		}
 		latestSynset.SetSencePointers(newsPointerList);
 		latestSynset.setId(null);
