@@ -556,7 +556,7 @@ public class SynsetMongoDbHandler {
 		symSencePointer.setPointedFile(symPointedFile);
 		symPointerList = symSynset.getSencePointers();
 		check = false;
-		if(!symPointerList.equals(null)){
+		if(symPointerList!= null){
 		for(int k=0;k<symPointerList.size();k++){
 			if(symPointerList.get(k).getSynsetId().equals(id)  && symPointerList.get(k).getPointedFile().equals(symPointedFile) && symPointerList.get(k).getPointerType().equals(symPointerType)){
 				check = true;
