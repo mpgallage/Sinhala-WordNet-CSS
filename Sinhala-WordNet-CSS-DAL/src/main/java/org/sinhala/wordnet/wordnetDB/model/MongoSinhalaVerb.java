@@ -16,7 +16,7 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	private String id;
 	Long eWNId;
 	String userName;
-	String SMDBId;
+	Long SMDBId;
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
@@ -55,7 +55,7 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	}
 
 	@Override
-	public String getSMDBId() {
+	public Long getSMDBId() {
 		// TODO Auto-generated method stub
 		return SMDBId;
 	}
@@ -91,7 +91,7 @@ public class MongoSinhalaVerb implements MongoSinhalaSynset{
 	}
 
 	@Override
-	public void SetSMDBId(String SMDBId) {
+	public void SetSMDBId(Long SMDBId) {
 		// TODO Auto-generated method stub
 		this.SMDBId = SMDBId;
 	}

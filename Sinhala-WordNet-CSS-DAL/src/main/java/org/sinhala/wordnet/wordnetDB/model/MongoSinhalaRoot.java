@@ -97,7 +97,7 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 	}
 
 	@Override
-	public String getSMDBId() {
+	public Long getSMDBId() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -119,7 +119,7 @@ public class MongoSinhalaRoot implements MongoSinhalaSynset {
 	}
 
 	@Override
-	public void SetSMDBId(String SMDBId) {
+	public void SetSMDBId(Long SMDBId) {
 		// TODO Auto-generated method stub
 		
 	}

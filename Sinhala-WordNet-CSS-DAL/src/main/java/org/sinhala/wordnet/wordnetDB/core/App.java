@@ -39,7 +39,7 @@ public class App {
 		}
 		*/
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
-		synsetdb.addOrigin();
+		//synsetdb.addNewSynset();
 		/*HashMap<Long, MongoSinhalaSynset> hm = synsetdb.findSynsetsByLemma("ම", POS.NOUN);
 		Iterator iter = hm.entrySet().iterator();
 

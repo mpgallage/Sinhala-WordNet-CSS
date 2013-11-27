@@ -22,6 +22,7 @@ import org.eclipse.jdt.internal.compiler.lookup.MostSpecificExceptionMethodBindi
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.AbstractApplicationContext;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.mapreduce.GroupBy;
@@ -94,9 +95,24 @@ public class SynsetMongoDbHandler {
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
         Date date = new Date();
         mongosynset.setDate(date);
+        Long eWNIdMax = (long) 99999999;
+        Long sMDBId = null;
         mongosynset.SetEWNId(null);
-        mongosynset.SetSMDBId("2");
-        System.out.println(mongosynset.toString());
+        Query query = new Query();
+    	
+    	query.with(new Sort(Sort.Direction.DESC, "eWNId"));
+    	query.limit(1);
+        MongoSinhalaNoun bigestSyn = mongoOperation.findOne(query, MongoSinhalaNoun.class);
+        System.out.println(bigestSyn.toString());
+        if(eWNIdMax < bigestSyn.getEWNId()){
+        mongosynset.SetEWNId(bigestSyn.getEWNId()+1);
+        
+        }
+        else{
+        	mongosynset.SetEWNId(eWNIdMax+1);
+        }
+        mongosynset.SetSMDBId(mongosynset.getEWNId()-eWNIdMax);
+        //System.out.println(mongosynset.toString());
         mongoOperation.save(mongosynset); // Save Synset in MongoDB
         System.out.println("new saved");
         

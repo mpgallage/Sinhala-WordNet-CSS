@@ -122,10 +122,10 @@ public class InsertNewSynsetController {
 
 		NounSynset nSynset = (NounSynset) synset;
 
-		System.out.println(synset.getEvaluated() + "rating");
+		
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		// System.out.println("user name"+nSynset.getUserName());
-		System.out.println("=====================================");
+		
 		synsetdb.addNewSynset(nSynset);
 		// String rating = nSynset.getRating();
 
