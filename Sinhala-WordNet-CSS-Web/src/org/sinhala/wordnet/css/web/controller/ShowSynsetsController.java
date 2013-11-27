@@ -25,6 +25,8 @@ import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -90,6 +92,9 @@ public class ShowSynsetsController {
 					NounSynset tempNoun = new NounSynset(s);
 					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 					NounSynset castSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
+					
+					
+					
 					// NounSynset castSynset = new NounSynset();
 					nounsynsetArr[0] = tempNoun;
 					nounsynsetArr[1] = castSynset;
@@ -110,6 +115,8 @@ public class ShowSynsetsController {
 					}
 
 				}
+				SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+				 dbHandler.getRelatedOnes(Long.parseLong(id),MongoSinhalaPointerTyps.HYPERNYM);
 				model.addAttribute("synsetList", list);
 				model.addAttribute("type", type);
 				model.addAttribute("nextLevelList", nextLevelList);
