@@ -47,6 +47,7 @@ public class ShowSynsetsController {
 		
 		SearchWord searchWord = new SearchWord();
 		model.addAttribute("searchWord", searchWord);
+		model.addAttribute("parentId", id);
 		
 		if (id != null && !"".equalsIgnoreCase(id)) {
 			Dictionary dict = WordNetDictionary.getInstance();
@@ -624,6 +625,13 @@ public class ShowSynsetsController {
 			List<SinhalaWordNetSynset[]> list = new ArrayList<SinhalaWordNetSynset[]>();
 			List<Boolean> nextLevelList = new ArrayList<Boolean>();
 
+			if (searchWord.getRawWord()==" ") {
+				searchWord.setErrorMessage("Please Insert a Valid String to Search : "+searchWord.getCleanedWord());
+				model.addAttribute("breadCrumb", breadCrumb);
+				return "ShowHyponyms";
+			} else {
+
+			
 			if (searchWord.isSinhala()) {
 				// search for Sinhala synsets
 				SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
@@ -769,12 +777,14 @@ public class ShowSynsetsController {
 				
 
 			}
+			model.addAttribute("enSynset", enSynset);
+			}
 
 			model.addAttribute("type", type);
 			model.addAttribute("synsetList", list);
 			model.addAttribute("type", type);
 			model.addAttribute("nextLevelList", nextLevelList);
-			model.addAttribute("enSynset", enSynset);
+			
 			model.addAttribute("breadCrumb", breadCrumb);
 			model.addAttribute("searchWord", searchWord);
 			model.addAttribute("parent", parentOffset);
