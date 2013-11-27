@@ -155,8 +155,10 @@
 						</tr>
 					</c:otherwise>
 				</c:choose>
+				<tr>
 				<td><input type="button" class="button"
-					value="Insert New Synset" /></td>
+					value="Insert New Synset" onclick="window.location.href='InsetNewSynset?action=InsertASynset&type=<c:out value="${type}"/>&id=<c:out value="${parentId}"/>'" /></td>
+					</tr>
 			</table>
 		</div>
 
