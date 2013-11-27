@@ -78,6 +78,30 @@ public class SynsetMongoDbHandler {
 		
 		((AbstractApplicationContext) ctx).close();
 	}
+	
+	public void addNewSynset(SinhalaWordNetSynset synset) {
+        
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(
+                        SpringMongoConfig.class);
+        
+        MongoOperations mongoOperation = (MongoOperations) ctx
+                        .getBean("mongoTemplate");
+        
+        SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
+
+        MongoSinhalaSynset mongosynset = ssmsc.converttoMongoSynset(synset); // convert Sinhala Synset to MongoDB conpatible synset
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+        Date date = new Date();
+        mongosynset.setDate(date);
+        mongosynset.SetEWNId(null);
+        mongosynset.SetSMDBId("2");
+        System.out.println(mongosynset.toString());
+        mongoOperation.save(mongosynset); // Save Synset in MongoDB
+        System.out.println("new saved");
+        
+        ((AbstractApplicationContext) ctx).close();
+}
 
 	// Root is a specific type of synset so add root will add a synset to root collection
 	public void addRoot(String lemma, String userName) {
