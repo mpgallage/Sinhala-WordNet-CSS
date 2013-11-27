@@ -80,7 +80,7 @@ public class SynsetMongoDbHandler {
 		((AbstractApplicationContext) ctx).close();
 	}
 	
-	public void addNewSynset(SinhalaWordNetSynset synset) {
+	public void addNewSynset(SinhalaWordNetSynset synset,Long perent) {
         
         ApplicationContext ctx = new AnnotationConfigApplicationContext(
                         SpringMongoConfig.class);
@@ -103,7 +103,7 @@ public class SynsetMongoDbHandler {
     	query.with(new Sort(Sort.Direction.DESC, "eWNId"));
     	query.limit(1);
         MongoSinhalaNoun bigestSyn = mongoOperation.findOne(query, MongoSinhalaNoun.class);
-        System.out.println(bigestSyn.toString());
+        
         if(eWNIdMax < bigestSyn.getEWNId()){
         mongosynset.SetEWNId(bigestSyn.getEWNId()+1);
         
@@ -112,9 +112,13 @@ public class SynsetMongoDbHandler {
         	mongosynset.SetEWNId(eWNIdMax+1);
         }
         mongosynset.SetSMDBId(mongosynset.getEWNId()-eWNIdMax);
+        List<MongoSinhalaSencePointer> sPointerList = new ArrayList<MongoSinhalaSencePointer>();
+        MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer("n", perent, MongoSinhalaPointerTyps.HYPONYM);
+        sPointerList.add(sPointer);
+        mongosynset.SetSencePointers(sPointerList);
         //System.out.println(mongosynset.toString());
         mongoOperation.save(mongosynset); // Save Synset in MongoDB
-        System.out.println("new saved");
+        System.out.println("saved");
         
         ((AbstractApplicationContext) ctx).close();
 }
@@ -149,25 +153,21 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 
 		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(findId)); // MongoDB filter
+		searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
+		searchSynsetQuery1.limit(1);
 		MongoSinhalaSynset foundSynset = null;
 		if (pos.equals(POS.NOUN)) { // if we need noun synset
-			List<MongoSinhalaNoun> collection = mongoOperation.find(
+			 foundSynset = mongoOperation.findOne(
 					searchSynsetQuery1, MongoSinhalaNoun.class);
-			if (collection.size() > 0) {
-				foundSynset = collection.get(collection.size() - 1);
-			}
+			
 		} else if (pos.equals(POS.VERB)) { // if we need verb
-			List<MongoSinhalaVerb> collection = mongoOperation.find(
+			foundSynset = mongoOperation.findOne(
 					searchSynsetQuery1, MongoSinhalaVerb.class);
-			if (collection.size() > 0) {
-				foundSynset = collection.get(collection.size() - 1);
-			}
+			
 		} else if (pos.equals(POS.ADJECTIVE)) { // if we need Adjective
-			List<MongoSinhalaAdjective> collection = mongoOperation.find(
+			foundSynset = mongoOperation.findOne(
 					searchSynsetQuery1, MongoSinhalaAdjective.class);
-			if (collection.size() > 0) {
-				foundSynset = collection.get(collection.size() - 1);
-			}
+			
 		}
 		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
@@ -183,28 +183,24 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 
 		Query searchSynsetQuery1 = new Query(Criteria.where("eWNId").is(findId));
+		searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
+		searchSynsetQuery1.limit(1);
 		MongoSinhalaSynset foundSynset = null;
 		if (pos.equals(POS.NOUN)) { // if we need noun
 
-			List<MongoSinhalaNoun> collection = mongoOperation.find(
+			foundSynset = mongoOperation.findOne(
 					searchSynsetQuery1, MongoSinhalaNoun.class);
-			if (collection.size() > 0) {
-				foundSynset = collection.get(collection.size() - 1);
-			}
+			
 		} else if (pos.equals(POS.VERB)) { // if we need verb
 
-			List<MongoSinhalaVerb> collection = mongoOperation.find(
+			foundSynset = mongoOperation.findOne(
 					searchSynsetQuery1, MongoSinhalaVerb.class);
-			if (collection.size() > 0) {
-				foundSynset = collection.get(collection.size() - 1);
-			}
+			
 		} else if (pos.equals(POS.ADJECTIVE)) { // if we need adjective
 
-			List<MongoSinhalaAdjective> collection = mongoOperation.find(
+			foundSynset = mongoOperation.findOne(
 					searchSynsetQuery1, MongoSinhalaAdjective.class);
-			if (collection.size() > 0) {
-				foundSynset = collection.get(collection.size() - 1);
-			}
+			
 		}
 		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
@@ -252,12 +248,12 @@ public class SynsetMongoDbHandler {
 				.getBean("mongoTemplate");
 
 		Query searchSynsetQuery1 = new Query(Criteria.where("_id").is(id));
+		searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
+		searchSynsetQuery1.limit(1);
 		MongoSinhalaRoot foundSynset = null;
-		List<MongoSinhalaRoot> collection = mongoOperation.find(
+		foundSynset = mongoOperation.findOne(
 				searchSynsetQuery1, MongoSinhalaRoot.class);
-		if (collection.size() > 0) {
-			foundSynset = collection.get(collection.size() - 1);
-		}
+		
 		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
 	}
@@ -294,6 +290,7 @@ public class SynsetMongoDbHandler {
 		} else if (type.equals("all")) {
 			searchSynsetQuery1 = new Query();
 		}
+		searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
 		List<MongoSinhalaSynset> collection = new ArrayList<MongoSinhalaSynset>();
 
 		if (pos == POS.NOUN) {

@@ -86,7 +86,8 @@ public class InsertNewSynsetController {
 				castWordLlist.get(i).setLemma(" ");
 			}
 			castSynset.setWords(castWordLlist);
-
+			mongoCastSynset.setOffset(Long.parseLong(id));
+			
 			model.addAttribute("synset", mongoCastSynset);
 			model.addAttribute("enSynset", castSynset);
 			model.addAttribute("meaningsList", meaningsList);
@@ -109,8 +110,7 @@ public class InsertNewSynsetController {
 
 		SinhalaWordNetSynset CommSynset = synset;
 
-		System.out.println("Check Line 1");
-		System.out.println(synset.getWordArrayList().get(0));
+		
 
 		List<SinhalaWordNetWord> words = synset.getWords();
 
@@ -126,7 +126,9 @@ public class InsertNewSynsetController {
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		// System.out.println("user name"+nSynset.getUserName());
 		
-		synsetdb.addNewSynset(nSynset);
+		Long perent = nSynset.getOffset();
+		//System.out.println("perent"+perentn);
+		synsetdb.addNewSynset(nSynset,perent);
 		// String rating = nSynset.getRating();
 
 		// App app = new App();
