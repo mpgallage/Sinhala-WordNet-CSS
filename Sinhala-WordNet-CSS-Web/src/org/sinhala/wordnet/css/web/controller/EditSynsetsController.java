@@ -19,6 +19,7 @@ import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.wordnetDB.core.App;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSynset;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 
@@ -33,13 +34,19 @@ public class EditSynsetsController {
 
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowEditSynset", "type=noun" })
 	public String showEditSynset(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type,@RequestParam(value = "mongoid", required = false) String mongoid) {
-
+		Long sId = Long.parseLong(id);
+		Long tId = sId;
+		boolean check = false;
 		if (id != null && !"".equals(id)) {
-			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.NOUN);
+			if(sId > 99999999){
+				sId =(long) 1740;
+				check = true;
+			}
+			BreadCrumb breadCrumb = new BreadCrumb(sId, POS.NOUN);
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
 			try {
-				synset = dict.getSynsetAt(POS.NOUN, Long.parseLong(id));
+				synset = dict.getSynsetAt(POS.NOUN, sId);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -47,14 +54,20 @@ public class EditSynsetsController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 			
 			
 			NounSynset castSynset = new NounSynset(synset);
 			NounSynset mongoCastSynset = new NounSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+			if(check){
+				SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+				MongoSinhalaSynset  tempSyn = dbHandler.findBySynsetId(tId, POS.NOUN);
+				mongoCastSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(castSynset,tempSyn.getId());
+			}
+			else{
 			mongoCastSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(castSynset,mongoid);
-			
+			}
 			
 
 			MeaningRequestHandler meaningRequestHandler = new MeaningRequestHandler();

@@ -83,6 +83,22 @@ public class SynsetMongoDbHandler {
 	
 	public void addNewSynset(SinhalaWordNetSynset synset,Long perent) {
         
+		POS pos = null;
+		String pFile= null;
+		if (synset instanceof NounSynset) {
+			pos = POS.NOUN;
+			pFile="n";
+		}
+		if (synset instanceof VerbSynset) {
+			pos = POS.VERB;
+			pFile="v";
+		}
+		if (synset instanceof AdjectiveSynset) {
+			pos = POS.ADJECTIVE;
+			pFile="adj";
+		}
+		
+		
         ApplicationContext ctx = new AnnotationConfigApplicationContext(
                         SpringMongoConfig.class);
         
@@ -114,7 +130,10 @@ public class SynsetMongoDbHandler {
         }
         mongosynset.SetSMDBId(mongosynset.getEWNId()-eWNIdMax);
         List<MongoSinhalaSencePointer> sPointerList = new ArrayList<MongoSinhalaSencePointer>();
-        MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer("n", perent, MongoSinhalaPointerTyps.HYPONYM);
+        MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer(pFile, perent, MongoSinhalaPointerTyps.HYPONYM);
+        SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+        dbHandler.addrelations(perent, pos, mongosynset.getEWNId(), pFile, MongoSinhalaPointerTyps.HYPERNYM);
+        
         sPointerList.add(sPointer);
         mongosynset.SetSencePointers(sPointerList);
         //System.out.println(mongosynset.toString());
@@ -123,6 +142,25 @@ public class SynsetMongoDbHandler {
         
         ((AbstractApplicationContext) ctx).close();
 }
+	
+	public void addrelations(Long id,POS pos,Long rid,String pFile,MongoSinhalaPointerTyps pType){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+                SpringMongoConfig.class);
+
+		MongoOperations mongoOperation = (MongoOperations) ctx
+                .getBean("mongoTemplate");
+	SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+	MongoSinhalaSynset synset=	dbHandler.findBySynsetId(id, pos);
+	System.out.println(synset);
+	List<MongoSinhalaSencePointer> pList = synset.getSencePointers();
+	MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer(pFile, rid, pType);
+	pList.add(sPointer);
+	synset.SetSencePointers(pList);
+	mongoOperation.save(synset);
+	((AbstractApplicationContext) ctx).close();
+	
+	
+	}
 
 	// Root is a specific type of synset so add root will add a synset to root collection
 	public void addRoot(String lemma, String userName) {
@@ -144,33 +182,51 @@ public class SynsetMongoDbHandler {
 		((AbstractApplicationContext) ctx).close();
 	}
 
-	public void getRelatedOnes(Long id,MongoSinhalaPointerTyps pType){
+	public List<MongoSinhalaSynset> getRelatedOnes(Long id,MongoSinhalaPointerTyps pType,POS pos){
 		//System.out.println("got to func");
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = new Query();
-		searchSynsetQuery1.addCriteria(Criteria.where("sencePointers.synsetId").is(id).and("sencePointers.pointerType").is(pType));
+		SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+		MongoSinhalaSynset latestSynset =  dbHandler.findBySynsetId(id, pos);
+		//System.out.println("befor" +latestSynset);
+		List<MongoSinhalaSencePointer> pList = latestSynset.getSencePointers();
+		List<MongoSinhalaSynset> foundSynset = new ArrayList<MongoSinhalaSynset>();
+		for(MongoSinhalaSencePointer p:pList){
+			//System.out.println(pType+"p"+p.toString()+"id"+id);
+			if(p.getPointerType().equals(pType) && p.getSynsetId() > 99999999 ){
+				//.out.println("in");
+				POS rPos=null;
+				if(p.getPointedFile().equals("n")){
+					rPos=POS.NOUN;
+				}
+				foundSynset.add(dbHandler.findBySynsetId(p.getSynsetId(), rPos));
+			}
+		}
+	/*	
+		searchSynsetQuery1.addCriteria(Criteria.where("sencePointers.synsetId").is(id).and("sencePointers.pointerType").is(pType).and("sencePointers.pointedFile").is("n").and("SMDBId").ne(null));
 		List<MongoSinhalaNoun> nounList = mongoOperation.find(
 				searchSynsetQuery1, MongoSinhalaNoun.class);
 		boolean check = false;
 		List<MongoSinhalaNoun> filteredNounList = new ArrayList<MongoSinhalaNoun>();
 		for(MongoSinhalaNoun s: nounList){
-			//System.out.println("in"+s);
+			System.out.println("in"+s);
 			List<MongoSinhalaSencePointer> sPointer = s.getSencePointers();
 			for(int i=0;i<sPointer.size();i++){
-				if(sPointer.get(i).getSynsetId().equals(id) && sPointer.get(i).getPointerType().equals(pType) && sPointer.get(i).getPointedFile().equals("n")){
+				if(sPointer.get(i).getSynsetId().equals(id) && sPointer.get(i).getPointerType().equals(pType) && sPointer.get(i).getPointedFile().equals("n") ){
 					check = true;
 					break;
 				}
 			}
 			filteredNounList.add(s);
 			check = false;
-		}
-		for(MongoSinhalaNoun s:filteredNounList){
-			//System.out.println(s);
-		}
-		
+		}*/
+		/*for(MongoSinhalaSynset s:foundSynset){
+			System.out.println(s);
+		}*/
+		((AbstractApplicationContext) ctx).close();
+		return foundSynset;
 	}
 	
 	// finding a synset by its MongoDB ID

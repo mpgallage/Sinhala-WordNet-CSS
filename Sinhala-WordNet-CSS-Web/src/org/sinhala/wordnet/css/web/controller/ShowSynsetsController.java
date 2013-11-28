@@ -27,6 +27,7 @@ import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
 import org.sinhala.wordnet.wordnetDB.core.SynsetMongoDbHandler;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaSynset;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,7 +51,7 @@ public class ShowSynsetsController {
 		SearchWord searchWord = new SearchWord();
 		model.addAttribute("searchWord", searchWord);
 		model.addAttribute("parentId", id);
-		
+		SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 		if (id != null && !"".equalsIgnoreCase(id)) {
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
@@ -90,7 +91,7 @@ public class ShowSynsetsController {
 					PointerTarget target = node.getPointerTarget();
 					Synset s = (Synset) target;
 					NounSynset tempNoun = new NounSynset(s);
-					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+					
 					NounSynset castSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
 					
 					
@@ -116,7 +117,28 @@ public class ShowSynsetsController {
 
 				}
 				SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-				 dbHandler.getRelatedOnes(Long.parseLong(id),MongoSinhalaPointerTyps.HYPERNYM);
+				Synset tempsynset = null;
+				try {
+					tempsynset = dict.getSynsetAt(POS.NOUN, 1740);
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JWNLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				NounSynset tempNoun = new NounSynset(tempsynset);
+				 List<MongoSinhalaSynset> newMongoSynsets = dbHandler.getRelatedOnes(Long.parseLong(id),MongoSinhalaPointerTyps.HYPERNYM,POS.NOUN);
+				
+				 int i = 0;
+				 for(MongoSinhalaSynset n:newMongoSynsets){
+					 
+					 NounSynset[] newMongosynsetArr = new NounSynset[2];
+					 newMongosynsetArr[0] = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(tempNoun,n.getId());
+					 newMongosynsetArr[1] = newMongosynsetArr[0];
+					 
+					 list.add(newMongosynsetArr);
+				 }
 				model.addAttribute("synsetList", list);
 				model.addAttribute("type", type);
 				model.addAttribute("nextLevelList", nextLevelList);
@@ -139,7 +161,7 @@ public class ShowSynsetsController {
 			}
 			
 			NounSynset nounSynset = new NounSynset(synset);
-			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+			//SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 
 			NounSynset enSynset = (NounSynset) mongoSynsetConvertor
 					.OverWriteByMongo(nounSynset,"");
@@ -170,7 +192,7 @@ public class ShowSynsetsController {
 			List<NounSynset[]> list = new ArrayList<NounSynset[]>();
 			NounSynset[] nounsynsetArr = new NounSynset[2];
 			NounSynset tempNoun = new NounSynset(synset);
-			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+			//SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
 			NounSynset castSynset = (NounSynset) mongoSynsetConvertor.OverWriteByMongo(tempNoun,"");
 			// NounSynset castSynset = new NounSynset();
 			nounsynsetArr[0] = tempNoun;

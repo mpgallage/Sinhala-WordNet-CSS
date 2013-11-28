@@ -451,6 +451,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			}
 
 			String gloss = mongoSynset.getGloss();
+			
 			String[] parts = new String[2];
 			parts[0] = "";
 			parts[1] = "";
@@ -474,7 +475,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				}
 				tempNoun.setCommentByMongo(mongoSynset.getComment());
 				tempNoun.setRating(mongoSynset.getRating());
-
+				tempNoun.setOffset(mongoSynset.getEWNId());
 				tempNoun.setUserName(mongoSynset.getUserName());
 				tempSynset = tempNoun;
 			} else if (pos.equals(POS.VERB)) {
@@ -496,6 +497,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 				tempVerb.setCommentByMongo(mongoSynset.getComment());
 				tempVerb.setRating(mongoSynset.getRating());
+				tempVerb.setOffset(mongoSynset.getEWNId());
 				tempVerb.setUserName(mongoSynset.getUserName());
 				tempSynset = tempVerb;
 			} else if (pos.equals(POS.ADJECTIVE)) {
@@ -516,6 +518,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				}
 				tempAdj.setCommentByMongo(mongoSynset.getComment());
 				tempAdj.setRating(mongoSynset.getRating());
+				tempAdj.setOffset(mongoSynset.getEWNId());
 				tempAdj.setUserName(mongoSynset.getUserName());
 				tempSynset = tempAdj;
 			}

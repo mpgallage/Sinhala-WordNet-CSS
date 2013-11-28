@@ -25,7 +25,7 @@ public interface MongoSinhalaSynset{
 	public void setId(String id);
 	public void SetEWNId(Long eWNId);
 	public void setUserName(String userName);
-	public void SetSMDBId(Long SMDBId);
+	public void SetSMDBId(Long sMDBId);
 	public void SetWords(List<MongoSinhalaWord> words);
 	public void SetSencePointers(List<MongoSinhalaSencePointer> sencePointers);
 	public void SetGloss(String gloss);

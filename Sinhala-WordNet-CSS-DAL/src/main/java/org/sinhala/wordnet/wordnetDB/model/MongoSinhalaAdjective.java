@@ -16,7 +16,7 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 	private String id;
 	Long eWNId;
 	String userName;
-	Long SMDBId;
+	Long sMDBID;
 	List<MongoSinhalaWord> words;
 	List<MongoSinhalaSencePointer> sencePointers;
 	String gloss;
@@ -38,7 +38,7 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 
 	@Override
 	public String toString() {
-		return "Synset [id=" + id + ", EWNId=" + eWNId +", userName=" + userName + ", SMDBId=" + SMDBId + ", words="+words+", sencePointerList="+sencePointers+", gloss="+gloss+"]";
+		return "Synset [id=" + id + ", EWNId=" + eWNId +", userName=" + userName + ", SMDBId=" + sMDBID + ", words="+words+", sencePointerList="+sencePointers+", gloss="+gloss+"]";
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 	@Override
 	public Long getSMDBId() {
 		// TODO Auto-generated method stub
-		return SMDBId;
+		return sMDBID;
 	}
 
 	@Override
@@ -102,7 +102,7 @@ public class MongoSinhalaAdjective implements MongoSinhalaSynset{
 	@Override
 	public void SetSMDBId(Long SMDBId) {
 		// TODO Auto-generated method stub
-		this.SMDBId = SMDBId;
+		this.sMDBID = SMDBId;
 	}
 
 	@Override
