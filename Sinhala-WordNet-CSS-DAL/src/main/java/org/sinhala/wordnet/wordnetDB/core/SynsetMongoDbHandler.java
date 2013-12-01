@@ -191,8 +191,10 @@ public class SynsetMongoDbHandler {
 		SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 		MongoSinhalaSynset latestSynset =  dbHandler.findBySynsetId(id, pos);
 		//System.out.println("befor" +latestSynset);
-		List<MongoSinhalaSencePointer> pList = latestSynset.getSencePointers();
 		List<MongoSinhalaSynset> foundSynset = new ArrayList<MongoSinhalaSynset>();
+		if(latestSynset!= null){
+		List<MongoSinhalaSencePointer> pList = latestSynset.getSencePointers();
+		
 		for(MongoSinhalaSencePointer p:pList){
 			//System.out.println(pType+"p"+p.toString()+"id"+id);
 			if(p.getPointerType().equals(pType) && p.getSynsetId() > 99999999 ){
@@ -203,6 +205,7 @@ public class SynsetMongoDbHandler {
 				}
 				foundSynset.add(dbHandler.findBySynsetId(p.getSynsetId(), rPos));
 			}
+		}
 		}
 	/*	
 		searchSynsetQuery1.addCriteria(Criteria.where("sencePointers.synsetId").is(id).and("sencePointers.pointerType").is(pType).and("sencePointers.pointedFile").is("n").and("SMDBId").ne(null));
