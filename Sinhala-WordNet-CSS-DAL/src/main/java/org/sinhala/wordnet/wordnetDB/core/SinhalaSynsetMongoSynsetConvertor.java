@@ -115,8 +115,8 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			sinhalaWordNetword = null;
 			try {
 				sinhalaWordNetword = words.get(i).getRoot(); // get root
-				if (sinhalaWordNetword.getId() != null) { // root handler part
-					
+				if (sinhalaWordNetword.getId() != null && !sinhalaWordNetword.getLemma().equals("")) { // root handler part
+					//System.out.println("test"+sinhalaWordNetword.getLemma()+"123");
 					dbHandler.addRoot(sinhalaWordNetword.getLemma(), userName);
 					MongoSinhalaWordPointer wordPointer4 = new MongoSinhalaWordPointer(
 							"r", dbHandler.findRootByLemma(

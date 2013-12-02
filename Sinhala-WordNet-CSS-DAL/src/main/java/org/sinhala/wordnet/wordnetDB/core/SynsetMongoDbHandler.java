@@ -156,6 +156,11 @@ public class SynsetMongoDbHandler {
 	MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer(pFile, rid, pType);
 	pList.add(sPointer);
 	synset.SetSencePointers(pList);
+	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+    Date date = new Date();
+    synset.setDate(date);
+    synset.setId(null);
 	mongoOperation.save(synset);
 	((AbstractApplicationContext) ctx).close();
 	
@@ -550,7 +555,10 @@ public class SynsetMongoDbHandler {
 			}
 			latestSynset.SetSencePointers(newsPointerList);
 			latestSynset.setId(null);
-			
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+		    Date date = new Date();
+		    latestSynset.setDate(date);
 			mongoOperation.save(latestSynset);
 			((AbstractApplicationContext) ctx).close();
 			
@@ -700,7 +708,10 @@ public class SynsetMongoDbHandler {
 		}
 		latestSynset.SetSencePointers(newsPointerList);
 		latestSynset.setId(null);
-		
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+	    Date date = new Date();
+	    latestSynset.setDate(date);
 		mongoOperation.save(latestSynset);
 		
 		
