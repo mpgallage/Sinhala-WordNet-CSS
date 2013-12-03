@@ -182,3 +182,7 @@ ul, li {
 .top_div table h3{
     margin-left: 30%;
 }
+
+body,p,h1,h2,h3,h4,table,td,th,ul,ol,textarea,input {
+	font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
+}

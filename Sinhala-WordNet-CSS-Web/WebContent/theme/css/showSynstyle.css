@@ -165,7 +165,7 @@ ul,li {
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);*/
 }
 .data{
-	padding:5px;
+	padding:10px;
 	
 	height:auto;
 	
@@ -173,9 +173,7 @@ ul,li {
 	margin:10px 10px 10px 10px;
 	background-color:#FFF;
 	border-radius:6px;
-	/*border-radius:6px;
-	float:left;
-	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.45);*/
+	font-weight:bold;
 }
 .dataDis{
 	padding:5px;
@@ -253,4 +251,8 @@ ul,li {
 
 .top_div table h3{
     margin-left: 30%;
+}
+
+body,p,h1,h2,h3,h4,table,td,th,ul,ol,textarea,input {
+	font-family: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;
 }

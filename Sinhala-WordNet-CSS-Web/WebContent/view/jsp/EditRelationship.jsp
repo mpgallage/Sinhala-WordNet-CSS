@@ -53,8 +53,22 @@
 				<div class="header">
 					<h1>${synset.getWordsAsString()}</h1>
 				</div>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;Definition: ${synset.getDefinition()}</p>
-				<p>&nbsp;&nbsp;&nbsp;&nbsp;Example: ${synset.getExample()}</p>
+				<table>
+					<tbody>
+						<tr>
+							<td>&nbsp;&nbsp;&nbsp;&nbsp;අර්ථය:</td>
+							<td>${synset.getDefinition()}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;&nbsp;&nbsp;&nbsp;උදාහරණ:</td>
+							<td>${synset.getExample()}</td>
+						</tr>
+						<tr>
+							<td>&nbsp;</td>
+							<td>&nbsp;</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 			<div class="discript_wide">
 				<script type="text/javascript">
@@ -870,14 +884,11 @@
 						<tr>
 							<td></td>
 							<td></td>
-							<td>Suggestions from English WordNet</td>
+							<td><h5 align="center">Suggestions from English WordNet</h5></td>
 						</tr>
 						<c:if test="${(type == 'noun')  || (type == 'verb')}">
 							<tr>
-								<td><div class="data">
-										Hypernym :
-										</p>
-									</div></td>
+								<td><div class="data">Hypernym :</div></td>
 								<td><input name="tags" id="hypernym" value="${existingHypernymsAsString}"></td>
 								<td><select id="hypernySuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${hypernymSuggestionList}">
@@ -899,7 +910,7 @@
 						</c:if>
 						<c:if test="${type == 'noun'}">
 							<tr>
-								<td><div class="data">Holonym (Member) :</div></td>
+								<td><div class="data">Holonym :&#10;(Member)</div></td>
 								<td><input name="tags" id="memberHolonym" value="${existingMemberHolonymsAsString}"></td>
 								<td><select id="memberHolonymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${memberHolonymSuggestionList}">
@@ -908,7 +919,7 @@
 								</select></td>
 							</tr>
 							<tr>
-								<td><div class="data">Holonym (Substance) :</div></td>
+								<td><div class="data">Holonym :&#10;(Substance)</div></td>
 								<td><input name="tags" id="substanceHolonym" value="${existingSubstanceHolonymsAsString}"></td>
 								<td><select id="substanceHolonymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${substanceHolonymSuggestionList}">
@@ -917,7 +928,7 @@
 								</select></td>
 							</tr>
 							<tr>
-								<td><div class="data">Holonym (Part) :</div></td>
+								<td><div class="data">Holonym (Part):</div></td>
 								<td><input name="tags" id="partHolonym" value="${existingPartHolonymsAsString}"></td>
 								<td><select id="partHolonymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${partHolonymSuggestionList}">
@@ -928,7 +939,7 @@
 						</c:if>
 						<c:if test="${type == 'noun'}">
 							<tr>
-								<td><div class="data">Meronym (Member) :</div></td>
+								<td><div class="data">Meronym :&#10;(Member)</div></td>
 								<td><input name="tags" id="memberMeronym" value="${existingMemberMeronymsAsString}"></td>
 								<td><select id="memberMeronymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${memberMeronymSuggestionList}">
@@ -937,7 +948,7 @@
 								</select></td>
 							</tr>
 							<tr>
-								<td><div class="data">Meronym (Substance) :</div></td>
+								<td><div class="data">Meronym :&#10;(Substance)</div></td>
 								<td><input name="tags" id="substanceMeronym" value="${existingSubstanceMeronymsAsString}"></td>
 								<td><select id="substanceMeronymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${substanceMeronymSuggestionList}">
@@ -946,7 +957,7 @@
 								</select></td>
 							</tr>
 							<tr>
-								<td><div class="data">Meronym (Part) :</div></td>
+								<td><div class="data">Meronym (Part):</div></td>
 								<td><input name="tags" id="partMeronym" value="${existingPartMeronymsAsString}"></td>
 								<td><select id="partMeronymSuggestions" size="1" style="width: 220px" multiple="multiple">
 										<c:forEach var="suggestion" items="${partMeronymSuggestionList}">
