@@ -377,44 +377,156 @@ public class SynsetMongoDbHandler {
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = null;
-		if (type.equals("evaluated")) {
-			searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
-		} else if (type.equals("notevaluated")) {
-			searchSynsetQuery1 = new Query(Criteria.where("evaluated").ne(true));
-		} else if (type.equals("all")) {
-			searchSynsetQuery1 = new Query();
-		}
-		searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
 		List<MongoSinhalaSynset> collection = new ArrayList<MongoSinhalaSynset>();
+		List<MongoSinhalaSynset> finalCollection = new ArrayList<MongoSinhalaSynset>();
+		HashMap<Long,MongoSinhalaSynset> nevList = new HashMap<Long,MongoSinhalaSynset>();
+		HashMap<Long,MongoSinhalaSynset> evLatest = new HashMap<Long,MongoSinhalaSynset>();
+		HashMap<Long,MongoSinhalaSynset> allLatest = new HashMap<Long,MongoSinhalaSynset>();
+		
+		
+		//if (type.equals("evaluated")) {
+			searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
+			searchSynsetQuery1.with(new Sort(Sort.Direction.ASC, "date"));
+			
+			if (pos == POS.NOUN) {
+				List<MongoSinhalaNoun> nounList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaNoun.class);
+				for (MongoSinhalaNoun s : nounList) {
+					
+					evLatest.put(s.getEWNId(), s);
 
-		if (pos == POS.NOUN) {
-			List<MongoSinhalaNoun> nounList = mongoOperation.find(
-					searchSynsetQuery1, MongoSinhalaNoun.class);
-			for (MongoSinhalaNoun s : nounList) {
+				}
+			} else if (pos == POS.VERB) {
+				List<MongoSinhalaVerb> verbList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaVerb.class);
+				for (MongoSinhalaVerb s : verbList) {
+					evLatest.put(s.getEWNId(), s);
+					
+				}
 
-				collection.add(s);
-
+			} else if (pos == POS.ADJECTIVE) {
+				List<MongoSinhalaAdjective> adjList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaAdjective.class);
+				for (MongoSinhalaAdjective s : adjList) {
+					evLatest.put(s.getEWNId(), s);
+				}
 			}
-		} else if (pos == POS.VERB) {
-			List<MongoSinhalaVerb> verbList = mongoOperation.find(
-					searchSynsetQuery1, MongoSinhalaVerb.class);
-			for (MongoSinhalaVerb s : verbList) {
+			
+		//}else if (type.equals("notevaluated")) {
+			searchSynsetQuery1 = new Query();
+			searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
+			
+			if (pos == POS.NOUN) {
+				List<MongoSinhalaNoun> nounList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaNoun.class);
+				for (MongoSinhalaNoun s : nounList) {
 
-				collection.add(s);
+					MongoSinhalaSynset tempsyn = evLatest.get(s.getEWNId());
+					if(tempsyn != null && s.getDate() != null){
+						
+						if(tempsyn.getDate().before(s.getDate())){
+							collection.add(s);
+						}
+					}
+					else{
+					nevList.put(s.getEWNId(), s);
+					collection.add(s);
+					}
+					
+					
 
+				}
+			} else if (pos == POS.VERB) {
+				List<MongoSinhalaVerb> verbList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaVerb.class);
+				for (MongoSinhalaVerb s : verbList) {
+					MongoSinhalaSynset tempsyn = evLatest.get(s.getEWNId());
+					if(tempsyn != null){
+						if(tempsyn.getDate().before(s.getDate())){
+							collection.add(s);
+						}
+					}
+					else{
+					nevList.put(s.getEWNId(), s);
+					collection.add(s);
+					}
+
+				}
+
+			} else if (pos == POS.ADJECTIVE) {
+				List<MongoSinhalaAdjective> adjList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaAdjective.class);
+				for (MongoSinhalaAdjective s : adjList) {
+
+					MongoSinhalaSynset tempsyn = evLatest.get(s.getEWNId());
+					if(tempsyn != null){
+						if(tempsyn.getDate().before(s.getDate())){
+							collection.add(s);
+						}
+					}
+					else{
+					nevList.put(s.getEWNId(), s);
+					collection.add(s);
+					}
+
+				}
 			}
+	/*	// }else if (type.equals("all")) {
+			searchSynsetQuery1 = new Query();
+			searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
+			
+			if (pos == POS.NOUN) {
+				List<MongoSinhalaNoun> nounList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaNoun.class);
+				for (MongoSinhalaNoun s : nounList) {
 
-		} else if (pos == POS.ADJECTIVE) {
-			List<MongoSinhalaAdjective> adjList = mongoOperation.find(
-					searchSynsetQuery1, MongoSinhalaAdjective.class);
-			for (MongoSinhalaAdjective s : adjList) {
+					collection.add(s);
 
-				collection.add(s);
+				}
+			} else if (pos == POS.VERB) {
+				List<MongoSinhalaVerb> verbList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaVerb.class);
+				for (MongoSinhalaVerb s : verbList) {
 
+					collection.add(s);
+
+				}
+
+			} else if (pos == POS.ADJECTIVE) {
+				List<MongoSinhalaAdjective> adjList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaAdjective.class);
+				for (MongoSinhalaAdjective s : adjList) {
+
+					collection.add(s);
+
+				}
 			}
+		//}*/
+		if(type.equals("evaluated")){
+			Iterator it = evLatest.entrySet().iterator();
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry)it.next();
+		        finalCollection.add((MongoSinhalaSynset) pairs.getValue());
+		    }
 		}
+		
+		else if(type.equals("notevaluated")){
+			  finalCollection = collection;
+		    
+		}
+		
+		if(type.equals("all")){
+			Iterator it = evLatest.entrySet().iterator();
+			finalCollection = collection;
+		    while (it.hasNext()) {
+		        Map.Entry pairs = (Map.Entry)it.next();
+		        finalCollection.add((MongoSinhalaSynset) pairs.getValue());
+		    }
+		    
+		}
+		
 		((AbstractApplicationContext) ctx).close();
-		return collection;
+		return finalCollection;
 	}
 
 	// finding synsets by lemma and pos to impliment search through synsets in croudsourcing system
