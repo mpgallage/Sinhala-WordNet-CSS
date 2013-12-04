@@ -27,24 +27,95 @@ public class AdverbSynset extends SinhalaWordNetSynset{
 	}
 
 	public List<SinhalaWordNetWord> getWords() {
+		if(this.words!=null){
+			
+			return this.words;
 		
+		}
+		else{
+			Dictionary dict = WordNetDictionary.getInstance();
+			Synset synset = null;
+			try {
+				synset = dict.getSynsetAt(POS.ADVERB, this.getOffset());
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			List<SinhalaWordNetWord> words = new ArrayList<SinhalaWordNetWord>();
+			Word[] originalWords = synset.getWords();
+			for(Word w : originalWords){
+				words.add(new NounWord(w));
+			}
+			
+			this.words = words;
+			return words;
+		}
+	}
+	
+	public String getDefinition() {
+		if(this.definition != null){
+			return this.definition;
+		}
+		else{
 		Dictionary dict = WordNetDictionary.getInstance();
 		Synset synset = null;
 		try {
-			synset = dict.getSynsetAt(POS.NOUN, this.getOffset());
+			//synset = dict.getSynsetAt(arg0, arg1)
+			synset = dict.getSynsetAt(POS.ADVERB, this.getOffset());
 		} catch (NumberFormatException e) {
+			
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (JWNLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
-		List<SinhalaWordNetWord> words = new ArrayList<SinhalaWordNetWord>();
-		Word[] originalWords = synset.getWords();
-		for(Word w : originalWords){
-			words.add(new AdverbWord(w));
+		
+		String out = "";
+		
+		try{
+			out = synset.getGloss().split(";")[0];
+		} catch(ArrayIndexOutOfBoundsException e){
+			//e.printStackTrace();
 		}
-		return words;
+		
+		return out;
+		}
+	}
+	
+	
+	public String getExample() {
+		if(this.example != null){
+			return this.example;
+		}
+		
+		else{
+		Dictionary dict = WordNetDictionary.getInstance();
+		Synset synset = null;
+		
+		try {
+			synset = dict.getSynsetAt(POS.ADVERB, this.getOffset());
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		} catch (JWNLException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+		}
+		
+		String out = "";
+		
+		try{
+			out = synset.getGloss().split(";")[1];
+		} catch(ArrayIndexOutOfBoundsException e){
+			//e.printStackTrace();
+		}
+		
+		return out;
+		}
 	}
 
 }

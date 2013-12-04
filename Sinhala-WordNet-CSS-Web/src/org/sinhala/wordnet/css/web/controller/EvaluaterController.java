@@ -39,6 +39,9 @@ public class EvaluaterController {
 		else if(type.equals("adj")){
 			pos = POS.ADJECTIVE;
 		}
+		else if(type.equals("adv")){
+			pos = POS.ADVERB;
+		}
 		list = synMongoDbHandler.findSynsets(pos,mode);
 		
 		

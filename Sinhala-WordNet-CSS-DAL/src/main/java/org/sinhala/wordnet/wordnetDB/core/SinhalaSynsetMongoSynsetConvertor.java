@@ -6,11 +6,13 @@ import java.util.List;
 import net.didion.jwnl.data.POS;
 
 import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
+import org.sinhala.wordnet.css.model.wordnet.AdverbSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
 import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdjective;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdverb;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaPointerTyps;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaRoot;
@@ -317,6 +319,29 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			}
 			mongoSynset.SetEvaluatedBy(evaluatedBy);
 		}
+		
+		 else if (Synset instanceof AdverbSynset) { // if adjective synset
+				
+				MongoSinhalaAdverb tempsyn = (MongoSinhalaAdverb) dbHandler.findBySynsetId(Synset.getOffset(), POS.ADVERB);
+				if(tempsyn != null){
+					List<MongoSinhalaSencePointer> tempSencePointer = new ArrayList<MongoSinhalaSencePointer>();
+					tempSencePointer = tempsyn.getSencePointers();
+					for(int i=0;i<tempSencePointer.size();i++){
+						if(tempSencePointer.get(i).getPointerType()!=MongoSinhalaPointerTyps.GENDER){
+							sencePointerList.add(tempSencePointer.get(i));
+						}
+					}
+				}
+				mongoSynset = new MongoSinhalaAdverb(ewnid, wordList,
+						sencePointerList, Synset.getDefinition() + "|"
+								+ Synset.getExample(), userName);
+				mongoSynset.setComment(comment);
+				mongoSynset.setRating(rating);
+				if (evaluated.equals("true")) {
+					mongoSynset.SetEvaluated();
+				}
+				mongoSynset.SetEvaluatedBy(evaluatedBy);
+			}
 
 		return mongoSynset;
 
@@ -336,6 +361,9 @@ public class SinhalaSynsetMongoSynsetConvertor {
 		}
 		if (synset instanceof AdjectiveSynset) {
 			pos = POS.ADJECTIVE;
+		}
+		if (synset instanceof AdverbSynset) {
+			pos = POS.ADVERB;
 		}
 
 		if (mongoId != null && mongoId != "") {
@@ -515,6 +543,28 @@ public class SinhalaSynsetMongoSynsetConvertor {
 					tempAdj = new AdjectiveSynset(mongoSynset.getId(),
 							synset.getOffset(), "", "", updatedUiWords,
 							genderWord);
+				}
+				tempAdj.setCommentByMongo(mongoSynset.getComment());
+				tempAdj.setRating(mongoSynset.getRating());
+				tempAdj.setOffset(mongoSynset.getEWNId());
+				tempAdj.setUserName(mongoSynset.getUserName());
+				tempSynset = tempAdj;
+			}
+			else if (pos.equals(POS.ADVERB)) {
+				AdverbSynset tempAdj;
+				if (parts.length > 1) {
+
+					tempAdj = new AdverbSynset(mongoSynset.getId(),
+							synset.getOffset(), parts[0], parts[1],
+							genderWord, updatedUiWords);
+				} else if (parts.length > 0) {
+					tempAdj = new AdverbSynset(mongoSynset.getId(),
+							synset.getOffset(), parts[0], "", genderWord,
+							updatedUiWords);
+				} else {
+					tempAdj = new AdverbSynset(mongoSynset.getId(),
+							synset.getOffset(), "", "", genderWord,
+							updatedUiWords);
 				}
 				tempAdj.setCommentByMongo(mongoSynset.getComment());
 				tempAdj.setRating(mongoSynset.getRating());

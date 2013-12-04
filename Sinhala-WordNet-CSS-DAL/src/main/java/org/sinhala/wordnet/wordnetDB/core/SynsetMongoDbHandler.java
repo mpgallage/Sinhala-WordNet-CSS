@@ -31,6 +31,7 @@ import org.springframework.data.mongodb.core.query.Query;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
 import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
+import org.sinhala.wordnet.css.model.wordnet.AdverbSynset;
 import org.sinhala.wordnet.css.model.wordnet.NounSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
@@ -38,6 +39,7 @@ import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.wordnetDB.config.SpringMongoConfig;
 import org.sinhala.wordnet.wordnetDB.config.SpringMongoConfig1;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdjective;
+import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaAdverb;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaDerivationType;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaGender;
 import org.sinhala.wordnet.wordnetDB.model.MongoSinhalaNoun;
@@ -96,6 +98,10 @@ public class SynsetMongoDbHandler {
 		if (synset instanceof AdjectiveSynset) {
 			pos = POS.ADJECTIVE;
 			pFile="adj";
+		}
+		if (synset instanceof AdverbSynset) {
+			pos = POS.ADVERB;
+			pFile="adv";
 		}
 		
 		
@@ -263,6 +269,11 @@ public class SynsetMongoDbHandler {
 					searchSynsetQuery1, MongoSinhalaAdjective.class);
 			
 		}
+		else if (pos.equals(POS.ADVERB)) { // if we need Adjective
+			foundSynset = mongoOperation.findOne(
+					searchSynsetQuery1, MongoSinhalaAdverb.class);
+			
+		}
 		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
 	}
@@ -294,6 +305,12 @@ public class SynsetMongoDbHandler {
 
 			foundSynset = mongoOperation.findOne(
 					searchSynsetQuery1, MongoSinhalaAdjective.class);
+			
+		}
+		else if (pos.equals(POS.ADVERB)) { // if we need adjective
+
+			foundSynset = mongoOperation.findOne(
+					searchSynsetQuery1, MongoSinhalaAdverb.class);
 			
 		}
 		((AbstractApplicationContext) ctx).close();
@@ -411,6 +428,13 @@ public class SynsetMongoDbHandler {
 					evLatest.put(s.getEWNId(), s);
 				}
 			}
+				else if (pos == POS.ADVERB) {
+					List<MongoSinhalaAdverb> advList = mongoOperation.find(
+							searchSynsetQuery1, MongoSinhalaAdverb.class);
+					for (MongoSinhalaAdverb s : advList) {
+						evLatest.put(s.getEWNId(), s);
+					}
+			}
 			
 		//}else if (type.equals("notevaluated")) {
 			searchSynsetQuery1 = new Query();
@@ -471,6 +495,25 @@ public class SynsetMongoDbHandler {
 
 				}
 			}
+			else if (pos == POS.ADVERB) {
+				List<MongoSinhalaAdverb> advList = mongoOperation.find(
+						searchSynsetQuery1, MongoSinhalaAdverb.class);
+				for (MongoSinhalaAdverb s : advList) {
+
+					MongoSinhalaSynset tempsyn = evLatest.get(s.getEWNId());
+					if(tempsyn != null){
+						if(tempsyn.getDate().before(s.getDate())){
+							collection.add(s);
+						}
+					}
+					else{
+					nevList.put(s.getEWNId(), s);
+					collection.add(s);
+					}
+
+				}
+			}
+			
 	/*	// }else if (type.equals("all")) {
 			searchSynsetQuery1 = new Query();
 			searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
@@ -584,6 +627,20 @@ public class SynsetMongoDbHandler {
 			ewnidList = hm.values();
 
 		}
+		
+		if (pos.equals(POS.ADVERB)) {
+			List<MongoSinhalaAdverb> advCollection = null;
+
+			advCollection = mongoOperation.find(searchSynsetQuery1,
+					MongoSinhalaAdverb.class);
+
+			for (MongoSinhalaAdverb s : advCollection) {
+				hm.put(s.getEWNId(), s.getEWNId());
+			}
+
+			ewnidList = hm.values();
+
+		}
 		((AbstractApplicationContext) ctx).close();
 		return hm;
 	}
@@ -637,6 +694,19 @@ public class SynsetMongoDbHandler {
 						MongoSinhalaAdjective.class);
 
 				for (MongoSinhalaSynset s : adjCollection) {
+					hm.put(s.getEWNId(), s);
+				}
+
+				
+
+			}
+			if (pos.equals(POS.ADVERB)) {
+				List<MongoSinhalaAdverb> advCollection = null;
+
+				advCollection = mongoOperation.find(searchSynsetQuery1,
+						MongoSinhalaAdverb.class);
+
+				for (MongoSinhalaSynset s : advCollection) {
 					hm.put(s.getEWNId(), s);
 				}
 
