@@ -212,7 +212,48 @@ public class EditRelationshipController {
 		}
 
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, params = { "action=EditRelationship", "type=adv" })
+	public String editAdvRelationship(@RequestParam(value = "id", required = false) String id, @RequestParam(value = "type", required = false) String type, ModelMap model) {
 
+		if (id != null && !"".equals(id)) {
+			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.ADVERB);
+			Dictionary dict = WordNetDictionary.getInstance();
+			Synset synset = null;
+			try {
+				synset = dict.getSynsetAt(POS.ADVERB, Long.parseLong(id));
+			} catch (NumberFormatException | JWNLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			HashMap<MongoSinhalaPointerTyps, String> existingTagStringMap = getExistingRelationshipTagStringsMap(synset);
+
+			List<String[]> derivationSuggestionList = getRelationshipPointerSynsetsList(synset, MongoSinhalaPointerTyps.SEE_ALSO);
+			
+			AdverbSynset aSynset = new AdverbSynset(synset);
+			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+			AdverbSynset castMainSynset = (AdverbSynset) mongoSynsetConvertor.OverWriteByMongo(aSynset, "");
+
+			model.addAttribute("synset", castMainSynset);
+			model.addAttribute("type", type);
+			model.addAttribute("breadCrumb", breadCrumb);
+
+			model.addAttribute("existingDerivationsAsString", existingTagStringMap.get(MongoSinhalaPointerTyps.SEE_ALSO));
+
+			model.addAttribute("derivationSuggestionList", derivationSuggestionList);
+			
+			
+			TagModel tagModel = new TagModel();
+			model.addAttribute("tagModel", tagModel);
+
+			return "EditRelationship";
+		} else {
+			return "error";
+		}
+
+	}
+	
 	@RequestMapping(method = RequestMethod.POST)
 	public String saveTags(@ModelAttribute TagModel tagModel, ModelMap model) {
 
@@ -253,8 +294,8 @@ public class EditRelationshipController {
 			return editAdjRelationship(currentSynsetId, currentSynsetType, model);
 
 		} else if ("adv".equals(currentSynsetType)) {
-			addRelation(tagModel.getDerivedfromJsonString(), currentSynsetId, POS.ADVERB, MongoSinhalaPointerTyps.DERIVATION);
-			return "underConstruction";
+			addRelation(tagModel.getDerivedfromJsonString(), currentSynsetId, POS.ADVERB, MongoSinhalaPointerTyps.SEE_ALSO);
+			return editAdvRelationship(currentSynsetId, currentSynsetType, model);
 
 		} else {
 			return "error";
@@ -349,6 +390,9 @@ public class EditRelationshipController {
 				pointerList = pointerUtils.getCauses(synset);
 			} else if (MongoSinhalaPointerTyps.DERIVATION.equals(pointerType)) {
 				pointerList = pointerUtils.getDerived(synset);
+			}
+			else if (MongoSinhalaPointerTyps.SEE_ALSO.equals(pointerType)) {
+				pointerList = pointerUtils.getAlsoSees(synset);
 			}
 
 		} catch (JWNLException e) {
@@ -448,6 +492,11 @@ public class EditRelationshipController {
 			} else if ("adj".equals(pointedFile)) {
 				synset = dict.getSynsetAt(POS.ADJECTIVE, id);
 				AdjectiveSynset aSynset = new AdjectiveSynset(synset);
+				sinhalaWordNetSynset = mongoSynsetConvertor.OverWriteByMongo(aSynset, "");
+			}
+			else if ("adv".equals(pointedFile)) {
+				synset = dict.getSynsetAt(POS.ADVERB, id);
+				AdverbSynset aSynset = new AdverbSynset(synset);
 				sinhalaWordNetSynset = mongoSynsetConvertor.OverWriteByMongo(aSynset, "");
 			}
 		} catch (NumberFormatException | JWNLException e) {
