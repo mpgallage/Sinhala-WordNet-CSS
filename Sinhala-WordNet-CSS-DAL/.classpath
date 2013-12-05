@@ -14,7 +14,7 @@
 	<classpathentry kind="lib" path="libs/spring-context-3.2.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="libs/spring-core-3.2.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="libs/spring-data-commons-1.5.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="libs/spring-data-mongodb-1.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="libs/spring-data-mongodb-1.2.0.RELEASE.jar" sourcepath="C:/Users/Buddhika/.m2/repository/org/springframework/data/spring-data-mongodb/1.2.0.RELEASE/spring-data-mongodb-1.2.0.RELEASE-sources.jar"/>
 	<classpathentry kind="lib" path="libs/spring-expression-3.2.2.RELEASE.jar"/>
 	<classpathentry kind="lib" path="libs/spring-tx-3.1.4.RELEASE.jar"/>
 	<classpathentry kind="src" path="/Sinhala-WordNet-CSS-Model"/>

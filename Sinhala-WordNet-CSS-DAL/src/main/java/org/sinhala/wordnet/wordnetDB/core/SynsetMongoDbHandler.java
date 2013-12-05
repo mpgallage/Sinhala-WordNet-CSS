@@ -75,6 +75,7 @@ public class SynsetMongoDbHandler {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
 		Date date = new Date();
+		
 		mongosynset.setDate(date);
 		mongoOperation.save(mongosynset); // Save Synset in MongoDB
 		System.out.println("saved");
@@ -292,28 +293,44 @@ public class SynsetMongoDbHandler {
 		searchSynsetQuery1.limit(1);
 		MongoSinhalaSynset foundSynset = null;
 		if (pos.equals(POS.NOUN)) { // if we need noun
-
-			foundSynset = mongoOperation.findOne(
+			List<MongoSinhalaNoun> foundSynsetList = new ArrayList<MongoSinhalaNoun>();
+			foundSynsetList =   mongoOperation.find(
 					searchSynsetQuery1, MongoSinhalaNoun.class);
+			for(MongoSinhalaSynset s:foundSynsetList){
+				foundSynset = s;
+			}
 			
 		} else if (pos.equals(POS.VERB)) { // if we need verb
 
-			foundSynset = mongoOperation.findOne(
+			List<MongoSinhalaVerb> foundSynsetList = new ArrayList<MongoSinhalaVerb>();
+			foundSynsetList  =  mongoOperation.find(
 					searchSynsetQuery1, MongoSinhalaVerb.class);
+			for(MongoSinhalaSynset s:foundSynsetList){
+				foundSynset = s;
+			}
 			
 		} else if (pos.equals(POS.ADJECTIVE)) { // if we need adjective
 
-			foundSynset = mongoOperation.findOne(
+			List<MongoSinhalaAdjective> foundSynsetList = new ArrayList<MongoSinhalaAdjective>();
+			foundSynsetList  = mongoOperation.find(
 					searchSynsetQuery1, MongoSinhalaAdjective.class);
+			for(MongoSinhalaSynset s:foundSynsetList){
+				foundSynset = s;
+			}
 			
 		}
 		else if (pos.equals(POS.ADVERB)) { // if we need adjective
 
-			foundSynset = mongoOperation.findOne(
+			List<MongoSinhalaAdverb> foundSynsetList = new ArrayList<MongoSinhalaAdverb>();
+			foundSynsetList = mongoOperation.find(
 					searchSynsetQuery1, MongoSinhalaAdverb.class);
+			for(MongoSinhalaSynset s:foundSynsetList){
+				foundSynset = s;
+			}
 			
 		}
 		((AbstractApplicationContext) ctx).close();
+		
 		return foundSynset;
 	}
 	
@@ -740,7 +757,10 @@ public class SynsetMongoDbHandler {
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 		    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
 		    Date date = new Date();
+		    latestSynset.setDate(null);
 		    latestSynset.setDate(date);
+		    System.out.println(latestSynset.toString());
+		    
 			mongoOperation.save(latestSynset);
 			((AbstractApplicationContext) ctx).close();
 			
@@ -885,6 +905,12 @@ public class SynsetMongoDbHandler {
 		
 		symSynset.SetSencePointers(symPointerList);
 		symSynset.setId(null);
+		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
+	    Date date = new Date();
+	    
+	    latestSynset.setDate(null);
+	    latestSynset.setDate(date);
 		mongoOperation.save(symSynset);
 		}
 		}
@@ -893,7 +919,10 @@ public class SynsetMongoDbHandler {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
 	    Date date = new Date();
+	    
+	    latestSynset.setDate(null);
 	    latestSynset.setDate(date);
+	    //System.out.println(latestSynset.getDate());
 		mongoOperation.save(latestSynset);
 		
 		
