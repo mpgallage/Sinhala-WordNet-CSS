@@ -158,7 +158,7 @@ public class SynsetMongoDbHandler {
                 .getBean("mongoTemplate");
 	SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 	MongoSinhalaSynset synset=	dbHandler.findBySynsetId(id, pos);
-	System.out.println(synset);
+	//System.out.println(synset);
 	List<MongoSinhalaSencePointer> pList = synset.getSencePointers();
 	MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer(pFile, rid, pType);
 	pList.add(sPointer);
@@ -759,7 +759,7 @@ public class SynsetMongoDbHandler {
 		    Date date = new Date();
 		    latestSynset.setDate(null);
 		    latestSynset.setDate(date);
-		    System.out.println(latestSynset.toString());
+		    //System.out.println(latestSynset.toString());
 		    
 			mongoOperation.save(latestSynset);
 			((AbstractApplicationContext) ctx).close();
