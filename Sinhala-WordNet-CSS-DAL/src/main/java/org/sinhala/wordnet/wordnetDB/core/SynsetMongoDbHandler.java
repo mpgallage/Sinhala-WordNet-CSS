@@ -909,8 +909,8 @@ public class SynsetMongoDbHandler {
 	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
 	    Date date = new Date();
 	    
-	    latestSynset.setDate(null);
-	    latestSynset.setDate(date);
+	    symSynset.setDate(null);
+	    symSynset.setDate(date);
 		mongoOperation.save(symSynset);
 		}
 		}
