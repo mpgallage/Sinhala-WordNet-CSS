@@ -83,7 +83,7 @@ public class SynsetMongoDbHandler {
 		((AbstractApplicationContext) ctx).close();
 	}
 	
-	
+	// Add new synset(synset which is not in English WordNet)
 	public void addNewSynset(SinhalaWordNetSynset synset,Long perent) {
         
 		POS pos = null;
@@ -118,7 +118,7 @@ public class SynsetMongoDbHandler {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
         Date date = new Date();
-        mongosynset.setDate(date);
+        mongosynset.setDate(date);					// set new date to be the latest version
         Long eWNIdMax = (long) 99999999;
         Long sMDBId = null;
         mongosynset.SetEWNId(null);
@@ -128,14 +128,14 @@ public class SynsetMongoDbHandler {
     	query.limit(1);
         MongoSinhalaNoun bigestSyn = mongoOperation.findOne(query, MongoSinhalaNoun.class);
         
-        if(eWNIdMax < bigestSyn.getEWNId()){
-        mongosynset.SetEWNId(bigestSyn.getEWNId()+1);
+        if(eWNIdMax < bigestSyn.getEWNId()){							
+        mongosynset.SetEWNId(bigestSyn.getEWNId()+1);					// set EWN Id
         
         }
         else{
-        	mongosynset.SetEWNId(eWNIdMax+1);
+        	mongosynset.SetEWNId(eWNIdMax+1);							
         }
-        mongosynset.SetSMDBId(mongosynset.getEWNId()-eWNIdMax);
+        mongosynset.SetSMDBId(mongosynset.getEWNId()-eWNIdMax);			// Set Mongo Id
         List<MongoSinhalaSencePointer> sPointerList = new ArrayList<MongoSinhalaSencePointer>();
         MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer(pFile, perent, MongoSinhalaPointerTyps.HYPONYM);
         SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
@@ -143,13 +143,13 @@ public class SynsetMongoDbHandler {
         
         sPointerList.add(sPointer);
         mongosynset.SetSencePointers(sPointerList);
-        //System.out.println(mongosynset.toString());
         mongoOperation.save(mongosynset); // Save Synset in MongoDB
         System.out.println("saved");
         
         ((AbstractApplicationContext) ctx).close();
 }
 	
+	// Add relation to mongo Synset
 	public void addrelations(Long id,POS pos,Long rid,String pFile,MongoSinhalaPointerTyps pType){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
                 SpringMongoConfig.class);
@@ -158,7 +158,6 @@ public class SynsetMongoDbHandler {
                 .getBean("mongoTemplate");
 	SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 	MongoSinhalaSynset synset=	dbHandler.findBySynsetId(id, pos);
-	//System.out.println(synset);
 	List<MongoSinhalaSencePointer> pList = synset.getSencePointers();
 	MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer(pFile, rid, pType);
 	pList.add(sPointer);
@@ -166,7 +165,7 @@ public class SynsetMongoDbHandler {
 	DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
     Date date = new Date();
-    synset.setDate(date);
+    synset.setDate(date);							// set new date to be the latest version
     synset.setId(null);
 	mongoOperation.save(synset);
 	((AbstractApplicationContext) ctx).close();
@@ -194,52 +193,38 @@ public class SynsetMongoDbHandler {
 		((AbstractApplicationContext) ctx).close();
 	}
 
+	// Finding a related synset list
 	public List<MongoSinhalaSynset> getRelatedOnes(Long id,MongoSinhalaPointerTyps pType,POS pos){
-		//System.out.println("got to func");
 		@SuppressWarnings("resource")
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx.getBean("mongoTemplate");
 		Query searchSynsetQuery1 = new Query();
 		SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 		MongoSinhalaSynset latestSynset =  dbHandler.findBySynsetId(id, pos);
-		//System.out.println("befor" +latestSynset);
 		List<MongoSinhalaSynset> foundSynset = new ArrayList<MongoSinhalaSynset>();
 		if(latestSynset!= null){
 		List<MongoSinhalaSencePointer> pList = latestSynset.getSencePointers();
 		
 		for(MongoSinhalaSencePointer p:pList){
-			//System.out.println(pType+"p"+p.toString()+"id"+id);
 			if(p.getPointerType().equals(pType) && p.getSynsetId() > 99999999 ){
-				//.out.println("in");
 				POS rPos=null;
 				if(p.getPointedFile().equals("n")){
 					rPos=POS.NOUN;
+				}
+				else if(p.getPointedFile().equals("v")){
+					rPos=POS.VERB;
+				}
+				else if(p.getPointedFile().equals("adj")){
+					rPos=POS.ADJECTIVE;
+				}
+				else if(p.getPointedFile().equals("adv")){
+					rPos=POS.ADVERB;
 				}
 				foundSynset.add(dbHandler.findBySynsetId(p.getSynsetId(), rPos));
 			}
 		}
 		}
-	/*	
-		searchSynsetQuery1.addCriteria(Criteria.where("sencePointers.synsetId").is(id).and("sencePointers.pointerType").is(pType).and("sencePointers.pointedFile").is("n").and("SMDBId").ne(null));
-		List<MongoSinhalaNoun> nounList = mongoOperation.find(
-				searchSynsetQuery1, MongoSinhalaNoun.class);
-		boolean check = false;
-		List<MongoSinhalaNoun> filteredNounList = new ArrayList<MongoSinhalaNoun>();
-		for(MongoSinhalaNoun s: nounList){
-			System.out.println("in"+s);
-			List<MongoSinhalaSencePointer> sPointer = s.getSencePointers();
-			for(int i=0;i<sPointer.size();i++){
-				if(sPointer.get(i).getSynsetId().equals(id) && sPointer.get(i).getPointerType().equals(pType) && sPointer.get(i).getPointedFile().equals("n") ){
-					check = true;
-					break;
-				}
-			}
-			filteredNounList.add(s);
-			check = false;
-		}*/
-		/*for(MongoSinhalaSynset s:foundSynset){
-			System.out.println(s);
-		}*/
+
 		((AbstractApplicationContext) ctx).close();
 		return foundSynset;
 	}
@@ -417,8 +402,6 @@ public class SynsetMongoDbHandler {
 		HashMap<Long,MongoSinhalaSynset> evLatest = new HashMap<Long,MongoSinhalaSynset>();
 		HashMap<Long,MongoSinhalaSynset> allLatest = new HashMap<Long,MongoSinhalaSynset>();
 		
-		
-		//if (type.equals("evaluated")) {
 			searchSynsetQuery1 = new Query(Criteria.where("evaluated").is(true));
 			searchSynsetQuery1.with(new Sort(Sort.Direction.ASC, "date"));
 			
@@ -453,7 +436,7 @@ public class SynsetMongoDbHandler {
 					}
 			}
 			
-		//}else if (type.equals("notevaluated")) {
+		
 			searchSynsetQuery1 = new Query();
 			searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
 			
@@ -531,38 +514,8 @@ public class SynsetMongoDbHandler {
 				}
 			}
 			
-	/*	// }else if (type.equals("all")) {
-			searchSynsetQuery1 = new Query();
-			searchSynsetQuery1.with(new Sort(Sort.Direction.DESC, "date"));
-			
-			if (pos == POS.NOUN) {
-				List<MongoSinhalaNoun> nounList = mongoOperation.find(
-						searchSynsetQuery1, MongoSinhalaNoun.class);
-				for (MongoSinhalaNoun s : nounList) {
 
-					collection.add(s);
-
-				}
-			} else if (pos == POS.VERB) {
-				List<MongoSinhalaVerb> verbList = mongoOperation.find(
-						searchSynsetQuery1, MongoSinhalaVerb.class);
-				for (MongoSinhalaVerb s : verbList) {
-
-					collection.add(s);
-
-				}
-
-			} else if (pos == POS.ADJECTIVE) {
-				List<MongoSinhalaAdjective> adjList = mongoOperation.find(
-						searchSynsetQuery1, MongoSinhalaAdjective.class);
-				for (MongoSinhalaAdjective s : adjList) {
-
-					collection.add(s);
-
-				}
-			}
-		//}*/
-		if(type.equals("evaluated")){
+		if(type.equals("evaluated")){				//if evaluated mode
 			Iterator it = evLatest.entrySet().iterator();
 		    while (it.hasNext()) {
 		        Map.Entry pairs = (Map.Entry)it.next();
@@ -733,6 +686,8 @@ public class SynsetMongoDbHandler {
 			((AbstractApplicationContext) ctx).close();
 			return hm;
 		}
+		
+		// delete a relation
 		public void deleteRelation(Long sID,POS sPos,Long rID,String rPos, MongoSinhalaPointerTyps rPointerType ){
 			ApplicationContext ctx = new AnnotationConfigApplicationContext(
 					SpringMongoConfig.class);
@@ -759,16 +714,13 @@ public class SynsetMongoDbHandler {
 		    Date date = new Date();
 		    latestSynset.setDate(null);
 		    latestSynset.setDate(date);
-		    //System.out.println(latestSynset.toString());
-		    
 			mongoOperation.save(latestSynset);
 			((AbstractApplicationContext) ctx).close();
 			
 		}
 		
+	// Add new relations to a synset, two way relations are handled in side the function	
 	public void addSencePointers(Long id,POS pos,MongoSinhalaPointerTyps pType,List<Long> ids,List<String> poses){
-		
-		//System.out.println("id "+id+" pos "+pos+" ptype "+pType+" pointers "+ids.toString()+" pos "+poses.toString());
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
@@ -805,7 +757,6 @@ public class SynsetMongoDbHandler {
 		for(int i = 0 ;i<sPointerList.size();i++){
 			
 			if(sPointerList.get(i).getPointerType() != pType){
-				//System.out.println("test");
 				newsPointerList.add(sPointerList.get(i));
 			}
 			else{
@@ -828,7 +779,6 @@ public class SynsetMongoDbHandler {
 					
 				}
 			if(sPointerList.get(i).getSynsetId().equals(ids.get(n)) && sPointerList.get(i).getPointedFile().equals(pFile) ){
-				
 				isDelete = false;
 			}
 				
@@ -856,9 +806,6 @@ public class SynsetMongoDbHandler {
 		for(int i=0;i<ids.size();i++){
 		MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer();
 		sPointer.setPointerType(pType);
-		
-		
-		
 		sPointer.setSynsetId(ids.get(i));
 		
 		if(poses.get(i).toString().equals("noun")){
@@ -878,8 +825,6 @@ public class SynsetMongoDbHandler {
 			symPos = POS.ADVERB;
 		}
 		newsPointerList.add(sPointer);
-		
-		
 		Long rSynsetId = ids.get(i);
 		MongoSinhalaPointerTyps symPointerType = checkSemetric.getSymetric(pType);
 		if(symPointerType!= null){
@@ -888,7 +833,6 @@ public class SynsetMongoDbHandler {
 		List<MongoSinhalaSencePointer> symPointerList = new ArrayList<MongoSinhalaSencePointer>();
 		symSencePointer.setPointerType(symPointerType);
 		symSencePointer.setSynsetId(id);
-
 		symSencePointer.setPointedFile(symPointedFile);
 		symPointerList = symSynset.getSencePointers();
 		check = false;
@@ -908,10 +852,9 @@ public class SynsetMongoDbHandler {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
 	    Date date = new Date();
-	    
 	    symSynset.setDate(null);
 	    symSynset.setDate(date);
-		mongoOperation.save(symSynset);
+		mongoOperation.save(symSynset);					// Adding symtric relation in two way relations
 		}
 		}
 		latestSynset.SetSencePointers(newsPointerList);
@@ -919,31 +862,63 @@ public class SynsetMongoDbHandler {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 	    dateFormat.setTimeZone(TimeZone.getTimeZone("GMT+5.30"));
 	    Date date = new Date();
-	    
 	    latestSynset.setDate(null);
 	    latestSynset.setDate(date);
-	    //System.out.println(latestSynset.getDate());
 		mongoOperation.save(latestSynset);
-		
-		
 		((AbstractApplicationContext) ctx).close();
-		
 		
 	}
 	
+	
+	// just for add genders one time run for a database
 	public void addGenders(){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
 		MongoOperations mongoOperation = (MongoOperations) ctx
 				.getBean("mongoTemplate");
 		List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
-		MongoSinhalaWord word = new MongoSinhalaWord("නොසලකා හරින්න", "0", wordPointerList);
+		MongoSinhalaWord word = new MongoSinhalaWord("පුරුෂ", "0", wordPointerList);
 		List<MongoSinhalaWord> words = new ArrayList<MongoSinhalaWord>();
 		words.add(word);
-		MongoSinhalaGender gender = new MongoSinhalaGender(words, "neglect");
+		MongoSinhalaGender gender = new MongoSinhalaGender(words, "male");
 		mongoOperation.save(gender);
+		MongoSinhalaWord word1 = new MongoSinhalaWord("ස්ත්‍රී", "0", wordPointerList);
+		List<MongoSinhalaWord> words1 = new ArrayList<MongoSinhalaWord>();
+		words1.add(word1);
+		MongoSinhalaGender gender1 = new MongoSinhalaGender(words1, "female");
+		mongoOperation.save(gender1);
+		MongoSinhalaWord word2 = new MongoSinhalaWord("නොසලකා හරින්න", "0", wordPointerList);
+		List<MongoSinhalaWord> words2 = new ArrayList<MongoSinhalaWord>();
+		words2.add(word2);
+		MongoSinhalaGender gender2 = new MongoSinhalaGender(words2, "neglect");
+		mongoOperation.save(gender2);
 		((AbstractApplicationContext) ctx).close();
 	}
+	// just for add usage one time run for a database
+	public void addUsage(){
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+				SpringMongoConfig.class);
+		MongoOperations mongoOperation = (MongoOperations) ctx
+				.getBean("mongoTemplate");
+		List<MongoSinhalaWordPointer> wordPointerList = new ArrayList<MongoSinhalaWordPointer>();
+		MongoSinhalaWord word = new MongoSinhalaWord("ලිඛිත", "0", wordPointerList);
+		List<MongoSinhalaWord> words = new ArrayList<MongoSinhalaWord>();
+		words.add(word);
+		MongoSinhalaUsage usage = new MongoSinhalaUsage(words, "written");
+		mongoOperation.save(usage);
+		MongoSinhalaWord word1 = new MongoSinhalaWord("වාචික", "0", wordPointerList);
+		List<MongoSinhalaWord> words1 = new ArrayList<MongoSinhalaWord>();
+		words1.add(word1);
+		MongoSinhalaUsage usage1 = new MongoSinhalaUsage(words1, "spoken");
+		mongoOperation.save(usage1);
+		MongoSinhalaWord word2 = new MongoSinhalaWord("වාචික හා  ලිඛිත", "0", wordPointerList);
+		List<MongoSinhalaWord> words2 = new ArrayList<MongoSinhalaWord>();
+		words2.add(word2);
+		MongoSinhalaUsage usage2 = new MongoSinhalaUsage(words2, "both");
+		mongoOperation.save(usage2);
+		((AbstractApplicationContext) ctx).close();
+	}
+	// just for add derivation type one time run for a database
 	public void addDerivationTypes(){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);
@@ -968,6 +943,7 @@ public class SynsetMongoDbHandler {
 		mongoOperation.save(deri);
 		((AbstractApplicationContext) ctx).close();
 	}
+	// just for add Origine one time run for a database
 	public void addOrigin(){
 		ApplicationContext ctx = new AnnotationConfigApplicationContext(
 				SpringMongoConfig.class);

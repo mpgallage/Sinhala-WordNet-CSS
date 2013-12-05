@@ -18,6 +18,7 @@ Mongo mongo;
 	@Override
 	@Bean
 	public Mongo mongo() throws Exception {
+		//mongo =new MongoClient("192.248.15.236");
 		mongo =new MongoClient("127.0.0.1");
 		return mongo;
 	}

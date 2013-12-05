@@ -168,7 +168,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				sencePointerList.add(sencePointer);
 			}
 		} catch (Exception e) {
-			System.out.println("ee" + e);
+			System.out.println(e);
 
 		}
 
@@ -182,7 +182,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				sencePointerList.add(sencePointer);
 			}
 		} catch (Exception e) {
-			System.out.println("ee" + e);
+			System.out.println(e);
 
 		}
 
@@ -197,7 +197,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 
 			}
 		} catch (Exception e) {
-			System.out.println("ee" + e);
+			System.out.println(e);
 
 		}
 
@@ -212,7 +212,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 				sencePointerList.add(sencePointer);
 			}
 		} catch (Exception e) {
-			System.out.println("ee" + e);
+			System.out.println(e);
 
 		}
 
@@ -228,7 +228,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			}
 
 		} catch (Exception e) {
-			System.out.println("ee" + e);
+			System.out.println(e);
 
 		}
 		try {
@@ -250,7 +250,7 @@ public class SinhalaSynsetMongoSynsetConvertor {
 			}
 
 		} catch (Exception e) {
-			System.out.println("ee" + e);
+			System.out.println(e);
 
 		}
 		MongoSinhalaSynset mongoSynset = null;
