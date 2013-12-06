@@ -133,13 +133,11 @@ public class SynsetMongoDbHandler {
         Long eWNIdMax = (long) 99999999;
         Long sMDBId = null;
         mongosynset.SetEWNId(null);
-        
-    	
-        
-        
+        if(bigestSyn!=null){
         if(eWNIdMax < bigestSyn.getEWNId()){							
         mongosynset.SetEWNId(bigestSyn.getEWNId()+1);					// set EWN Id
         
+        }
         }
         else{
         	mongosynset.SetEWNId(eWNIdMax+1);							
