@@ -86,31 +86,42 @@ public class SynsetMongoDbHandler {
 	// Add new synset(synset which is not in English WordNet)
 	public void addNewSynset(SinhalaWordNetSynset synset,Long perent) {
         
+		
+		ApplicationContext ctx = new AnnotationConfigApplicationContext(
+                SpringMongoConfig.class);
+
+		MongoOperations mongoOperation = (MongoOperations) ctx
+                .getBean("mongoTemplate");
+
+		Query query = new Query();
+    	
+    	query.with(new Sort(Sort.Direction.DESC, "eWNId"));
+    	query.limit(1);
 		POS pos = null;
 		String pFile= null;
+		MongoSinhalaSynset bigestSyn = null;
 		if (synset instanceof NounSynset) {
+			bigestSyn = mongoOperation.findOne(query, MongoSinhalaNoun.class);
 			pos = POS.NOUN;
 			pFile="n";
 		}
 		if (synset instanceof VerbSynset) {
+			bigestSyn = mongoOperation.findOne(query, MongoSinhalaVerb.class);
 			pos = POS.VERB;
 			pFile="v";
 		}
 		if (synset instanceof AdjectiveSynset) {
+			bigestSyn = mongoOperation.findOne(query, MongoSinhalaAdjective.class);
 			pos = POS.ADJECTIVE;
 			pFile="adj";
 		}
 		if (synset instanceof AdverbSynset) {
+			bigestSyn = mongoOperation.findOne(query, MongoSinhalaAdverb.class);
 			pos = POS.ADVERB;
 			pFile="adv";
 		}
 		
 		
-        ApplicationContext ctx = new AnnotationConfigApplicationContext(
-                        SpringMongoConfig.class);
-        
-        MongoOperations mongoOperation = (MongoOperations) ctx
-                        .getBean("mongoTemplate");
         
         SinhalaSynsetMongoSynsetConvertor ssmsc = new SinhalaSynsetMongoSynsetConvertor();
 
@@ -122,11 +133,9 @@ public class SynsetMongoDbHandler {
         Long eWNIdMax = (long) 99999999;
         Long sMDBId = null;
         mongosynset.SetEWNId(null);
-        Query query = new Query();
+        
     	
-    	query.with(new Sort(Sort.Direction.DESC, "eWNId"));
-    	query.limit(1);
-        MongoSinhalaNoun bigestSyn = mongoOperation.findOne(query, MongoSinhalaNoun.class);
+        
         
         if(eWNIdMax < bigestSyn.getEWNId()){							
         mongosynset.SetEWNId(bigestSyn.getEWNId()+1);					// set EWN Id
