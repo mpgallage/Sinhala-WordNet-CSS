@@ -1,23 +1,16 @@
 package org.sinhala.wordnet.css.web.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import net.didion.jwnl.JWNLException;
-import net.didion.jwnl.data.FileDictionaryElementFactory;
 import net.didion.jwnl.data.POS;
 import net.didion.jwnl.data.Synset;
-import net.didion.jwnl.data.Word;
 import net.didion.jwnl.dictionary.Dictionary;
-import net.didion.jwnl.princeton.data.AbstractPrincetonFileDictionaryElementFactory;
 
 import org.sinhala.wordnet.css.jwnl.WordNetDictionary;
-import org.sinhala.wordnet.css.model.wordnet.NounSynset;
-import org.sinhala.wordnet.css.model.wordnet.NounWord;
+import org.sinhala.wordnet.css.model.wordnet.AdjectiveSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetSynset;
 import org.sinhala.wordnet.css.model.wordnet.SinhalaWordNetWord;
-import org.sinhala.wordnet.css.model.wordnet.VerbSynset;
 import org.sinhala.wordnet.css.utils.maduraapi.MeaningRequestHandler;
 import org.sinhala.wordnet.css.web.model.BreadCrumb;
 import org.sinhala.wordnet.wordnetDB.core.SinhalaSynsetMongoSynsetConvertor;
@@ -28,25 +21,24 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-
 @Controller
-@RequestMapping("/InsetNewSynsetnoun")
-public class InsertNewSynsetController {
+@RequestMapping("/InsetNewSynsetadj")
+public class InsertAdjectiveSynsetController {
 
 	@RequestMapping(method = RequestMethod.GET, params = {
-			"action=InsertASynset", "type=noun" })
-	public String insertNounSynset(
+			"action=InsertASynset", "type=adj" })
+	public String insertAdjectiveSynset(
 			@RequestParam(value = "id", required = false) String id,
 			ModelMap model,
 			@RequestParam(value = "type", required = false) String type,
 			@RequestParam(value = "mongoid", required = false) String mongoid) {
 
 		if (id != null && !"".equals(id)) {
-			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.NOUN);
+			BreadCrumb breadCrumb = new BreadCrumb(Long.parseLong(id), POS.ADJECTIVE);
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
 			try {
-				synset = dict.getSynsetAt(POS.NOUN, 1740);
+				synset = dict.getSynsetAt(POS.ADJECTIVE, 1740);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -55,10 +47,10 @@ public class InsertNewSynsetController {
 				e.printStackTrace();
 			}
 
-			NounSynset castSynset = new NounSynset(synset);
-			NounSynset mongoCastSynset = new NounSynset();
+			AdjectiveSynset castSynset = new AdjectiveSynset(synset);
+			AdjectiveSynset mongoCastSynset = new AdjectiveSynset();
 			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			mongoCastSynset = (NounSynset) mongoSynsetConvertor
+			mongoCastSynset = (AdjectiveSynset) mongoSynsetConvertor
 					.OverWriteByMongo(castSynset, mongoid);
 
 			MeaningRequestHandler meaningRequestHandler = new MeaningRequestHandler();
@@ -106,14 +98,13 @@ public class InsertNewSynsetController {
 			return "error";
 		}
 	}
-
 	@RequestMapping(method = RequestMethod.POST)
-	public String editSynset(@ModelAttribute NounSynset synset, ModelMap model) {
+	public String editSynset(@ModelAttribute AdjectiveSynset synset, ModelMap model) {
 
 		SinhalaWordNetSynset CommSynset = synset;
 
-//		System.out.println("Check Line : noun");
-//		System.out.println(synset.getWordArrayList().get(0));
+		System.out.println("Check Line : adjective");
+		System.out.println(synset.getWordArrayList().get(0));
 
 		List<SinhalaWordNetWord> words = synset.getWords();
 
@@ -123,15 +114,12 @@ public class InsertNewSynsetController {
 			}
 		}
 
-		
-		NounSynset nSynset = (NounSynset) synset;
+		AdjectiveSynset nSynset = (AdjectiveSynset) synset;
 		Long parent = nSynset.getOffset();
-//		System.out.println(parent);
 		SynsetMongoDbHandler synsetdb = new SynsetMongoDbHandler();
 		synsetdb.addNewSynset(nSynset,parent);
 
-		return insertNounSynset(String.valueOf(synset.getOffset()), model,
-				"noun", "");
+		return insertAdjectiveSynset(String.valueOf(synset.getOffset()), model,
+				"adj", "");
 	}
-
 }

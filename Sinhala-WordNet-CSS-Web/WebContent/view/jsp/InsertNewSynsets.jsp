@@ -91,8 +91,8 @@ $(function() {
     </ul>
 		<div id="new_sysnset">
 		
-		<form:form method="POST" modelAttribute="synset" action="InsetNewSynset">
-				<div id="add_words" class="add_new">
+		<form:form method="POST" modelAttribute="synset" action="InsetNewSynset${type}">
+				<div id="add_words_insert" class="add_words_insert">
 					<div class="section_header">
 						<h2>පද</h2>
 					</div>
@@ -279,69 +279,7 @@ $(function() {
 				
 		</form:form>	
 		</div>
-		<div id="synset_relation" class="add_new">
-			<div>
-				<div class="word_set">
-					<div class="whitebox">
-						<h1>${enSynset.getWordsAsString()}</h1>
-					</div>
-					<div class="whitebox">
-						<table>
-							<tr>
-								<td valign="top">ඉංග්‍රීසි අර්ථය:</td>
-								<td valign="top">${enSynset.getDefinition()}</td>
-							</tr>
-							<tr>
-								<td valign="top">ඉංග්‍රීසි උදාහරණ:</td>
-								<td valign="top">${enSynset.getExample()}</td>
-							</tr>
-						</table>
-					</div>
-				</div>
-			</div>
-			<div class="word_set">
-				<center>
-					<p>වචනවල පොදු අරුත්</p>
-					<table width="238">
-						<tr>
-							<td width="125" valign="top"><p>${enSynset.getWordsAsString()}
-									:</p></td>
-							<td width="101" valign="top"><select id="list1" size="4"
-								style="width: 100px" multiple="multiple"
-								ondblclick="add2list(&#39;list1&#39;,&#39;synsetlist&#39;);">
-									<c:forEach var="meaning" items="${intersection}">
-										<option>${meaning}</option>
-									</c:forEach>
-							</select></td>
-						</tr>
-					</table>
-				</center>
-			</div>
-			<div class="word_set">
-				<center>
-					<p>වචනවල අරුත්</p>
-				</center>
-				<table>
-					<tr>
-						<c:forEach begin="0" end="${enWordList.size()-1}" varStatus="loop">
-							<td width="" valign="top"><p>${enWordList.get(loop.index)}
-									:</p></td>
-						</c:forEach>
-					</tr>
-					<tr>
-						<c:forEach begin="0" end="${enWordList.size()-1}" varStatus="loop">
-							<td width="" valign="top"><select id="list2" size="10"
-								style="width: 120px" multiple="multiple">
-									<c:forEach var="meaning"
-										items="${meaningsList.get(loop.index)}">
-										<option>${meaning}</option>
-									</c:forEach>
-							</select></td>
-						</c:forEach>
-					</tr>
-				</table>
-			</div>
-		</div>
+
 	<div class="footer">
 		<div class="links">
 			<p class="lintitle1">

@@ -132,16 +132,20 @@ public class SynsetMongoDbHandler {
         mongosynset.setDate(date);					// set new date to be the latest version
         Long eWNIdMax = (long) 99999999;
         Long sMDBId = null;
-        mongosynset.SetEWNId(null);
+        //mongosynset.SetEWNId(null);
         if(bigestSyn!=null){
         if(eWNIdMax < bigestSyn.getEWNId()){							
         mongosynset.SetEWNId(bigestSyn.getEWNId()+1);					// set EWN Id
         
         }
+        else{
+        	mongosynset.SetEWNId(eWNIdMax+1);							
+        }
         }
         else{
         	mongosynset.SetEWNId(eWNIdMax+1);							
         }
+        
         mongosynset.SetSMDBId(mongosynset.getEWNId()-eWNIdMax);			// Set Mongo Id
         List<MongoSinhalaSencePointer> sPointerList = new ArrayList<MongoSinhalaSencePointer>();
         MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer(pFile, perent, MongoSinhalaPointerTyps.HYPONYM);
@@ -165,6 +169,7 @@ public class SynsetMongoDbHandler {
                 .getBean("mongoTemplate");
 	SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
 	MongoSinhalaSynset synset=	dbHandler.findBySynsetId(id, pos);
+	if(synset != null){
 	List<MongoSinhalaSencePointer> pList = synset.getSencePointers();
 	MongoSinhalaSencePointer sPointer = new MongoSinhalaSencePointer(pFile, rid, pType);
 	pList.add(sPointer);
@@ -175,6 +180,7 @@ public class SynsetMongoDbHandler {
     synset.setDate(date);							// set new date to be the latest version
     synset.setId(null);
 	mongoOperation.save(synset);
+	}
 	((AbstractApplicationContext) ctx).close();
 	
 	

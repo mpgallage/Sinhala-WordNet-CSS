@@ -221,6 +221,9 @@ public class ShowSynsetsController {
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowHyponyms", "type=verb" })
 	public String showVerbHyponyms(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
 		if (id != null && !"".equalsIgnoreCase(id)) {
+			
+			
+			model.addAttribute("parentId", id);
 			Dictionary dict = WordNetDictionary.getInstance();
 			Synset synset = null;
 			try {
@@ -281,6 +284,30 @@ public class ShowSynsetsController {
 					}
 
 				}
+				
+				SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+				Synset tempsynset = null;
+				try {
+					tempsynset = dict.getSynsetAt(POS.VERB, 2724);
+				} catch (NumberFormatException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (JWNLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				VerbSynset tempVerb = new VerbSynset(tempsynset);
+				 List<MongoSinhalaSynset> newMongoSynsets = dbHandler.getRelatedOnes(Long.parseLong(id),MongoSinhalaPointerTyps.HYPERNYM,POS.VERB);
+				 SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+				 int i = 0;
+				 for(MongoSinhalaSynset n:newMongoSynsets){
+					 
+					 VerbSynset[] newMongosynsetArr = new VerbSynset[2];
+					 newMongosynsetArr[0] = (VerbSynset) mongoSynsetConvertor.OverWriteByMongo(tempVerb,n.getId());
+					 newMongosynsetArr[1] = newMongosynsetArr[0];
+					 
+					 list.add(newMongosynsetArr);
+				 }
 				model.addAttribute("synsetList", list);
 				model.addAttribute("type", type);
 				model.addAttribute("nextLevelList", nextLevelList);
@@ -424,7 +451,7 @@ public class ShowSynsetsController {
 		}
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowHyponyms", "type=adj" })
 	public String showAdjHyponyms(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
-		
+		model.addAttribute("parentId", id);
 		SearchWord searchWord = new SearchWord();
 		model.addAttribute("searchWord", searchWord);
 		
@@ -626,7 +653,7 @@ public class ShowSynsetsController {
 	
 	@RequestMapping(method = RequestMethod.GET, params = { "action=ShowHyponyms", "type=adv" })
 	public String showAdvHyponyms(@RequestParam(value = "id", required = false) String id, ModelMap model, @RequestParam(value = "type", required = false) String type) {
-		
+		model.addAttribute("parentId", id);
 		SearchWord searchWord = new SearchWord();
 		model.addAttribute("searchWord", searchWord);
 		
@@ -838,6 +865,13 @@ public class ShowSynsetsController {
 		}
 		
 		
+		/**
+		 * The search controller of the crowdsouring user interface and support for
+		 * both Sinhala and English inputs
+		 * @param searchWord
+		 * @param model
+		 * @return ShowHyponyms : JSP page
+		 */
 		@RequestMapping(method = RequestMethod.POST)
 		public String search(@ModelAttribute SearchWord searchWord, ModelMap model) {
 
@@ -849,7 +883,7 @@ public class ShowSynsetsController {
 			long[] offsetArray = null;
 			Synset synset = null;
 			long parentOffset = 0;
-			
+
 			String type = searchWord.getPOS();
 			POS pos = searchWord.getPos();
 			String theWord = searchWord.getCleanedWord();
@@ -859,166 +893,203 @@ public class ShowSynsetsController {
 			List<SinhalaWordNetSynset[]> list = new ArrayList<SinhalaWordNetSynset[]>();
 			List<Boolean> nextLevelList = new ArrayList<Boolean>();
 
-			if (searchWord.getRawWord()==" ") {
-				searchWord.setErrorMessage("Please Insert a Valid String to Search : "+searchWord.getCleanedWord());
+			/*
+			 * validates the pre-processed string
+			 */
+			if (searchWord.getRawWord() == " ") {
+				searchWord
+						.setErrorMessage("Please Insert a Valid String to Search : "
+								+ searchWord.getCleanedWord());
 				model.addAttribute("breadCrumb", breadCrumb);
 				return "ShowHyponyms";
 			} else {
 
-			
-			if (searchWord.isSinhala()) {
-				// search for Sinhala synsets
-				SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
-				HashMap<Long,Long> offsetCollection = dbHandler.findSynsetIDByLemma(
-						theWord, pos);
+				/*
+				 * Checks whether the given input is Sinhala or English
+				 */
+				if (searchWord.isSinhala()) {
+					/*
+					 * Search in Sinhala WordNet Database
+					 */
+					SynsetMongoDbHandler dbHandler = new SynsetMongoDbHandler();
+					HashMap<Long, Long> offsetCollection = dbHandler
+							.findSynsetIDByLemma(theWord, pos);
 
-				if (offsetCollection.size() < 1) {
-					searchWord.setErrorMessage("Currently no result found for : "+searchWord.getCleanedWord());
+					/*
+					 * Action for zero result
+					 */
+					if (offsetCollection.size() < 1) {
+						searchWord
+								.setErrorMessage("Currently no result found for : "
+										+ searchWord.getCleanedWord());
+						model.addAttribute("breadCrumb", breadCrumb);
+						return "ShowHyponyms";
+					} else {
+						offsetArray = new long[offsetCollection.size()];
+						Iterator iter = offsetCollection.entrySet().iterator();
+
+						int i = 0;
+						while (iter.hasNext()) {
+							Map.Entry mEntry = (Map.Entry) iter.next();
+							offsetArray[i] = (long) mEntry.getValue();
+							System.out.println(mEntry.getKey() + " : "
+									+ mEntry.getValue());
+							i++;
+						}
+					}
+				} else {
+					/*
+					 * Search in English WordNet text database
+					 */
+					try {
+						indexWord = dict.lookupIndexWord(pos, theWord);
+					} catch (JWNLException e1) {
+						e1.printStackTrace();
+					}
+					if (indexWord != null) {
+						offsetArray = indexWord.getSynsetOffsets();
+					} else {
+						/*
+						 * Action for zero result
+						 */
+						searchWord
+								.setErrorMessage("Currently no result found for : "
+										+ searchWord.getCleanedWord());
+						model.addAttribute("breadCrumb", breadCrumb);
+						return "ShowHyponyms";
+					}
+
+				}
+
+				/*
+				 * Action for zero result
+				 */
+				if (offsetArray.length < 1) {
+					searchWord.setErrorMessage("Currently no result found for : "
+							+ searchWord.getCleanedWord());
 					model.addAttribute("breadCrumb", breadCrumb);
 					return "ShowHyponyms";
 				} else {
-					offsetArray = new long[offsetCollection.size()];
-					
-					Iterator iter = offsetCollection.entrySet().iterator();
-					 int i=0;
-					while (iter.hasNext()) {
-						Map.Entry mEntry = (Map.Entry) iter.next();
-						offsetArray[i] = (long) mEntry.getValue();
-						System.out.println(mEntry.getKey() + " : " + mEntry.getValue());
-						i++;
-					}
-					
-					/*for (int i = 0; i < offsetCollection.size(); i++) {
-						offsetArray[i] = offsetCollection.iterator().next()
-								.longValue();
-					}*/
-				}
-			} else {
-				// search for English synsets
-				try {
-					indexWord = dict.lookupIndexWord(pos, theWord);
-				} catch (JWNLException e1) {
-					e1.printStackTrace();
-				}
-				if (indexWord !=null) {
-					offsetArray = indexWord.getSynsetOffsets();
-				}else{
-					searchWord.setErrorMessage("Currently no result found for : "+searchWord.getCleanedWord());
-					model.addAttribute("breadCrumb", breadCrumb);
-					return "ShowHyponyms";
-				}
-				
-			}
 
-			if (offsetArray.length < 1) {
-				searchWord.setErrorMessage("Currently no result found for : "+searchWord.getCleanedWord());
-				model.addAttribute("breadCrumb", breadCrumb);
-				return "ShowHyponyms";
-			} else {
-
-				try {
-					pointerUtils = PointerUtils.getInstance();
-					synset = dict.getSynsetAt(searchWord.getPos(), offsetArray[0]);
-
-				} catch (NumberFormatException e) {
-					e.printStackTrace();
-				} catch (JWNLException e) {
-					e.printStackTrace();
-				}
-
-				for (int i = 0; i < offsetArray.length; i++) {
-					Synset tempSynset = null;
 					try {
-						tempSynset = dict.getSynsetAt(searchWord.getPos(),
-								offsetArray[i]);
-					} catch (JWNLException e) {
+						pointerUtils = PointerUtils.getInstance();
+						synset = dict.getSynsetAt(searchWord.getPos(),
+								offsetArray[0]);
 
+					} catch (NumberFormatException e) {
 						e.printStackTrace();
-					}
-					SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-					SinhalaWordNetSynset[] sinhalaSynArray = new SinhalaWordNetSynset[2];
-					
-					SinhalaWordNetSynset tempChildSynset =null;
-					SinhalaWordNetSynset castSynset =null;
-
-					if (pos == POS.NOUN) {
-						tempChildSynset = new NounSynset(tempSynset);
-						 castSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
-								.OverWriteByMongo((NounSynset) tempChildSynset,"");
-
-					} else if (pos == POS.VERB) {
-						tempChildSynset = new VerbSynset(tempSynset);
-						 castSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
-								.OverWriteByMongo((VerbSynset) tempChildSynset,"");
-
-					} else if (pos == POS.ADJECTIVE) {
-						tempChildSynset = new AdjectiveSynset(tempSynset);
-						 castSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
-								.OverWriteByMongo((AdjectiveSynset) tempChildSynset,"");
-
-					} else if (pos == POS.ADVERB) {
-						tempChildSynset = new AdverbSynset(tempSynset);
-						 castSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
-								.OverWriteByMongo((AdverbSynset) tempChildSynset,"");
-
-					}
-
-					sinhalaSynArray[0] = tempChildSynset;
-					sinhalaSynArray[1] = castSynset;
-					list.add(sinhalaSynArray);
-
-					PointerTargetNodeList subNodeList = null;
-					try {
-						subNodeList = pointerUtils.getDirectHyponyms(tempSynset);
 					} catch (JWNLException e) {
 						e.printStackTrace();
 					}
-					if (subNodeList.size() > 0) {
-						nextLevelList.add(true);
-					} else {
-						nextLevelList.add(false);
-					}
 
-					if (i == 1000) {
-						break;
+					for (int i = 0; i < offsetArray.length; i++) {
+						Synset tempSynset = null;
+						try {
+							tempSynset = dict.getSynsetAt(searchWord.getPos(),
+									offsetArray[i]);
+						} catch (JWNLException e) {
+
+							e.printStackTrace();
+						}
+						SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+						SinhalaWordNetSynset[] sinhalaSynArray = new SinhalaWordNetSynset[2];
+
+						SinhalaWordNetSynset tempChildSynset = null;
+						SinhalaWordNetSynset castSynset = null;
+
+						/*
+						 * Identifying Parts of Speech and binding results according to them
+						 */
+						if (pos == POS.NOUN) {
+							tempChildSynset = new NounSynset(tempSynset);
+							castSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
+									.OverWriteByMongo((NounSynset) tempChildSynset,
+											"");
+
+						} else if (pos == POS.VERB) {
+							tempChildSynset = new VerbSynset(tempSynset);
+							castSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
+									.OverWriteByMongo((VerbSynset) tempChildSynset,
+											"");
+
+						} else if (pos == POS.ADJECTIVE) {
+							tempChildSynset = new AdjectiveSynset(tempSynset);
+							castSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
+									.OverWriteByMongo(
+											(AdjectiveSynset) tempChildSynset, "");
+
+						} else if (pos == POS.ADVERB) {
+							tempChildSynset = new VerbSynset(tempSynset);
+							castSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
+									.OverWriteByMongo((VerbSynset) tempChildSynset,
+											"");
+
+						}
+
+						sinhalaSynArray[0] = tempChildSynset;
+						sinhalaSynArray[1] = castSynset;
+						list.add(sinhalaSynArray);
+
+						PointerTargetNodeList subNodeList = null;
+						try {
+							subNodeList = pointerUtils
+									.getDirectHyponyms(tempSynset);
+						} catch (JWNLException e) {
+							e.printStackTrace();
+						}
+						if (subNodeList.size() > 0) {
+							nextLevelList.add(true);
+						} else {
+							nextLevelList.add(false);
+						}
+
+						if (i == 1000) {
+							break;
+						}
+
 					}
+					parentOffset = offsetArray[0];
+				}
+
+				SinhalaWordNetSynset leadSynset = null;
+				SinhalaWordNetSynset enSynset = null;
+				SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
+
+				/*
+				 * Identifying Part of Speech and binding results according to them
+				 */
+				if (pos == POS.NOUN) {
+					leadSynset = new NounSynset(synset);
+					enSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
+							.OverWriteByMongo((NounSynset) leadSynset, "");
+
+				} else if (pos == POS.VERB) {
+					leadSynset = new VerbSynset(synset);
+					enSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
+							.OverWriteByMongo((VerbSynset) leadSynset, "");
+
+				} else if (pos == POS.ADJECTIVE) {
+					leadSynset = new AdjectiveSynset(synset);
+					enSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
+							.OverWriteByMongo((AdjectiveSynset) leadSynset, "");
+
+				} else if (pos == POS.ADVERB) {
+					leadSynset = new VerbSynset(synset);
+					enSynset = (SinhalaWordNetSynset) mongoSynsetConvertor
+							.OverWriteByMongo((VerbSynset) leadSynset, "");
 
 				}
-				parentOffset = offsetArray[0];
-			}
-			
-			SinhalaWordNetSynset leadSynset =null;
-			SinhalaWordNetSynset enSynset=null;
-			SinhalaSynsetMongoSynsetConvertor mongoSynsetConvertor = new SinhalaSynsetMongoSynsetConvertor();
-			
-			if (pos == POS.NOUN) {
-				leadSynset = new NounSynset(synset);
-				enSynset = (SinhalaWordNetSynset)mongoSynsetConvertor.OverWriteByMongo((NounSynset)leadSynset,"");
-				
-			} else if (pos == POS.VERB) {
-				leadSynset = new VerbSynset(synset);
-				enSynset = (SinhalaWordNetSynset)mongoSynsetConvertor.OverWriteByMongo((VerbSynset)leadSynset,"");
-				
-
-			} else if (pos == POS.ADJECTIVE) {
-				leadSynset = new AdjectiveSynset(synset);
-				enSynset = (SinhalaWordNetSynset)mongoSynsetConvertor.OverWriteByMongo((AdjectiveSynset)leadSynset,"");
-				
-
-			} else if (pos == POS.ADVERB) {
-				leadSynset = new AdverbSynset(synset);
-				enSynset = (SinhalaWordNetSynset)mongoSynsetConvertor.OverWriteByMongo((AdverbSynset)leadSynset,"");
-				
-
-			}
-			model.addAttribute("enSynset", enSynset);
+				model.addAttribute("enSynset", enSynset);
 			}
 
+			/*
+			 * Binding results
+			 */
 			model.addAttribute("type", type);
 			model.addAttribute("synsetList", list);
 			model.addAttribute("type", type);
 			model.addAttribute("nextLevelList", nextLevelList);
-			
+
 			model.addAttribute("breadCrumb", breadCrumb);
 			model.addAttribute("searchWord", searchWord);
 			model.addAttribute("parent", parentOffset);
