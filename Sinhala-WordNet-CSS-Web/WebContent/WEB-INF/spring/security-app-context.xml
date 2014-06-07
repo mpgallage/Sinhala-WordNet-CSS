@@ -15,8 +15,9 @@ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 		<intercept-url pattern="/signup*" access="permitAll" />
 		<intercept-url pattern="/verify*" access="permitAll" />
 		<intercept-url pattern="/theme/**" access="permitAll" />
+		<intercept-url pattern="/evaluatermode/**" access="hasRole('ROLE_EVALUATOR')" />
+		<intercept-url pattern="/adminoptions/**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/**" access="isAuthenticated()" />
-
 		<form-login login-page="/login.jsp"
 			authentication-failure-url="/login.jsp?login_error=1"
 			always-use-default-target="true" />
@@ -30,9 +31,7 @@ http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
 	<authentication-manager>
 		<authentication-provider user-service-ref="customUserDetailsService">
-            <password-encoder hash="sha-256" />
+			<password-encoder hash="sha-256" />
 		</authentication-provider>
 	</authentication-manager>
-
-
 </beans:beans>

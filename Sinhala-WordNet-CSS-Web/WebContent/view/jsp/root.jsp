@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,7 +22,12 @@
 				</td>
 				<sec:authorize access="isAuthenticated()">
 					<td>You are logged in as <b><sec:authentication
-							property="principal.username" /></b></td>
+								property="principal.username" /></b></td>
+				</sec:authorize>
+				<sec:authorize access="hasRole('ROLE_ADMIN')">
+					<td><input type="button" class="button" value="User Options"
+						onclick="window.location.href='AdminOptions?action=ShowUsers'" />
+					</td>
 				</sec:authorize>
 				<td><a href="<c:url value="/j_spring_security_logout"/>">Logout</a>
 				</td>
